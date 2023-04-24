@@ -1,6 +1,8 @@
 using Blazored.LocalStorage;
 using Blazorise;
+using judo_univ_rennes.Contracts;
 using judo_univ_rennes.Data;
+using judo_univ_rennes.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.StaticFiles;
@@ -38,6 +40,7 @@ namespace judo_univ_rennes
                 }).AddEmptyProviders();
 
             builder.Services.AddControllers();
+
             //builder.Services.AddServiceDiscovery(options => options.UseEureka());
             builder.Host.UseSerilog((ctx, lc) =>
                 lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
@@ -45,6 +48,8 @@ namespace judo_univ_rennes
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddTransient<IPdfRepo, PdfService>();
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
 
             var app = builder.Build();
 

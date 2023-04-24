@@ -18,10 +18,6 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
 .content {
     padding-top: 1.1rem;
 }
@@ -66,3 +62,82 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.sr-only {
+    /*added for inputfile*/
+    sr-only position: absolute;
+    display: contents;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.input-label {
+    /*added for inputfile*/
+    background: #e00909;
+    color: white;
+}
+
+.iframeSvg {
+    /*added for svg*/
+    height: 85vh;
+    width: 90%;
+    overflow: scroll;
+}
+
+.iframePdf {
+    /*added for pdf*/
+
+    height: 85vh;
+    width: 86vw;
+    overflow: scroll;
+}
+
+
+.selected {
+    background-color: #96c1e3 !important;
+}
+
+    .selected > td {
+        color: white !important;
+    }
+
+        .selected > td .mud-input {
+            color: #96c1e3 !important;
+        }
+
+.judo-primary {
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+    background-color: #96c1e3;
+    border-color: #1861ac;
+}
+
+.judo-text-primary {
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    color: #fff;
+    background-color: #96c1e3;
+}
+
+.card_spacing {
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    background-color: #fff;
+}
+
+.judo-secondary {
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+    background-color: #82c46c;
+    border-color: #1861ac;
+}
+
+
+.judo-ternary {
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+    background-color: #b4bbbf;
+    border-color: #1861ac;
+}
