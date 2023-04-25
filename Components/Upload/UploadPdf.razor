@@ -1,0 +1,103 @@
+﻿
+@using judo_univ_rennes.Components.Libraries
+
+@using judo_univ_rennes.Data;
+@using judo_univ_rennes.Extensions
+<div class="container text-center">
+    <div class="row">
+
+            <div class="col">
+
+            <PdfLibrary @bind-UploadCompleted=uploadCompleted projectName="@SelectedProject"></PdfLibrary>
+        </div>
+        <div class="col">
+            <MudGrid>
+                <MudItem xs="4" lg="6">
+                    <input @ref=inputTypeFileElement type="file" multiple accept=".pdf" />
+                </MudItem>
+                <MudItem xs="12" lg="12">
+                    @*Notification:
+                    attribute multiple : autoriser téléchargement de plusieurs fichers
+                    attribute accept : accepter les types de ficher (content type)*@
+@*                    <MudSelect HelperText="Sélectionner une catégorie" @bind-Value="@SelectedCategory" Required Variant="Variant.Outlined">
+                        @foreach (string name in Enum.GetNames(typeof(PdfCategory)))
+                        {
+                            <MudSelectItem Value="@(name)" />
+                        }
+                    </MudSelect>*@
+                </MudItem>
+                <MudItem xs="12" lg="12">
+                    <MudButton FullWidth="true" @onclick=ReadFile Variant="Variant.Filled" Color="Color.Secondary">Upload Pdf</MudButton>
+                </MudItem>
+            </MudGrid>
+
+  
+
+        </div>
+
+    </div>
+
+</div>
+@code {
+
+    private string searchStringInit = "";
+    private List<string> editEvents = new();
+
+    private PdfUploadModel selectedItem = null;
+    private bool canCancelEdit = true;
+    private bool blockSwitch = false;
+    private string searchString = "";
+    private PdfUploadModel selectedItem1 = null;
+    private PdfUploadModel elementBeforeEdit;
+    private HashSet<PdfUploadModel> selectedItems1 = new HashSet<PdfUploadModel>();
+    private TableApplyButtonPosition applyButtonPosition = TableApplyButtonPosition.End;
+    private TableEditButtonPosition editButtonPosition = TableEditButtonPosition.End;
+    private TableEditTrigger editTrigger = TableEditTrigger.RowClick;
+    private IEnumerable<PdfUploadModel> Elements = new List<PdfUploadModel>();
+    private void AddEditionEvent(string message)
+    {
+        editEvents.Add(message);
+        StateHasChanged();
+    }
+    private void ClearEventLog()
+    {
+        editEvents.Clear();
+    }
+    private void BackupItem(object element)
+    {
+        elementBeforeEdit = new()
+            {
+
+                FileName = ((PdfUploadModel)element).FileName,
+                Category = ((PdfUploadModel)element).Category
+            };
+        // AddEditionEvent($"RowEditPreview event: made a backup of Element {((Element)element).Name}");
+    }
+
+    private void ItemHasBeenCommitted(object element)
+    {
+        //AddEditionEvent($"RowEditCommit event: Changes to Element {((Element)element).Name} committed");
+    }
+
+    private void ResetItemToOriginalValues(object element)
+    {
+
+        ((PdfUploadModel)element).FileName = elementBeforeEdit.FileName;
+        ((PdfUploadModel)element).Category = elementBeforeEdit.Category;
+        //((PdfUploadModel)element).Position = elementBeforeEdit.Position;
+        AddEditionEvent($"RowEditCancel event: Editing of Element {((PdfUploadModel)element).FileName} canceled");
+    }
+
+    private bool FilterFunc1(PdfUploadModel element) => FilterFunc(element, searchStringInit);
+
+    private bool FilterFunc(PdfUploadModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+
+        if (element.FileName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+}

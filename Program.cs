@@ -2,13 +2,20 @@ using Blazored.LocalStorage;
 using Blazorise;
 using judo_univ_rennes.Contracts;
 using judo_univ_rennes.Data;
+using judo_univ_rennes.Provider;
 using judo_univ_rennes.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MudBlazor;
 using MudBlazor.Services;
 using Serilog;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using Tewr.Blazor.FileReader;
 
 namespace judo_univ_rennes
@@ -18,7 +25,51 @@ namespace judo_univ_rennes
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.WebHost.UseUrls(new[] { "http://*:8080" });
+            // Add services to the container.
+            var connString = builder.Configuration.GetConnectionString("account");
+            builder.Services.AddDbContext<JudoDbContext>(options =>
+                {
+                    options.UseNpgsql(connString);
+                },
+                ServiceLifetime.Transient
 
+            );
+            builder.Services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<HttpContextAccessor>();
+            builder.Services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+                    ValidAudience = builder.Configuration["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
+                };
+            });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins",
+                                      policy =>
+                                      {
+                                          policy.WithOrigins("*")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                                      });
+            });
 
             builder.Services.AddFileReaderService();
             builder.Services.AddMudServices(config =>
@@ -48,6 +99,9 @@ namespace judo_univ_rennes
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddScoped<ApiAuthenticationStateProvider>();
+            builder.Services.AddScoped<AuthenticationStateProvider>(p => p.GetRequiredService<ApiAuthenticationStateProvider>());
+            builder.Services.AddScoped<JwtSecurityTokenHandler>();
             builder.Services.AddTransient<IPdfRepo, PdfService>();
             builder.Services.AddTransient<IEmailSender, EmailSender>();
 
@@ -74,7 +128,8 @@ namespace judo_univ_rennes
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
 

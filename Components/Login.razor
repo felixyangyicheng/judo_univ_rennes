@@ -1,0 +1,51 @@
+﻿@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using BlazorPro.Spinkit
+@using MudBlazor.Components
+
+@page "/login"
+<MudGrid>
+    <MudItem xs="12" sm="12">
+        @if (busy)
+        {
+            <Bounce></Bounce>
+
+        }
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                @*<MudTextField T="string" Label="Email" Required="true" RequiredError="Email is required!"Variant="Variant.Outlined"
+                Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />*@
+                <MudTextField @bind-Value="loginModel.Email"
+                              Label="Email" Required="true" RequiredError="Email is required!"
+                              Variant="Variant.Outlined"
+                              Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />
+
+                <MudTextField @bind-Value="loginModel.Password" Label="Mot de passe"
+                              Required="true"
+                              InputType="@PasswordInput"
+                              Variant="Variant.Outlined"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@PasswordInputIcon"
+                              OnAdornmentClick="ChangePwdVisibility"
+                              AdornmentAriaLabel="Show Password" />
+
+
+                <div class="d-flex align-center justify-space-between">
+                    @*<MudCheckBox T="bool" Required="true" RequiredError="vous êtes d'accord!" Label="j'accepte" />*@
+                    <MudLink Href="/forgetpassword">J'ai oublié mon mot de passe</MudLink>
+                    @*<MudIconButton Icon="@Icons.Material.Filled.Replay" Color="Color.Primary" OnClick="@(()=>form.Reset())">Réinitialiser</MudIconButton>*@
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>form.Reset())">Réinitialiser</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="()=>HandleLogin()">Login</MudButton>
+
+                </div>
+
+@*                @if (usercredential.IsLogged)
+                {
+
+                    ContinuerWithGoole();
+                }*@
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+

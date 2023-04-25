@@ -1,0 +1,117 @@
+﻿
+@using judo_univ_rennes.Data
+
+
+<MudTable  Items="@PdfModels" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<PdfModel,bool>(FilterFunc1)"
+          @bind-SelectedItem="selectedItem"
+          CommitEditTooltip="Commit Edit"
+          OnCommitEditClick="@(() => UpdatePdf(selectedItem))"
+          RowEditPreview="BackupItem"
+          RowEditCancel="ResetItemToOriginalValues"
+          CanCancelEdit="true"
+          RowEditCommit="ItemHasBeenCommitted" EditTrigger="@editTrigger">
+    <ColGroup>
+        
+        <col style="width: 5%;" />
+        <col style="width: 35%;" />
+        <col style="width: 20%;" />
+        <col style="width: 35%;" />
+        <col style="width: 5%;" />
+
+    </ColGroup>
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Fichiers PDF @projectName</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchStringInit" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh Class="ermo-ternary">N° (@PdfModels.Count)</MudTh>
+
+        <MudTh Class="ermo-ternary"> Nom</MudTh>
+        <MudTh Class="ermo-ternary"> Date MAJ</MudTh>
+        <MudTh Class="ermo-ternary">Catégorie</MudTh>
+
+        <MudTh Class="ermo-ternary">Option</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@(PdfModels.IndexOf(context)+1)</MudTd>
+            <MudTd DataLabel="Filename">@context.FileName</MudTd>
+            <MudTd DataLabel="MAJ">@context.DateOfUpdate</MudTd>
+        <MudTd DataLabel="Category">@context.Category</MudTd>
+        <MudTd DataLabel="Option">
+
+                <MudGrid>
+                    <MudItem xs="6" sm="3" lg="6">
+                        <AuthorizeView Roles="B.E., S.A., MoldManager">
+                            <Authorized Context="AllowDelete">
+                                <MudIconButton Class="d-inline-flex" OnClick="e=>DeleteFile(context.FileName)" Size="Size.Small" Color="Color.Error" Disabled=@loading Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" aria-label="delete"></MudIconButton>
+                            </Authorized>
+                        </AuthorizeView>
+                    </MudItem>
+                    <MudItem xs="6" sm="3" lg="6">
+                        <MudIconButton OnClick="e=>ShowFile(context.FileName)" Size="Size.Small" Class="d-inline-flex ermo-primary" Icon="@Icons.Material.Filled.ArrowUpward" Variant="Variant.Filled" aria-label="arrowOutward"></MudIconButton>
+                    </MudItem>
+                </MudGrid>
+
+            
+        </MudTd>
+    </RowTemplate>
+    
+    <RowEditingTemplate>
+
+        <MudTd DataLabel="Ref">
+            <MudTextField @bind-Value="selectedItem.Id" Disabled />
+        </MudTd>
+        <MudTd DataLabel="Nom">
+            <MudTextField @bind-Value="@context.FileName" Required />
+        </MudTd>
+            <MudTd DataLabel="MAJ">
+                <MudTextField @bind-Value="@context.DateOfUpdate" Disabled />
+            </MudTd>
+@*        <MudSelect @bind-Value="@context.Category"  Variant="Variant.Outlined">
+            @foreach (string name in Enum.GetNames(typeof(PdfCategory)))
+            {
+
+                <MudSelectItem Value="@(name)" />
+            }
+
+        </MudSelect>*@
+
+    </RowEditingTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+    <PagerContent>
+        @if (loading == true)
+        {
+            <CircleFade></CircleFade>
+        }
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
+@code {
+
+    private string searchStringInit = "";
+
+
+
+
+    private bool FilterFunc1(PdfModel element) => FilterFunc(element, searchStringInit);
+
+    private bool FilterFunc(PdfModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+
+        if (element.FileName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+}
