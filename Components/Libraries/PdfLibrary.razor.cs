@@ -144,7 +144,7 @@ namespace judo_univ_rennes.Components.Libraries
         {
             var parameters = new DialogParameters();
             parameters.Add("fileName", fileName);
-            parameters.Add("projectName", projectName);
+            //parameters.Add("projectName", projectName);
             parameters.Add("ButtonText", "Show");
             parameters.Add("Color", Color.Info);
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true };

@@ -1,19 +1,75 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Security.Claims;
+@using judo_univ_rennes.Provider;
 
-<PageTitle>judo_univ_rennes</PageTitle>
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+@inherits LayoutComponentBase
+<MudThemeProvider />
+<MudDialogProvider FullWidth="true"
+                   MaxWidth="MaxWidth.Large"
+                   CloseButton="true"
+                   DisableBackdropClick="true"
+                   Position="DialogPosition.Center"
+                   CloseOnEscapeKey="true" />
+<MudSnackbarProvider />
+<PageTitle>Authentification Skali</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudLayout>
+    <MudAppBar Color="Color.Info">
+        <MudLink Color="Color.Default" Href="/"> <MudIcon Icon="@Icons.Material.Filled.Api" Title="API" />JUDO Univ Rennes</MudLink>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
 
-        <article class="content px-4">
+        <MudSpacer />
+
+
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                <MudIconButton Icon="@Icons.Material.Rounded.ManageAccounts" Color="Color.Inherit" Link="users" />
+                Gestion Dossier
+            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView>
+            <Authorized>
+                <MudAvatar>
+                    <MudImage Src="@photoLink"></MudImage>
+                </MudAvatar>
+                <MudSpacer />
+                <MudLink Color="Color.Inherit" Href="/logout"> <MudIcon Icon="@Icons.Material.Filled.Logout" Title="logout" />Logout</MudLink>
+            </Authorized>
+
+
+            <NotAuthorized>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudAppBar>
+
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+
+@code {
+    /// <summary>
+    /// authentication state
+    /// </summary>
+    [Inject]
+    public ApiAuthenticationStateProvider _authenticationStateProvider { get; set; }
+    protected IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
+    public string photoLink { get; set; }
+    protected override async Task OnParametersSetAsync()
+    {
+        AuthenticationState authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+        ClaimsPrincipal user = authState.User;
+        if (user.Identity.IsAuthenticated)
+        {
+
+            _claims = user.Claims;
+            photoLink = _claims.FirstOrDefault(s => s.Type == "imageLink")?.Value;
+        }
+        await base.OnParametersSetAsync();
+
+    }
+}

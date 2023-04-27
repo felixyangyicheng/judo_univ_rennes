@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using Blazorise;
+using judo_univ_rennes.Configurations;
 using judo_univ_rennes.Contracts;
 using judo_univ_rennes.Data;
 using judo_univ_rennes.Provider;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +29,10 @@ namespace judo_univ_rennes
             var builder = WebApplication.CreateBuilder(args);
             builder.WebHost.UseUrls(new[] { "http://*:8080" });
             // Add services to the container.
+            builder.Services.Configure<ConnectionStringModel>(
+            builder.Configuration.GetSection("MongoDatabase"));
+            builder.Services.Configure<BaseAddress>(
+                builder.Configuration.GetSection("BaseAddress"));
             var connString = builder.Configuration.GetConnectionString("account");
             builder.Services.AddDbContext<JudoDbContext>(options =>
                 {
@@ -42,6 +48,20 @@ namespace judo_univ_rennes
             });
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<HttpContextAccessor>();
+            builder.Services.AddMemoryCache();
+            builder.Services.AddIdentityCore<ApiUser>()
+                            .AddRoles<IdentityRole>()
+                            .AddEntityFrameworkStores<JudoDbContext>()
+                            .AddSignInManager()
+                            //.AddDefaultTokenProviders();
+                            .AddTokenProvider(TokenOptions.DefaultProvider, typeof(DataProtectorTokenProvider<ApiUser>))
+                            .AddTokenProvider(TokenOptions.DefaultEmailProvider, typeof(EmailTokenProvider<ApiUser>))
+                            .AddTokenProvider(TokenOptions.DefaultPhoneProvider, typeof(PhoneNumberTokenProvider<ApiUser>))
+                            .AddTokenProvider(TokenOptions.DefaultAuthenticatorProvider, typeof(AuthenticatorTokenProvider<ApiUser>));
+
+            builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+          opt.TokenLifespan = TimeSpan.FromHours(2));
+
             builder.Services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -89,7 +109,7 @@ namespace judo_univ_rennes
                 {
                     options.Immediate = true;
                 }).AddEmptyProviders();
-
+            builder.Services.AddAutoMapper(typeof(MapperConfig));
             builder.Services.AddControllers();
 
             //builder.Services.AddServiceDiscovery(options => options.UseEureka());
@@ -102,8 +122,15 @@ namespace judo_univ_rennes
             builder.Services.AddScoped<ApiAuthenticationStateProvider>();
             builder.Services.AddScoped<AuthenticationStateProvider>(p => p.GetRequiredService<ApiAuthenticationStateProvider>());
             builder.Services.AddScoped<JwtSecurityTokenHandler>();
-            builder.Services.AddTransient<IPdfRepo, PdfService>();
-            builder.Services.AddTransient<IEmailSender, EmailSender>();
+            var emailConfig = builder.Configuration
+    .GetSection("EmailConfiguration")
+    .Get<EmailConfiguration>();
+            builder.Services.AddSingleton(emailConfig);
+            builder.Services.AddScoped<SignInManager<ApiUser>>();
+            builder.Services.AddScoped<IPdfRepo, PdfService>();
+            builder.Services.AddScoped<IAuthRepo, AuthService>();
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
+            builder.Services.AddScoped<ITokenRepo, TokenService>();
 
             var app = builder.Build();
 
@@ -123,7 +150,7 @@ namespace judo_univ_rennes
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 

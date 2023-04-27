@@ -24,7 +24,7 @@ namespace judo_univ_rennes.Components.Dialogs
         [Inject] IConfiguration _config { get; set; }
         [Inject] IPdfRepo _pdfRepo{ get; set; }
         [Inject] ILocalStorageService _localStorage { get; set; }
-        [Inject] HttpClient HttpClient { get; set; }
+
 
 
 

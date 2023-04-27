@@ -3,12 +3,14 @@
 
 @using judo_univ_rennes.Data;
 @using judo_univ_rennes.Extensions
+@page "/upload" 
+@*@attribute [Authorize(Roles = "Admin")]*@
 <div class="container text-center">
     <div class="row">
 
             <div class="col">
 
-            <PdfLibrary @bind-UploadCompleted=uploadCompleted projectName="@SelectedProject"></PdfLibrary>
+            <PdfLibrary @bind-UploadCompleted=uploadCompleted ></PdfLibrary>
         </div>
         <div class="col">
             <MudGrid>
