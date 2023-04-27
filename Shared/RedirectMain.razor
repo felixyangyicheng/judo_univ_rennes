@@ -13,7 +13,16 @@
     protected override Task OnInitializedAsync()
     {
         //StartTimer();
-        _nav.NavigateTo("/");
+        try
+        {
+
+            _nav.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
 
         return base.OnInitializedAsync();
     }

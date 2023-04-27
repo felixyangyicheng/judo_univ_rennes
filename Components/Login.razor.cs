@@ -115,22 +115,22 @@ namespace judo_univ_rennes.Components
                 PasswordInput = InputType.Text;
             }
         }
-        //protected async Task ContinuerWithGoole()
-        //{
-        //    busy = true;
-        //    var result = await _authRepo.GoogleAuth(usercredential);
-        //    if (result)
-        //    {            
-    
-        //        _navManager.NavigateTo("index");
-        //    }
-        //    else
-        //    {
-        //        busy = false;
-        //        InvokeAsync(StateHasChanged);
-        //    }
-            
-        //}
+        protected async Task ContinuerWithGoole()
+        {
+            busy = true;
+            var result = await _authRepo.GoogleAuth(usercredential);
+            if (result)
+            {
+
+                _navManager.NavigateTo("index");
+            }
+            else
+            {
+                busy = false;
+                InvokeAsync(StateHasChanged);
+            }
+
+        }
         #endregion
     }
     

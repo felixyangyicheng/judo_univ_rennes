@@ -41,12 +41,13 @@
         <MudTd DataLabel="Option">
                 <MudGrid>
                     <MudItem xs="6" sm="3" lg="6">
-                       @* <AuthorizeView Roles="Admin">
-                            <Authorized Context="AllowDelete">
+                        <AuthorizeView Roles="Admin">
+                            <Authorized Context="Allowdelete">
                                 <MudIconButton Class="d-inline-flex" OnClick="e=>DeleteFile(context.FileName)" Size="Size.Small" Color="Color.Error" Disabled=@loading Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" aria-label="delete"></MudIconButton>
+
                             </Authorized>
-                        </AuthorizeView>*@
-                        <MudIconButton Class="d-inline-flex" OnClick="e=>DeleteFile(context.FileName)" Size="Size.Small" Color="Color.Error" Disabled=@loading Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" aria-label="delete"></MudIconButton>
+                        </AuthorizeView>
+                        @*<MudIconButton Class="d-inline-flex" OnClick="e=>DeleteFile(context.FileName)" Size="Size.Small" Color="Color.Error" Disabled=@loading Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" aria-label="delete"></MudIconButton>*@
                     </MudItem>
                     <MudItem xs="6" sm="3" lg="6">
                         <MudIconButton OnClick="e=>ShowFile(context.FileName)" Size="Size.Small" Class="d-inline-flex judo-primary" Icon="@Icons.Material.Filled.ArrowUpward" Variant="Variant.Filled" aria-label="arrowOutward"></MudIconButton>

@@ -13,7 +13,7 @@ using judo_univ_rennes.Provider;
 
 using System;
 using System.Net.Http.Headers;
-
+using judo_univ_rennes.Statics;
 
 namespace judo_univ_rennes.Services
 {
@@ -257,38 +257,38 @@ namespace judo_univ_rennes.Services
             }
         }
 
-        //public async Task<bool> GoogleAuth(CredentialWithPhoto usercredential)
-        //{
-        //    var canCreateAccount =await CheckMail(usercredential.Email);
-        //    var userResult= await userManager.FindByEmailAsync(usercredential.Email);
-        //    //if (canCreateAccount == true)
-        //    if (userResult == null)
-        //    {
-        //        ApiUser user = new();
-        //        user.UserName = usercredential.Name;
-        //        user.Email = usercredential.Email;
-        //        var result = await userManager.CreateAsync(user);
-        //        if (result.Succeeded == false)
-        //        {
-        //            foreach (var error in result.Errors)
-        //            {
-        //                logger.LogWarning($"{error} when Registration Attempt for {usercredential.Email} ");
-        //            }
-        //            return false;
-        //        }
-        //        await userManager.AddToRoleAsync(user, "Client");
-        //    }
-        //    var login = await userManager.FindByEmailAsync(usercredential.Email);
+        public async Task<bool> GoogleAuth(CredentialWithPhoto usercredential)
+        {
+            var canCreateAccount = await CheckMail(usercredential.Email);
+            var userResult = await userManager.FindByEmailAsync(usercredential.Email);
+            //if (canCreateAccount == true)
+            if (userResult == null)
+            {
+                ApiUser user = new();
+                user.UserName = usercredential.Name;
+                user.Email = usercredential.Email;
+                var result = await userManager.CreateAsync(user);
+                if (result.Succeeded == false)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        logger.LogWarning($"{error} when Registration Attempt for {usercredential.Email} ");
+                    }
+                    return false;
+                }
+                await userManager.AddToRoleAsync(user, "Client");
+            }
+            var login = await userManager.FindByEmailAsync(usercredential.Email);
 
-        //    string tokenString = await tokenRepo.GenerateToken(login, true, usercredential.Photo);
-        //    await _localStorage.SetItemAsync("authToken", tokenString);
-        //    //Change auth state of app
-        //    await ((ApiAuthenticationStateProvider)_authenticationStateProvider)
-        //        .LoggedIn();
-        //    //_client.DefaultRequestHeaders.Authorization =
-        //    //    new AuthenticationHeaderValue("bearer", tokenString);
-        //    return true;
-        //}
+            string tokenString = await tokenRepo.GenerateToken(login, true, usercredential.Photo);
+            await _localStorage.SetItemAsync("authToken", tokenString);
+            //Change auth state of app
+            await ((ApiAuthenticationStateProvider)_authenticationStateProvider)
+                .LoggedIn();
+            //_client.DefaultRequestHeaders.Authorization =
+            //    new AuthenticationHeaderValue("bearer", tokenString);
+            return true;
+        }
 
         public async Task<bool> RemoveAccount(string email)
         {

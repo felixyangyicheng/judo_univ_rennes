@@ -37,13 +37,18 @@
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>form.Reset())">Réinitialiser</MudButton>
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="()=>HandleLogin()">Login</MudButton>
 
-                </div>
 
-@*                @if (usercredential.IsLogged)
+                    <GoogleAuthComponent Hide=true
+                                ClientId="@YourClientId"
+                                @bind-UserCredential=@usercredential />
+                </div>
+          
+
+                @if (usercredential.IsLogged)
                 {
 
                     ContinuerWithGoole();
-                }*@
+                }
             </MudForm>
         </MudPaper>
     </MudItem>
