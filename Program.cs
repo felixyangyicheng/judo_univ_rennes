@@ -33,7 +33,7 @@ namespace judo_univ_rennes
             builder.Configuration.GetSection("MongoDatabase"));
             builder.Services.Configure<BaseAddress>(
                 builder.Configuration.GetSection("BaseAddress"));
-            var connString = builder.Configuration.GetConnectionString("account");
+            var connString = builder.Configuration.GetConnectionString("Account");
             builder.Services.AddDbContext<JudoDbContext>(options =>
                 {
                     options.UseNpgsql(connString);

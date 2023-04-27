@@ -20,7 +20,7 @@ namespace judo_univ_rennes.Data
             new IdentityRole
             {
                 Name = "Client",
-                NormalizedName = "Client",
+                NormalizedName = "CLIENT",
                 Id = "b5a136a0-dc53-4e4e-b5e0-68d10b70fe02"
             },
             new IdentityRole
