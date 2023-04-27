@@ -23,7 +23,7 @@
         <MudTextField @bind-Value="searchStringInit" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
 
-    <HeaderContent class="judo-ternary">
+    <HeaderContent >
         <MudTh Class="judo-ternary">N° (@PdfModels.Count)</MudTh>
 
         <MudTh Class="judo-ternary"> Nom</MudTh>
@@ -61,7 +61,7 @@
 
         <MudTd DataLabel="Ref">
             @*<MudTextField @bind-Value="selectedItem.Id" Disabled />*@
-            <MudTextField @bind-Value="@(PdfModels.IndexOf(context)+1)" Disabled />
+    @*        <MudTextField @bind-Value="@(PdfModels.IndexOf(context)+1)" Disabled />*@
         </MudTd>
         <MudTd DataLabel="Nom">
             <MudTextField @bind-Value="@context.FileName" Required />
@@ -80,9 +80,7 @@
         </MudTd>
 
     </RowEditingTemplate>
-    <PagerContent>
-        <MudTablePager />
-    </PagerContent>
+
 @*    <EditButtonContent Context="button">
         <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
     </EditButtonContent>*@
