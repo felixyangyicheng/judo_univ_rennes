@@ -7,6 +7,8 @@ using Swashbuckle.SwaggerUi.CustomAssets;
 using System.Net.Http.Headers;
 using judo_univ_rennes.Contracts;
 using judo_univ_rennes.Data;
+using Consul;
+using Microsoft.Extensions.Hosting;
 
 namespace judo_univ_rennes.Components.Dialogs
 {
@@ -36,15 +38,15 @@ namespace judo_univ_rennes.Components.Dialogs
 
         protected override async Task OnParametersSetAsync()
         {
-
+            Loading = true;
             pdf = await _pdfRepo.GetByNameAsync(fileName);
             if (pdf != null)
             {
-                pdfUrl=$"data:application/pdf; base64,{Convert.ToBase64String(pdf.Content)}";
-            }
-            await base.OnParametersSetAsync();
+                pdfUrl = $"https://localhost:8080/pdf/{fileName}";
 
-            
+                //pdfUrl = $"data:application/pdf;base64,{Convert.ToBase64String(pdf.Content)}";
+            }
+            await base.OnParametersSetAsync();            
             Loading = false;
         }
 
