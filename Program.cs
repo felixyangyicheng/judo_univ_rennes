@@ -40,10 +40,8 @@ namespace judo_univ_rennes
                     options.UseNpgsql(connString);
                 },
                 ServiceLifetime.Transient
-
             );
             builder.Services.AddControllers();
-
             builder.Services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -61,10 +59,7 @@ namespace judo_univ_rennes
                             .AddTokenProvider(TokenOptions.DefaultEmailProvider, typeof(EmailTokenProvider<ApiUser>))
                             .AddTokenProvider(TokenOptions.DefaultPhoneProvider, typeof(PhoneNumberTokenProvider<ApiUser>))
                             .AddTokenProvider(TokenOptions.DefaultAuthenticatorProvider, typeof(AuthenticatorTokenProvider<ApiUser>));
-
-            builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
-          opt.TokenLifespan = TimeSpan.FromHours(2));
-
+            builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>opt.TokenLifespan = TimeSpan.FromHours(2));
             builder.Services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -93,7 +88,6 @@ namespace judo_univ_rennes
                                             .AllowAnyMethod();
                                       });
             });
-
             builder.Services.AddFileReaderService();
             builder.Services.AddMudServices(config =>
             {
@@ -114,7 +108,6 @@ namespace judo_univ_rennes
                 }).AddEmptyProviders();
             builder.Services.AddAutoMapper(typeof(MapperConfig));
             builder.Services.AddControllers();
-
             //builder.Services.AddServiceDiscovery(options => options.UseEureka());
             builder.Host.UseSerilog((ctx, lc) =>
                 lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
@@ -126,8 +119,8 @@ namespace judo_univ_rennes
             builder.Services.AddScoped<AuthenticationStateProvider>(p => p.GetRequiredService<ApiAuthenticationStateProvider>());
             builder.Services.AddScoped<JwtSecurityTokenHandler>();
             var emailConfig = builder.Configuration
-    .GetSection("EmailConfiguration")
-    .Get<EmailConfiguration>();
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
             builder.Services.AddSingleton(emailConfig);
             builder.Services.AddScoped<SignInManager<ApiUser>>();
             builder.Services.AddScoped<IPdfRepo, PdfService>();
@@ -147,20 +140,18 @@ namespace judo_univ_rennes
                     Description = "JWT Authorization header using the Bearer scheme."
                 });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement {
-        {
-            new OpenApiSecurityScheme {
-                    Reference = new OpenApiReference {
-                        Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
+                    {
+                        new OpenApiSecurityScheme {
+                                Reference = new OpenApiReference {
+                                    Type = ReferenceType.SecurityScheme,
+                                        Id = "Bearer"
+                                }
+                            },
+                        new string[] {}
                     }
-                },
-            new string[] {}
-        }
-    });
+                });
             });
             var app = builder.Build();
-
-
             var provider = new FileExtensionContentTypeProvider();
             // Add new MIME type mappings
             provider.Mappings[".res"] = "application/octet-stream";
@@ -175,11 +166,15 @@ namespace judo_univ_rennes
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             //app.UseHttpsRedirection();
-
+            app.UseCookiePolicy();
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                //options.RoutePrefix = string.Empty;
+            });
             app.UseStaticFiles();
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -190,7 +185,6 @@ namespace judo_univ_rennes
             });
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
-
             app.Run();
         }
     }
