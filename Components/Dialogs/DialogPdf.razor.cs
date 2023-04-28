@@ -42,7 +42,7 @@ namespace judo_univ_rennes.Components.Dialogs
             pdf = await _pdfRepo.GetByNameAsync(fileName);
             if (pdf != null)
             {
-                pdfUrl = $"https://localhost:8080/pdf/{fileName}";
+                pdfUrl = $"http://localhost:8080/api/pdf/{fileName}";
 
                 //pdfUrl = $"data:application/pdf;base64,{Convert.ToBase64String(pdf.Content)}";
             }

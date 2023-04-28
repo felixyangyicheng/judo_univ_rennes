@@ -35,7 +35,7 @@ namespace judo_univ_rennes.Controllers
 
             try
             {
-                var db = _pdfRepo.GetAsync(filename).Result;
+                var db = _pdfRepo.GetByNameAsync(filename).Result;
                 return File(db.Content, "application/pdf");
             }
             catch (Exception ex)

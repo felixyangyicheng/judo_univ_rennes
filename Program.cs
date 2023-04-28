@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MudBlazor;
 using MudBlazor.Services;
 using Serilog;
@@ -41,6 +42,8 @@ namespace judo_univ_rennes
                 ServiceLifetime.Transient
 
             );
+            builder.Services.AddControllers();
+
             builder.Services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -132,6 +135,29 @@ namespace judo_univ_rennes
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<ITokenRepo, TokenService>();
 
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(options => {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        {
+            new OpenApiSecurityScheme {
+                    Reference = new OpenApiReference {
+                        Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                    }
+                },
+            new string[] {}
+        }
+    });
+            });
             var app = builder.Build();
 
 
@@ -157,6 +183,11 @@ namespace judo_univ_rennes
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+
+            });
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
 
