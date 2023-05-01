@@ -29,18 +29,27 @@
                               OnAdornmentClick="ChangePwdVisibility"
                               AdornmentAriaLabel="Show Password" />
 
+                <MudGrid Justify="Justify.SpaceEvenly">
+                    <MudItem xs="12" sm="12" >
+                        <MudLink Href="/forgetpassword">J'ai oublié mon mot de passe</MudLink>
+                    </MudItem>
+                    <MudItem xs="6" sm="6" >
+                        <MudButton Variant="Variant.Filled" FullWidth Color="Color.Primary" OnClick="@(()=>form.Reset())">Réinitialiser</MudButton>
+                    </MudItem>
+                    <MudItem xs="6" sm="6">
+                        <MudButton Variant="Variant.Filled" FullWidth Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="()=>HandleLogin()">Login</MudButton>
+                    </MudItem>
+                    <MudItem xs="12" sm="12">
+                        <GoogleAuthComponent Hide=true ClientId="@YourClientId" @bind-UserCredential=@usercredential />
+                    </MudItem>
+                </MudGrid>
 
                 <div class="d-flex align-center justify-space-between">
                     @*<MudCheckBox T="bool" Required="true" RequiredError="vous êtes d'accord!" Label="j'accepte" />*@
-                    <MudLink Href="/forgetpassword">J'ai oublié mon mot de passe</MudLink>
+
                     @*<MudIconButton Icon="@Icons.Material.Filled.Replay" Color="Color.Primary" OnClick="@(()=>form.Reset())">Réinitialiser</MudIconButton>*@
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(()=>form.Reset())">Réinitialiser</MudButton>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto" OnClick="()=>HandleLogin()">Login</MudButton>
 
 
-                    <GoogleAuthComponent Hide=true
-                                ClientId="@YourClientId"
-                                @bind-UserCredential=@usercredential />
                 </div>
           
 

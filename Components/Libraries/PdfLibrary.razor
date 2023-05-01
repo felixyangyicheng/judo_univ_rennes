@@ -21,8 +21,11 @@
         <MudText Typo="Typo.h6">Fichiers PDF</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="searchStringInit" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            @if (loading == true)
+        {
+            <Bounce></Bounce>
+        }
     </ToolBarContent>
-
     <HeaderContent >
         <MudTh Class="judo-ternary">N° (@PdfModels.Count)</MudTh>
 
@@ -34,13 +37,13 @@
 
     </HeaderContent>
     <RowTemplate>
-        <MudTd>@(PdfModels.IndexOf(context)+1)</MudTd>
-        <MudTd DataLabel="Filename">@context.FileName</MudTd>
-        <MudTd DataLabel="MAJ">@context.DateOfUpdate</MudTd>
-        <MudTd DataLabel="Category">@context.Category</MudTd>
-        <MudTd DataLabel="Option">
-                <MudGrid>
-                    <MudItem xs="6" sm="3" lg="6">
+        <MudTd >@(PdfModels.IndexOf(context)+1)</MudTd>
+            <MudTd DataLabel="Nom">@context.FileName</MudTd>
+            <MudTd DataLabel="Date MAJ">@context.DateOfUpdate</MudTd>
+            <MudTd DataLabel="Catégorie">@context.Category</MudTd>
+            <MudTd DataLabel="Option" >
+                <MudGrid Justify="Justify.FlexEnd">
+                    <MudItem xs="3" sm="3" lg="6" >
                         <AuthorizeView Roles="Admin">
                             <Authorized Context="Allowdelete">
                                 <MudIconButton Class="d-inline-flex" OnClick="e=>DeleteFile(context.FileName)" Size="Size.Small" Color="Color.Error" Disabled=@loading Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" aria-label="delete"></MudIconButton>
@@ -49,8 +52,8 @@
                         </AuthorizeView>
                         @*<MudIconButton Class="d-inline-flex" OnClick="e=>DeleteFile(context.FileName)" Size="Size.Small" Color="Color.Error" Disabled=@loading Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" aria-label="delete"></MudIconButton>*@
                     </MudItem>
-                    <MudItem xs="6" sm="3" lg="6">
-                        <MudIconButton OnClick="e=>ShowFile(context.FileName)" Size="Size.Small" Class="d-inline-flex judo-primary" Icon="@Icons.Material.Filled.ArrowUpward" Variant="Variant.Filled" aria-label="arrowOutward"></MudIconButton>
+                    <MudItem xs="3" sm="3" lg="6">
+                        <MudIconButton OnClick="e=>ShowFile(context.FileName)" Size="Size.Small" Class="d-inline-flex judo-primary" Icon="@Icons.Material.Filled.ArrowUpward"  Variant="Variant.Filled" aria-label="arrowOutward"></MudIconButton>
                     </MudItem>
                 </MudGrid>
 
@@ -70,7 +73,7 @@
         <MudTd DataLabel="MAJ">
             <MudTextField @bind-Value="@context.DateOfUpdate" Disabled />
         </MudTd>
-        <MudTd DataLabel="Category">
+        <MudTd DataLabel="Catégorie">
        
             <MudSelect @bind-Value="@context.Category"  Variant="Variant.Outlined">
                 @foreach (PdfCategory name in Enum.GetValues(typeof(PdfCategory)))

@@ -1,12 +1,17 @@
-﻿<MudDialog DisableSidePadding="true">
+﻿@using BlazorPro.Spinkit
+<MudDialog DisableSidePadding="true">
     <DialogContent>
 
-            @if (Loading)
+            @if (Loading == true)
             {
-                <BlazorPro.Spinkit.Bounce></BlazorPro.Spinkit.Bounce>
+                <Bounce></Bounce>
             }
             else
             {
+            if (Loading == true)
+            {
+                <Bounce></Bounce>
+            }
                 <MudText Style="white-space: pre-wrap;">@fileName</MudText>
             <iframe src="@pdfUrl" class="w-100 iframePdf"
                 style="max-width:100vw;"></iframe>

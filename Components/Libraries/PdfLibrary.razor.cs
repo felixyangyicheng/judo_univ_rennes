@@ -103,8 +103,9 @@ namespace judo_univ_rennes.Components.Libraries
 
         private async Task UpdatePdf(PdfModel pdfModel)
         {
-            var result=  _pdf.UpdateAsync(pdfModel.Id, pdfModel);
-            StateHasChanged();
+            loading = true;
+
+            var result =  _pdf.UpdateAsync(pdfModel.Id, pdfModel);
 
             if (result.IsCompleted)
             {
@@ -116,6 +117,9 @@ namespace judo_univ_rennes.Components.Libraries
                 Snackbar.Add("erreur de MAJ", Severity.Error);
 
             }
+            loading = false;
+            StateHasChanged();
+
         }
 
         private void BackupItem(object element)
@@ -147,8 +151,8 @@ namespace judo_univ_rennes.Components.Libraries
             //parameters.Add("projectName", projectName);
             parameters.Add("ButtonText", "Show");
             parameters.Add("Color", Color.Info);
-            var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraExtraLarge, FullWidth = true };
-            var result = await DialogService.Show<DialogPdf>("Document interactif", parameters, options).Result;
+            var options = new DialogOptions() { CloseButton = true, CloseOnEscapeKey = true, MaxWidth = MaxWidth.Large };
+            var result = await DialogService.Show<DialogPdf>("PDF", parameters, options).Result;
 
         }
         #endregion

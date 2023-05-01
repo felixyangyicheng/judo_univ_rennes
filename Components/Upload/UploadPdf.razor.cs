@@ -56,11 +56,13 @@ namespace judo_univ_rennes.Components.Upload
             files = await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync();
             foreach (var file in files)
             {
+                uploadCompleted = !uploadCompleted;
+                await OnUploadCompleted.InvokeAsync(uploadCompleted);
                 await UploadFile(file);
                 //StateHasChanged();
             }
-            uploadCompleted = true;
-            StateHasChanged();
+            //uploadCompleted = true;
+            //StateHasChanged();
 
             //if (UpdateStatus)
             //{
@@ -120,10 +122,13 @@ namespace judo_univ_rennes.Components.Upload
                 {
                     uploadElement.Uploaded = true;
                     uploadCompleted = true;
+                    //StateHasChanged();
+
+                    await OnUploadCompleted.InvokeAsync(uploadCompleted);
+
+
                     StateHasChanged();
-                    uploadCompleted = !uploadCompleted;
-                    StateHasChanged();
-          
+
 
                 }
 

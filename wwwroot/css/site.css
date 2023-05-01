@@ -91,7 +91,7 @@ a, .btn-link {
 .iframePdf {
     /*added for pdf*/
 
-    height: 85vh;
+    height: 75vh;
     width: 86vw;
     overflow: scroll;
 }
@@ -101,13 +101,13 @@ a, .btn-link {
     background-color: #96c1e3 !important;
 }
 
-    .selected > td {
-        color: white !important;
-    }
+.selected > td {
+    color: white !important;
+}
 
-        .selected > td .mud-input {
-            color: #96c1e3 !important;
-        }
+.selected > td .mud-input {
+    color: #96c1e3 !important;
+}
 
 .judo-primary {
     font-family: 'Oswald', sans-serif;
