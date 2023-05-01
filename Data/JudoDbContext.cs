@@ -9,9 +9,13 @@ namespace judo_univ_rennes.Data
     public class JudoDbContext : IdentityDbContext
     {
 
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Command> Commands { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public JudoDbContext(DbContextOptions<JudoDbContext> options)
            : base(options)
         {
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

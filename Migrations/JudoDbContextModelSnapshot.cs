@@ -52,7 +52,7 @@ namespace judounivrennes.Migrations
                         {
                             Id = "b5a136a0-dc53-4e4e-b5e0-68d10b70fe02",
                             Name = "Client",
-                            NormalizedName = "Client"
+                            NormalizedName = "CLIENT"
                         },
                         new
                         {
@@ -247,6 +247,107 @@ namespace judounivrennes.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("judo_univ_rennes.Data.Command", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApiUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Content")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiUserId");
+
+                    b.ToTable("Commands");
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApiUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Content")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiUserId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApiUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Content")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiUserId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("judo_univ_rennes.Data.ApiUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -293,15 +394,15 @@ namespace judounivrennes.Migrations
                         {
                             Id = "43c38655-9aa0-48b4-aab1-7cd175500f09",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0b2e1b0a-ef62-459e-8f74-4b9691b0e3f8",
+                            ConcurrencyStamp = "8afe2df2-2e3e-4d5d-bd17-c3a691dcfbb1",
                             Email = "y.yang@iia-formation.fr",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "Y.YANG@IIA-FORMATION.FR",
                             NormalizedUserName = "YANG.YICHENG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDgBG9x+glnbRHiSBi8les2walkip66Dz9aHqdoV9/3GPfDfc+zenarc/pXWSiQOvA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEWsOv6hHe7vV+NoFPU7EBsedVxC2SFqpFI4N9S0DOKY/8DTcbFDtOV+f8fUifJxkQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "714d38aa-a00f-425d-a6e6-bb050e9fcf4f",
+                            SecurityStamp = "d3a85ce0-f3d1-4cff-92b1-8363b4900455",
                             TwoFactorEnabled = false,
                             UserName = "YANG.YICHENG",
                             FirstName = "Yicheng",
@@ -358,6 +459,61 @@ namespace judounivrennes.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.Command", b =>
+                {
+                    b.HasOne("judo_univ_rennes.Data.ApiUser", "ApiUser")
+                        .WithMany("Commands")
+                        .HasForeignKey("ApiUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiUser");
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.Comment", b =>
+                {
+                    b.HasOne("judo_univ_rennes.Data.ApiUser", "ApiUser")
+                        .WithMany("Comments")
+                        .HasForeignKey("ApiUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("judo_univ_rennes.Data.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiUser");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.Post", b =>
+                {
+                    b.HasOne("judo_univ_rennes.Data.ApiUser", "ApiUser")
+                        .WithMany("Posts")
+                        .HasForeignKey("ApiUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiUser");
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.Post", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.ApiUser", b =>
+                {
+                    b.Navigation("Commands");
+
+                    b.Navigation("Comments");
+
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

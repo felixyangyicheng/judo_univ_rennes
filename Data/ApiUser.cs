@@ -16,6 +16,9 @@ namespace judo_univ_rennes.Data
         public string? City { get; set; }
         public string? Country { get; set; }
         public DateTime? Birthday { get; set; }
+        public virtual IList<Command> Commands { get; set; }
+        public virtual IList<Post> Posts { get; set; }
+        public virtual IList<Comment> Comments { get; set; }
 
     }
 }
