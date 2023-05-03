@@ -6,7 +6,7 @@
 @using judo_univ_rennes.Static
 @using static System.ComponentModel.DataAnnotations.DisplayAttribute
 @using judo_univ_rennes.Data
-
+@using Color =  MudBlazor.Color
 
 <MudTable  Items="@PdfModels" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<PdfModel,bool>(FilterFunc1)"
           @bind-SelectedItem="selectedItem"

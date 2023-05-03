@@ -1,5 +1,7 @@
 using Blazored.LocalStorage;
 using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using judo_univ_rennes.Configurations;
 using judo_univ_rennes.Contracts;
 using judo_univ_rennes.Data;
@@ -41,6 +43,13 @@ namespace judo_univ_rennes
                 },
                 ServiceLifetime.Transient
             );
+            builder.Services
+    .AddBlazorise(options =>
+    {
+        options.Immediate = true;
+    })
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons();
             builder.Services.AddControllers();
             builder.Services.Configure<CookiePolicyOptions>(options =>
             {
