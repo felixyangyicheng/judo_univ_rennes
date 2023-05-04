@@ -141,10 +141,9 @@ namespace judo_univ_rennes.Components.Upload
                 {
                     uploadElement.Uploaded = true;
                     uploadCompleted = true;
+                    //StateHasChanged();
+                    await OnUploadCompleted.InvokeAsync(uploadCompleted);
                     StateHasChanged();
-                    uploadCompleted = !uploadCompleted;
-                    StateHasChanged();
-       
 
                 }
             }
