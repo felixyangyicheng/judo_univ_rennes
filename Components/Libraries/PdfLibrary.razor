@@ -6,7 +6,7 @@
 @using judo_univ_rennes.Static
 @using static System.ComponentModel.DataAnnotations.DisplayAttribute
 @using judo_univ_rennes.Data
-@using Color =  MudBlazor.Color
+
 
 <MudTable  Items="@PdfModels" Dense="true" Hover="true" Bordered="true" Striped="true" Filter="new Func<PdfModel,bool>(FilterFunc1)"
           @bind-SelectedItem="selectedItem"
@@ -53,6 +53,7 @@
                         @*<MudIconButton Class="d-inline-flex" OnClick="e=>DeleteFile(context.FileName)" Size="Size.Small" Color="Color.Error" Disabled=@loading Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" aria-label="delete"></MudIconButton>*@
                     </MudItem>
                     <MudItem xs="3" sm="3" lg="6">
+                        <MudLink Href="@(pdfLink+context.FileName)" Underline="Underline.None">Ouvrir dans nouvelle page</MudLink>
                         <MudIconButton OnClick="e=>ShowFile(context.FileName)" Size="Size.Small" Class="d-inline-flex judo-primary" Icon="@Icons.Material.Filled.ArrowUpward"  Variant="Variant.Filled" aria-label="arrowOutward"></MudIconButton>
                     </MudItem>
                 </MudGrid>

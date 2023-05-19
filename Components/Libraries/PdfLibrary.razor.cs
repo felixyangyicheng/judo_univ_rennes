@@ -6,6 +6,9 @@ using judo_univ_rennes.Data;
 using MongoDB.Driver.GridFS;
 using MudBlazor;
 using System.IO;
+using judo_univ_rennes.Configurations;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace judo_univ_rennes.Components.Libraries
 {
@@ -24,6 +27,9 @@ namespace judo_univ_rennes.Components.Libraries
         /// dependency injection MudBlazor Snackbar
         /// </summary>
         [Inject] ISnackbar Snackbar { get; set; }
+
+        [Inject] IConfiguration _config { get; set; }
+
         /// <summary>
         /// projectname parameter (url path)
         /// </summary>
@@ -35,6 +41,7 @@ namespace judo_univ_rennes.Components.Libraries
         /// page loading status
         /// </summary>
         private bool loading { get; set; } = false;
+        private string pdfLink { get; set; } = "";
 
         /// <summary>
         /// selected item in MudBlazor table
@@ -74,7 +81,11 @@ namespace judo_univ_rennes.Components.Libraries
             //StateHasChanged();
 
             loading = false;
-
+            var getBase = _config.GetSection("BaseAddress").GetRequiredSection("dev");
+            string protocole = getBase.GetRequiredSection("Protocole").Value;
+            string host = getBase.GetRequiredSection("Host").Value;
+            string port = getBase.GetRequiredSection("Port").Value;
+            pdfLink = $"{protocole}{host}{port}/api/pdf/";
             StateHasChanged();
             base.OnParametersSetAsync();
         }
@@ -155,6 +166,7 @@ namespace judo_univ_rennes.Components.Libraries
             var result = await DialogService.Show<DialogPdf>("PDF", parameters, options).Result;
 
         }
+
         #endregion
     }
 }

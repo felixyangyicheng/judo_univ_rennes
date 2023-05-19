@@ -1,3 +1,4 @@
+using Autofac.Core;
 using Blazored.LocalStorage;
 using Blazorise;
 using Blazorise.Bootstrap;
@@ -7,6 +8,7 @@ using judo_univ_rennes.Contracts;
 using judo_univ_rennes.Data;
 using judo_univ_rennes.Provider;
 using judo_univ_rennes.Services;
+using judo_univ_rennes.StartUps;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -19,6 +21,7 @@ using Microsoft.OpenApi.Models;
 using MudBlazor;
 using MudBlazor.Services;
 using Serilog;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Tewr.Blazor.FileReader;
@@ -34,8 +37,19 @@ namespace judo_univ_rennes
             // Add services to the container.
             builder.Services.Configure<ConnectionStringModel>(
             builder.Configuration.GetSection("MongoDatabase"));
+
+#if DEBUG
             builder.Services.Configure<BaseAddress>(
-                builder.Configuration.GetSection("BaseAddress"));
+            builder.Configuration.GetSection("BaseAddress").GetRequiredSection("dev"));
+
+#else
+             builder.Services.Configure<BaseAddress>(
+            builder.Configuration.GetSection("BaseAddress").GetRequiredSection("prod"));
+#endif
+
+            builder.Services.Configure<Endpoints>(
+            builder.Configuration.GetSection("Endpoints"));
+
             var connString = builder.Configuration.GetConnectionString("Account");
             builder.Services.AddDbContext<JudoDbContext>(options =>
                 {
