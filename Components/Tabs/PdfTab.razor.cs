@@ -33,7 +33,7 @@ namespace judo_univ_rennes.Components.Tabs
                 string protocole = getBase.GetRequiredSection("Protocole").Value;
                 string host = getBase.GetRequiredSection("Host").Value;
                 string port = getBase.GetRequiredSection("Port").Value;
-                pdfLink = $"{protocole}{host}{port}/api/pdf/";
+                pdfLink = $"{protocole}{host}{port}/api/pdf/{fileName}";
             }
             await base.OnParametersSetAsync();
             loading = false;

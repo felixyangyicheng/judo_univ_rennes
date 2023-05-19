@@ -27,6 +27,7 @@ namespace judo_univ_rennes.Components.Libraries
         /// dependency injection MudBlazor Snackbar
         /// </summary>
         [Inject] ISnackbar Snackbar { get; set; }
+        [Inject] NavigationManager nav { get; set; }
 
         [Inject] IConfiguration _config { get; set; }
 
@@ -166,7 +167,10 @@ namespace judo_univ_rennes.Components.Libraries
             var result = await DialogService.Show<DialogPdf>("PDF", parameters, options).Result;
 
         }
-
+        private async Task ShowFileInNewtab(string fileName)
+        {
+            nav.NavigateTo($"/pdfview/{fileName}");
+        }
         #endregion
     }
 }
