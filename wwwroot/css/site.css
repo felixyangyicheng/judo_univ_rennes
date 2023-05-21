@@ -90,13 +90,16 @@ a, .btn-link {
 
 .iframePdf {
     /*added for pdf*/
-
     height: 75vh;
     width: 86vw;
     overflow: scroll;
 }
 
-
+.iframeYoutube {
+    height: 50vh;
+    width: 50vw;
+    overflow: scroll;
+}
 .selected {
     background-color: #96c1e3 !important;
 }

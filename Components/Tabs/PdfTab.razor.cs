@@ -29,7 +29,11 @@ namespace judo_univ_rennes.Components.Tabs
             pdf = await _pdfRepo.GetByNameAsync(fileName);
             if (pdf != null)
             {
+#if DEBUG
                 var getBase = _config.GetSection("BaseAddress").GetRequiredSection("dev");
+#else
+                var getBase = _config.GetSection("BaseAddress").GetRequiredSection("prod");
+#endif
                 string protocole = getBase.GetRequiredSection("Protocole").Value;
                 string host = getBase.GetRequiredSection("Host").Value;
                 string port = getBase.GetRequiredSection("Port").Value;
