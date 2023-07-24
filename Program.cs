@@ -25,7 +25,7 @@ using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Tewr.Blazor.FileReader;
-
+using Prometheus;
 namespace judo_univ_rennes
 {
     public class Program
@@ -73,7 +73,13 @@ namespace judo_univ_rennes
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<HttpContextAccessor>();
             builder.Services.AddMemoryCache();
-            builder.Services.AddIdentityCore<ApiUser>()
+            builder.Services.AddIdentityCore<ApiUser>(opt =>
+            {
+                opt.Lockout.AllowedForNewUsers = false;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+                opt.Lockout.MaxFailedAccessAttempts = 5;
+                opt.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultPhoneProvider;
+            })
                             .AddRoles<IdentityRole>()
                             .AddEntityFrameworkStores<JudoDbContext>()
                             .AddSignInManager()
@@ -197,6 +203,9 @@ namespace judo_univ_rennes
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 //options.RoutePrefix = string.Empty;
             });
+
+            app.UseMetricServer();
+
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
@@ -206,6 +215,23 @@ namespace judo_univ_rennes
                 endpoints.MapControllers();
 
             });
+
+
+            app.Use((context, next) =>
+            {
+                // Http Context
+                var counter = Metrics.CreateCounter
+                ("PathCounter", "Count request",
+                new CounterConfiguration
+                {
+                    LabelNames = new[] { "method", "endpoint" }
+                });
+                // method: GET, POST etc.
+                // endpoint: Requested path
+                counter.WithLabels(context.Request.Method, context.Request.Path).Inc();
+                return next();
+            });
+
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
             app.Run();

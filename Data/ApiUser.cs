@@ -19,6 +19,7 @@ namespace judo_univ_rennes.Data
         public virtual IList<Command> Commands { get; set; }
         public virtual IList<Post> Posts { get; set; }
         public virtual IList<Comment> Comments { get; set; }
+        public virtual IList<Devise> Devises { get; set; }
 
     }
 }

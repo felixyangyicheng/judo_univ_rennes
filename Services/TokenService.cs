@@ -46,6 +46,7 @@ namespace judo_univ_rennes.Services
             var userClaims = await userManager.GetClaimsAsync(user);
             //var isClient = roles.Any(o => o.Contains("Client"));
             var isAdmin = roles.Any(o => o.Contains("Admin"));
+            var isSA = roles.Any(o => o.Contains("SuperAdmin"));
             var isThirdParty = thirdParty;
 
             var claims = new List<Claim>

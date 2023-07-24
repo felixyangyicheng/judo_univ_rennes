@@ -87,7 +87,7 @@ namespace judo_univ_rennes.Services
                     return false;
                 }
                 var token = await userManager.GeneratePasswordResetTokenAsync(user);
-                var resetPasswordLink=$"https://ecologif.duckdns.org/account/passwordrecovery/{userDto.Email}/{token}";
+                var resetPasswordLink=$"https://judo-univ-rennes.duckdns.org/account/passwordrecovery/{userDto.Email}/{token}";
                 var message = new Message(new string[] { user.Email }, "Réinitialiser votre mot de passe SKALI", resetPasswordLink);
                 logger.LogInformation($"Email with reset password token sent to {userDto.Email} ");
                 //var message = new Message(new string[] {"y.yang@iia-formation.fr" }, "Your token to reset password",$"Please paste this token to the 'reset forgotten password' page : {token} " );
@@ -159,7 +159,7 @@ namespace judo_univ_rennes.Services
                 await userManager.AddToRoleAsync(user, "Client");
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
                 //var confirmationLink = Url.Action("ConfirmEmail", "Identity", new { token, email = user.Email }, Request.Scheme);
-                var confirmationLink =  $"https://ecologif.duckdns.org/account/confirmemail/{userDto.Email}/{token}";
+                var confirmationLink =  $"https://judo-univ-rennes.duckdns.org/account/confirmemail/{userDto.Email}/{token}";
                 //var confirmationLink =  $"https://localhost:8081/account/confirmemail/{userDto.Email}/{token}";
                 var unlockTime = await userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow);
                 //logger.LogInformation($"confirmationLink : {confirmationLink}");

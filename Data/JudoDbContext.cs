@@ -12,6 +12,8 @@ namespace judo_univ_rennes.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Command> Commands { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Devise> Devises { get; set; }
+
         public JudoDbContext(DbContextOptions<JudoDbContext> options)
            : base(options)
         {
@@ -32,6 +34,12 @@ namespace judo_univ_rennes.Data
                 Name = "Admin",
                 NormalizedName = "ADMIN",
                 Id = "d9e1208e-5301-4fc9-8db0-f2562714a991"
+            },
+            new IdentityRole
+            {
+                Name = "SuperAdmin",
+                NormalizedName = "SUPERADMIN",
+                Id = "94c965f5-41f4-4c0f-ba55-61f9ac99d622"
             }
          );
 
@@ -56,6 +64,11 @@ namespace judo_univ_rennes.Data
                 new IdentityUserRole<string>
                 {
                     RoleId = "d9e1208e-5301-4fc9-8db0-f2562714a991",//admin
+                    UserId = "43c38655-9aa0-48b4-aab1-7cd175500f09" //yicheng
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "94c965f5-41f4-4c0f-ba55-61f9ac99d622",//super admin
                     UserId = "43c38655-9aa0-48b4-aab1-7cd175500f09" //yicheng
                 }
 
