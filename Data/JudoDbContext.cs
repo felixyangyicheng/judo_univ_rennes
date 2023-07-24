@@ -12,7 +12,7 @@ namespace judo_univ_rennes.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Command> Commands { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Devise> Devises { get; set; }
+        public DbSet<Device> Devises { get; set; }
 
         public JudoDbContext(DbContextOptions<JudoDbContext> options)
            : base(options)
