@@ -59,6 +59,12 @@ namespace judounivrennes.Migrations
                             Id = "d9e1208e-5301-4fc9-8db0-f2562714a991",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "94c965f5-41f4-4c0f-ba55-61f9ac99d622",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
                         });
                 });
 
@@ -225,6 +231,11 @@ namespace judounivrennes.Migrations
                         {
                             UserId = "43c38655-9aa0-48b4-aab1-7cd175500f09",
                             RoleId = "d9e1208e-5301-4fc9-8db0-f2562714a991"
+                        },
+                        new
+                        {
+                            UserId = "43c38655-9aa0-48b4-aab1-7cd175500f09",
+                            RoleId = "94c965f5-41f4-4c0f-ba55-61f9ac99d622"
                         });
                 });
 
@@ -258,6 +269,9 @@ namespace judounivrennes.Migrations
                     b.Property<string>("ApiUserId")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("Closed")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Content")
                         .HasColumnType("integer");
@@ -314,6 +328,23 @@ namespace judounivrennes.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.Device", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ApiUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiUserId");
+
+                    b.ToTable("Devices");
                 });
 
             modelBuilder.Entity("judo_univ_rennes.Data.Post", b =>
@@ -394,15 +425,15 @@ namespace judounivrennes.Migrations
                         {
                             Id = "43c38655-9aa0-48b4-aab1-7cd175500f09",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8afe2df2-2e3e-4d5d-bd17-c3a691dcfbb1",
+                            ConcurrencyStamp = "3fdc4551-3475-4dee-a489-97dd09109708",
                             Email = "y.yang@iia-formation.fr",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "Y.YANG@IIA-FORMATION.FR",
                             NormalizedUserName = "YANG.YICHENG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEWsOv6hHe7vV+NoFPU7EBsedVxC2SFqpFI4N9S0DOKY/8DTcbFDtOV+f8fUifJxkQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA1Me5yIVTf3y0O0XWNGqla23u6w2iXKmc/mfdOgtZVGyFxxIKUtId5zC64GXMVlhw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d3a85ce0-f3d1-4cff-92b1-8363b4900455",
+                            SecurityStamp = "cd4670c7-f450-41ad-b87f-5114d0bd08b9",
                             TwoFactorEnabled = false,
                             UserName = "YANG.YICHENG",
                             FirstName = "Yicheng",
@@ -491,6 +522,17 @@ namespace judounivrennes.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("judo_univ_rennes.Data.Device", b =>
+                {
+                    b.HasOne("judo_univ_rennes.Data.ApiUser", "ApiUser")
+                        .WithMany("Devices")
+                        .HasForeignKey("ApiUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiUser");
+                });
+
             modelBuilder.Entity("judo_univ_rennes.Data.Post", b =>
                 {
                     b.HasOne("judo_univ_rennes.Data.ApiUser", "ApiUser")
@@ -512,6 +554,8 @@ namespace judounivrennes.Migrations
                     b.Navigation("Commands");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Devices");
 
                     b.Navigation("Posts");
                 });

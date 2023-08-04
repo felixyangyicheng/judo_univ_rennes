@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace judounivrennes.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class device : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -171,11 +171,107 @@ namespace judounivrennes.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Commands",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    Closed = table.Column<bool>(type: "boolean", nullable: false),
+                    Content = table.Column<int>(type: "integer", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Commands", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Commands_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Devices",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Devices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Devices_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<int>(type: "integer", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PostId = table.Column<int>(type: "integer", nullable: false),
+                    Content = table.Column<int>(type: "integer", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
+                    { "94c965f5-41f4-4c0f-ba55-61f9ac99d622", null, "SuperAdmin", "SUPERADMIN" },
                     { "b5a136a0-dc53-4e4e-b5e0-68d10b70fe02", null, "Client", "CLIENT" },
                     { "d9e1208e-5301-4fc9-8db0-f2562714a991", null, "Admin", "ADMIN" }
                 });
@@ -183,12 +279,16 @@ namespace judounivrennes.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AddressNumber", "Birthday", "City", "Civilite", "ConcurrencyStamp", "Country", "Discriminator", "Email", "EmailConfirmed", "Extention", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostCode", "SecurityStamp", "StreetName", "StreetType", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "43c38655-9aa0-48b4-aab1-7cd175500f09", 0, null, null, null, null, "0b2e1b0a-ef62-459e-8f74-4b9691b0e3f8", null, "ApiUser", "y.yang@iia-formation.fr", false, null, "Yicheng", "YANG", false, null, "Y.YANG@IIA-FORMATION.FR", "YANG.YICHENG", "AQAAAAIAAYagAAAAEDgBG9x+glnbRHiSBi8les2walkip66Dz9aHqdoV9/3GPfDfc+zenarc/pXWSiQOvA==", null, false, null, "714d38aa-a00f-425d-a6e6-bb050e9fcf4f", null, null, false, "YANG.YICHENG" });
+                values: new object[] { "43c38655-9aa0-48b4-aab1-7cd175500f09", 0, null, null, null, null, "3fdc4551-3475-4dee-a489-97dd09109708", null, "ApiUser", "y.yang@iia-formation.fr", false, null, "Yicheng", "YANG", false, null, "Y.YANG@IIA-FORMATION.FR", "YANG.YICHENG", "AQAAAAIAAYagAAAAEA1Me5yIVTf3y0O0XWNGqla23u6w2iXKmc/mfdOgtZVGyFxxIKUtId5zC64GXMVlhw==", null, false, null, "cd4670c7-f450-41ad-b87f-5114d0bd08b9", null, null, false, "YANG.YICHENG" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "d9e1208e-5301-4fc9-8db0-f2562714a991", "43c38655-9aa0-48b4-aab1-7cd175500f09" });
+                values: new object[,]
+                {
+                    { "94c965f5-41f4-4c0f-ba55-61f9ac99d622", "43c38655-9aa0-48b4-aab1-7cd175500f09" },
+                    { "d9e1208e-5301-4fc9-8db0-f2562714a991", "43c38655-9aa0-48b4-aab1-7cd175500f09" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -226,6 +326,31 @@ namespace judounivrennes.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Commands_ApiUserId",
+                table: "Commands",
+                column: "ApiUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_ApiUserId",
+                table: "Comments",
+                column: "ApiUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_PostId",
+                table: "Comments",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Devices_ApiUserId",
+                table: "Devices",
+                column: "ApiUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_ApiUserId",
+                table: "Posts",
+                column: "ApiUserId");
         }
 
         /// <inheritdoc />
@@ -247,7 +372,19 @@ namespace judounivrennes.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Commands");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Devices");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -26,6 +26,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Tewr.Blazor.FileReader;
 using Prometheus;
+using Blazorise.RichTextEdit;
+
 namespace judo_univ_rennes
 {
     public class Program
@@ -135,6 +137,8 @@ namespace judo_univ_rennes
                 {
                     options.Immediate = true;
                 }).AddEmptyProviders();
+            builder.Services.AddBlazoriseRichTextEdit(); // richText Supports
+
             builder.Services.AddAutoMapper(typeof(MapperConfig));
             builder.Services.AddControllers();
             //builder.Services.AddServiceDiscovery(options => options.UseEureka());
