@@ -1,20 +1,25 @@
 ﻿@page "/reportbug"
 @using Blazorise.RichTextEdit
 
-<RichTextEdit @ref="richTextEditRef"
+
+@DisplayContent
+<br/>
+
+<RichTextEdit
+              @ref="richTextEditRef"
               Theme="RichTextEditTheme.Snow"
               ContentChanged="@OnContentChanged"
               PlaceHolder="Type your post here..."
-              ReadOnly="@readOnly"
               SubmitOnEnter="false"
               EnterPressed="@OnSave"
               ToolbarPosition="Blazorise.Placement.Bottom">
-    <Editor>My example content</Editor>
+    <Editor></Editor>
     <Toolbar>
         <RichTextEditToolbarGroup>
             <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
             <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
             <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+       
                 <RichTextEditToolbarSelectItem Value="small" />
                 <RichTextEditToolbarSelectItem Selected />
                 <RichTextEditToolbarSelectItem Value="large" />
@@ -24,7 +29,7 @@
             <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
             <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
         </RichTextEditToolbarGroup>
-        <!-- Custom toolbar content -->
+
         <RichTextEditToolbarGroup Float="Float.End">
             <Blazorise.Button onClick="window.open('https://www.quilljs.com/','quilljs')"><Blazorise.Icon Name="IconName.InfoCircle" /></Blazorise.Button>
             <Blazorise.Button Clicked="@OnSave"><Blazorise.Icon Name="IconName.Save" /></Blazorise.Button>
@@ -32,6 +37,3 @@
     </Toolbar>
 </RichTextEdit>
 
-@code{
-
-}
