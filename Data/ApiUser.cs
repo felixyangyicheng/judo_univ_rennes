@@ -20,6 +20,8 @@ namespace judo_univ_rennes.Data
         public virtual IList<Post> Posts { get; set; }
         public virtual IList<Comment> Comments { get; set; }
         public virtual IList<Device> Devices { get; set; }
+        //public ICollection<SignalRConnection> SignalRConnections { get; set; }
+        //public virtual ICollection<ConversationRoom> Rooms { get; set; }
 
     }
 }

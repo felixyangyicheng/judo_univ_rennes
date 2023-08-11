@@ -63,10 +63,15 @@
 	  <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.60.0" />
 	  <PackageReference Include="Google.Apis.Drive.v3" Version="1.60.0.2986" />
 	  <PackageReference Include="Blazorise.RichTextEdit" Version="1.2.4" />
+	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.10" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Dtos\Pdfs\" />
+    <Folder Include="Hubs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Hubs\" />
+  </ItemGroup>
 </Project>

@@ -27,6 +27,8 @@ using System.Text;
 using Tewr.Blazor.FileReader;
 using Prometheus;
 using Blazorise.RichTextEdit;
+using Microsoft.AspNetCore.ResponseCompression;
+using judo_univ_rennes.Hubs;
 
 namespace judo_univ_rennes
 {
@@ -51,6 +53,12 @@ namespace judo_univ_rennes
 
             builder.Services.Configure<Endpoints>(
             builder.Configuration.GetSection("Endpoints"));
+
+            builder.Services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                      new[] { "application/octet-stream" });
+            });
 
             var connString = builder.Configuration.GetConnectionString("Account");
             builder.Services.AddDbContext<JudoDbContext>(options =>
@@ -160,7 +168,7 @@ namespace judo_univ_rennes
             builder.Services.AddScoped<IAuthRepo, AuthService>();
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<ITokenRepo, TokenService>();
-
+            builder.Services.AddSingleton<IChatRoomService, InMemoryChatRoomService>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options => {
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -207,6 +215,7 @@ namespace judo_univ_rennes
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 //options.RoutePrefix = string.Empty;
             });
+            app.UseResponseCompression();
 
             app.UseMetricServer();
 
@@ -217,9 +226,10 @@ namespace judo_univ_rennes
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+      
 
             });
-
+            app.MapHub<ChatHub>("/chathub");
 
             app.Use((context, next) =>
             {

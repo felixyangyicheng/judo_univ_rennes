@@ -13,12 +13,17 @@ namespace judo_univ_rennes.Data
         public DbSet<Command> Commands { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Device> Devices { get; set; }
-
+        //public DbSet<SignalRConnection> Connections { get; set; }
+        //public DbSet<ConversationRoom> Rooms { get; set; }
         public JudoDbContext(DbContextOptions<JudoDbContext> options)
            : base(options)
         {
 
         }
+        //public JudoDbContext()
+        //{
+
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
