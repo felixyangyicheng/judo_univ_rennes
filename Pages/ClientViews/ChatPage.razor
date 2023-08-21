@@ -11,21 +11,46 @@
     <MudItem xs="12" lg="12">
 
 
-        <div id="another_unique_identifier" class="ma-0" style="height:45vh;overflow: auto;">
-            <MudPaper Elevation="0" Height="3500px" Class="d-flex flex-column justify-start py-6">
-                <ul id="messagesList">
-                    @foreach (var message in messages)
-                    {
-                        <li>
-                           <MudText Typo="Typo.body1">
+        <div id="Realtime_Chat" class="ma-0" style="height:45vh;overflow: auto;">
+            <MudPaper Elevation="2" Height="3500px" Class="d-flex flex-column justify-start py-6">
 
-                            @message
-                            </MudText>
-                        </li>
-                    }
-                </ul>
-                <MudScrollToTop TopOffset="100" Selector="#another_unique_identifier" Style="z-index:2001;">
-                    <div class="mud-theme-secondary px-3 py-6 mud-elevation-16 rounded-xl fixed" style="bottom:20px;left:20px;">Top</div>
+                @foreach (var message in messages)
+                    {
+                        if (message.SenderName==userInput)
+                        {
+                            <MudPaper Elevation="1" Class="d-flex flex-column justify-start">
+                                <MudPaper>
+                                    <MudText Typo="Typo.h6">
+                                        @message.SenderName
+                                    </MudText>
+                                    <MudText Typo="Typo.body1">
+                                        @message.Text
+                                    </MudText>
+                                    <MudText Typo="Typo.caption">
+                                        @message.SentAt.ToLocalTime()
+                                    </MudText>
+                                </MudPaper>
+                            </MudPaper>
+                        }
+                        else {
+            <MudPaper Elevation="1" Class="d-flex flex-column justify-end">
+                <MudPaper>
+                    <MudText Typo="Typo.h6">
+                        @message.SenderName
+                    </MudText>
+                    <MudText Typo="Typo.body1">
+                        @message.Text
+                    </MudText>
+                    <MudText Typo="Typo.caption">
+                        @message.SentAt.ToLocalTime()
+                    </MudText>
+                </MudPaper>
+            </MudPaper>
+                        }
+                }
+
+                <MudScrollToTop TopOffset="100" Selector="#Realtime_Chat"  Style="z-index:2001;">
+                    <div class="mud-theme-secondary px-3 py-6 mud-elevation-16 rounded-xl fixed" style="bottom:20px;right:20px;">Top</div>
                 </MudScrollToTop>
             </MudPaper>
         </div>
@@ -36,7 +61,7 @@
 
                 <label>
                     User:
-                    <MudTextField FullWidth="true" @bind-Value="@userInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                    <MudTextField ReadOnly="true" FullWidth="true" @bind-Value="@userInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
                 </label>
     
       
@@ -46,7 +71,7 @@
                 </label>
        
 
-            <MudButton ButtonType="ButtonType.Button" Disabled="@(!IsConnected)" @onclick=Send Variant="Variant.Filled" Color="Color.Secondary">Send</MudButton>
+            <MudButton ButtonType="ButtonType.Button" Disabled="@(!IsConnected||String.IsNullOrWhiteSpace(messageInput))" @onclick=Send Variant="Variant.Filled" Color="Color.Info">Send</MudButton>
         </MudPaper>
     </MudItem>
 

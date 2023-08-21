@@ -1,31 +1,54 @@
 ﻿using System;
+using Blazored.LocalStorage;
+using Google.Apis.Drive.v3.Data;
 using judo_univ_rennes.Data;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 
 namespace judo_univ_rennes.Pages.ClientViews
 {
 	public partial class ChatPage
 	{
+        [Inject] ILocalStorageService _localStorage { get; set; }
         private HubConnection? hubConnection;
-        private List<string> messages = new List<string>();
+        private List<ChatMessage> messages = new List<ChatMessage>();
         private string? userInput;
         private string? messageInput;
 
         protected override async Task OnInitializedAsync()
         {
             hubConnection = new HubConnectionBuilder()
-                .WithUrl(Navigation.ToAbsoluteUri("/chathub"))
+                .WithUrl(Navigation.ToAbsoluteUri("/chathub")
+                , options =>
+                {
+                    options.AccessTokenProvider = async () =>
+                    {
+                        return await _localStorage.GetItemAsync<string>("authToken");
+                    };
+                }
+                )
                 .Build();
-
+ 
             hubConnection.On<string, string, ChatMessage>("ReceiveMessage", (user, room,message) =>
             {
-                var encodedMsg = $"{user}/{room}/{message.SentAt.ToString("f")}: {message.Text}";
+                var encodedMsg = message;
                 messages.Add(encodedMsg);
                 InvokeAsync(StateHasChanged);
             });
-
+            hubConnection.On<string>("ReceiveId", (message) =>
+            {
+                userInput = message;
+                InvokeAsync(StateHasChanged);
+            });
+            hubConnection.On<string>("ReceiveMessage", ( message) =>
+            {
+                userInput = message;
+                InvokeAsync(StateHasChanged);
+            });
             await hubConnection.StartAsync();
         }
+
+
 
         private async Task Send()
         {

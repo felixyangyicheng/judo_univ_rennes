@@ -8,35 +8,53 @@ using judo_univ_rennes.Data;
 
 using judo_univ_rennes.Contracts;
 using MongoDB.Driver.Core.Connections;
+using Microsoft.AspNetCore.Identity;
 
 namespace judo_univ_rennes.Hubs
 {
     public class ChatHub : Hub
     {
         private readonly IChatRoomService _chatRoomService;
-
-        public ChatHub(IChatRoomService chatRoomService)
+        private readonly UserManager<ApiUser> _userManager;
+        public ChatHub(IChatRoomService chatRoomService, UserManager<ApiUser> userManager)
         {
             _chatRoomService = chatRoomService;
+            _userManager = userManager;
         }
 
         public override async Task OnConnectedAsync()
         {
             var roomId = await _chatRoomService.CreateRoom(Context.ConnectionId);
+            var isAuthenticated = Context.User.Identity.IsAuthenticated;
+            var username = Context.User.Claims.FirstOrDefault(s=>s.Type== "sub");
+            var email = Context.User.Claims.FirstOrDefault(s=>s.Type== "email");
+            var uid = Context.User.Claims.FirstOrDefault(s=>s.Type== "uid");
+            var user = await _userManager.FindByIdAsync(uid.Value);
 
             await Groups.AddToGroupAsync(Context.ConnectionId, roomId.ToString());
 
             Console.WriteLine("room Id: "+roomId);
+            Console.WriteLine("isAuthenticated: " + isAuthenticated);
+            Console.WriteLine("username: " + user.UserName);
+            Console.WriteLine("email: " + email);
+            Console.WriteLine("uid: " + uid);
             Console.WriteLine("User ID: "+ Context.ConnectionId);
 
-            await Clients.Caller.SendAsync(
-                "ReceiveMessage",
-                "Foo",
-                DateTimeOffset.UtcNow,
-                "bar");
+            //foreach (var item in Context.User.Claims)
+            //{
+            //    Console.WriteLine(item.Type + " " + item.Value);
+            //}
 
+            await SendMessage(user.UserName, $"Bienvenu {user.UserName}");
+
+            await Clients.User(Context.ConnectionId).SendAsync("ReceiveId", Context.ConnectionId);
+
+
+            await Clients.All.SendAsync("ReceiveMessage", $"{Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
+
+
 
         public async Task SendMessage(string name, string text)
         {
@@ -62,16 +80,21 @@ namespace judo_univ_rennes.Hubs
             //    message.SentAt,
             //    message.Text);
         }
+        public async Task SendId()
+        {
+            var userId = Context.ConnectionId;
+            await Clients.All.SendAsync(
+                "ReceiveId",
+                userId);
 
-        //public async Task SendMessage(string user, string message)
-        //{
-        //    await Clients.All.SendAsync("ReceiveMessage", user, message);
-        //}
+        }
 
         public  Task SendPrivateMessage(string user, string message)
         {
             return  Clients.User(user).SendAsync("ReceiveMessage", message);
         }
+
+
 
         public async Task AddToGroup(string groupName)
         {
