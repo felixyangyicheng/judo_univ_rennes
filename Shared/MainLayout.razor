@@ -14,7 +14,7 @@
 <MudSnackbarProvider />
 <PageTitle>Judo Université Rennes - Plateforme de partage de connaissances</PageTitle>
 
-<MudLayout>
+<MudLayout >
     <MudAppBar Color="Color.Info">
         <MudButton Variant="Variant.Text" Color="Color.Default" OnClick="DrawerToggle">
             <MudIcon Icon="@JudoGi" Title="JudoGi" Size="Size.Large" />
@@ -68,18 +68,21 @@
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
             @Body
-            <MudGrid Class="object-left-bottom lp-footer" Style="padding-top:20px">
-                <MudToolBar>
-                    <MudText Typo="Typo.caption">
-                        Copyright © 2022-2023 judo-univ-rennes.
-                    </MudText>
-                    <hr />
-                    <MudLink Typo="Typo.caption" Underline="Underline.None" Href="/legal-informations" Style="color:black">Mentions légales</MudLink>
-                </MudToolBar>
-            </MudGrid>
         </MudContainer>
     </MudMainContent>
 </MudLayout>
+            <footer id="footer">
+
+                <MudGrid Class="object-left-bottom justify-end lp-footer"  Style="padding-top:20px" >
+                    <MudToolBar>
+                        <MudText Typo="Typo.caption">
+                            Copyright © 2022-2023 judo-univ-rennes.
+                        </MudText>
+                        <hr />
+                        <MudLink Typo="Typo.caption" Underline="Underline.None" Href="/legal-informations" Style="color:black">Mentions légales</MudLink>
+                    </MudToolBar>
+                </MudGrid>
+            </footer>
 
 
 @code {
