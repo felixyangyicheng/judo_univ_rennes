@@ -13,6 +13,7 @@ namespace judo_univ_rennes.Data
         public DbSet<Command> Commands { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Device> Devices { get; set; }
+        public DbSet<IndexMarkdown> IndexMarkdowns { get; set; }
         //public DbSet<SignalRConnection> Connections { get; set; }
         //public DbSet<ConversationRoom> Rooms { get; set; }
         public JudoDbContext(DbContextOptions<JudoDbContext> options)

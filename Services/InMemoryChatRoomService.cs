@@ -1,5 +1,5 @@
 ﻿using System;
-using judo_univ_rennes.Configurations;
+using judo_univ_rennes.Contracts;
 using judo_univ_rennes.Data;
 
 namespace judo_univ_rennes.Services

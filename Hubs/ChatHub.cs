@@ -5,7 +5,9 @@ using System.Text.RegularExpressions;
 
 using Microsoft.AspNetCore.SignalR;
 using judo_univ_rennes.Data;
-using judo_univ_rennes.Configurations;
+
+using judo_univ_rennes.Contracts;
+using MongoDB.Driver.Core.Connections;
 
 namespace judo_univ_rennes.Hubs
 {
@@ -24,6 +26,9 @@ namespace judo_univ_rennes.Hubs
 
             await Groups.AddToGroupAsync(Context.ConnectionId, roomId.ToString());
 
+            Console.WriteLine("room Id: "+roomId);
+            Console.WriteLine("User ID: "+ Context.ConnectionId);
+
             await Clients.Caller.SendAsync(
                 "ReceiveMessage",
                 "Foo",
@@ -36,7 +41,7 @@ namespace judo_univ_rennes.Hubs
         public async Task SendMessage(string name, string text)
         {
             var roomId = await _chatRoomService.GetRoomForConnectionId(Context.ConnectionId);
-
+            var userId = Context.ConnectionId;
             var message = new ChatMessage
             {
                 SenderName = name,
@@ -47,9 +52,25 @@ namespace judo_univ_rennes.Hubs
             // Broadcast to all clients
             await Clients.Group(roomId.ToString()).SendAsync(
                 "ReceiveMessage",
-                message.SenderName,
-                message.SentAt,
-                message.Text);
+                userId,
+                roomId,
+                message
+                );
+
+            //await Clients.All.SendAsync("ReceiveMessage", message.SenderName,
+            //    roomId,
+            //    message.SentAt,
+            //    message.Text);
+        }
+
+        //public async Task SendMessage(string user, string message)
+        //{
+        //    await Clients.All.SendAsync("ReceiveMessage", user, message);
+        //}
+
+        public  Task SendPrivateMessage(string user, string message)
+        {
+            return  Clients.User(user).SendAsync("ReceiveMessage", message);
         }
 
         public async Task AddToGroup(string groupName)

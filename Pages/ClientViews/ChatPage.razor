@@ -1,0 +1,60 @@
+﻿@page "/chatpage"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+<PageTitle>Real-time chat</PageTitle>
+
+
+<MudGrid Style="height: 90%;">
+
+    <MudItem xs="12" lg="12">
+
+
+        <div id="another_unique_identifier" class="ma-0" style="height:45vh;overflow: auto;">
+            <MudPaper Elevation="0" Height="3500px" Class="d-flex flex-column justify-start py-6">
+                <ul id="messagesList">
+                    @foreach (var message in messages)
+                    {
+                        <li>
+                           <MudText Typo="Typo.body1">
+
+                            @message
+                            </MudText>
+                        </li>
+                    }
+                </ul>
+                <MudScrollToTop TopOffset="100" Selector="#another_unique_identifier" Style="z-index:2001;">
+                    <div class="mud-theme-secondary px-3 py-6 mud-elevation-16 rounded-xl fixed" style="bottom:20px;left:20px;">Top</div>
+                </MudScrollToTop>
+            </MudPaper>
+        </div>
+    </MudItem>
+    <MudItem xs="12" lg="12">
+        <MudPaper Elevation="0" Class="d-flex flex-column justify-center py-6" style="height:35vh;overflow: auto;">
+
+
+                <label>
+                    User:
+                    <MudTextField FullWidth="true" @bind-Value="@userInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                </label>
+    
+      
+                <label>
+                    Message:
+                    <MudTextField FullWidth="true" Lines="3" @bind-Value="@messageInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                </label>
+       
+
+            <MudButton ButtonType="ButtonType.Button" Disabled="@(!IsConnected)" @onclick=Send Variant="Variant.Filled" Color="Color.Secondary">Send</MudButton>
+        </MudPaper>
+    </MudItem>
+
+
+
+</MudGrid>
+
+
+
+
+
