@@ -229,7 +229,7 @@ namespace judo_univ_rennes
       
 
             });
-            app.MapHub<ChatHub>("/chathub");
+         
 
             app.Use((context, next) =>
             {
@@ -247,6 +247,7 @@ namespace judo_univ_rennes
             });
 
             app.MapBlazorHub();
+            app.MapHub<ChatHub>("/chathub");
             app.MapFallbackToPage("/_Host");
             app.Run();
         }

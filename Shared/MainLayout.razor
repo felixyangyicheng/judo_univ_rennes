@@ -17,13 +17,16 @@
 <MudLayout>
     <MudAppBar Color="Color.Info">
         <MudButton Variant="Variant.Text" Color="Color.Default" OnClick="DrawerToggle">
-            <MudIcon Icon="@JudoGi" Title="JudoGi" Size="Size.Large"/>
+            <MudIcon Icon="@JudoGi" Title="JudoGi" Size="Size.Large" />
         </MudButton>
         <MudSpacer />
         <AuthorizeView Roles="Admin">
             <Authorized>
-                <MudIconButton Icon="@Icons.Material.Rounded.ManageAccounts" Color="Color.Inherit" Link="upload" />
-                Gestion Dossier
+                <MudTooltip Text="Gestion Dossier">
+                    <MudIconButton Icon="@Icons.Material.Rounded.ManageAccounts" Color="Color.Inherit" Link="upload" />
+                </MudTooltip>
+  
+                <MudSpacer />
             </Authorized>
         </AuthorizeView>
         <AuthorizeView>
@@ -32,7 +35,10 @@
                     <MudImage Src="@photoLink"></MudImage>
                 </MudAvatar>
                 <MudSpacer />
-                <MudLink Color="Color.Inherit" Href="/logout"> <MudIcon Icon="@Icons.Material.Filled.Logout" Title="logout" />Logout</MudLink>
+                <MudTooltip Text="Logout">
+
+                    <MudIconButton Icon="@Icons.Material.Filled.Logout" Title="logout" Link="logout" />
+                </MudTooltip>
             </Authorized>
             <NotAuthorized>
             </NotAuthorized>
@@ -48,6 +54,7 @@
 
             </MudNavGroup>
             <MudNavLink Href="/reportbug" IconColor="Color.Surface" Icon="@Icons.Material.Filled.BugReport">Signaler un beug</MudNavLink>
+            <MudNavLink Href="/editmarkdown" IconColor="Color.Surface" Icon="@Icons.Material.Filled.Light">Markdown</MudNavLink>
             <MudNavLink Href="/newidea" IconColor="Color.Surface" Icon="@Icons.Material.Filled.Lightbulb">Enrichir</MudNavLink>
 
             <MudDivider Class="my-2" />
