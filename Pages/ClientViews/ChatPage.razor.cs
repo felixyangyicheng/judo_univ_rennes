@@ -28,27 +28,23 @@ namespace judo_univ_rennes.Pages.ClientViews
                 }
                 )
                 .Build();
- 
+
+            hubConnection.On<string>("refreshUsername", (un) =>
+            {
+                userInput = un;
+                InvokeAsync(StateHasChanged);
+            });
             hubConnection.On<string, string, ChatMessage>("ReceiveMessage", (user, room,message) =>
             {
                 var encodedMsg = message;
                 messages.Add(encodedMsg);
                 InvokeAsync(StateHasChanged);
             });
-            hubConnection.On<string>("ReceiveId", (message) =>
-            {
-                userInput = message;
-                InvokeAsync(StateHasChanged);
-            });
-            hubConnection.On<string>("ReceiveMessage", ( message) =>
-            {
-                userInput = message;
-                InvokeAsync(StateHasChanged);
-            });
+
             await hubConnection.StartAsync();
         }
 
-
+ 
 
         private async Task Send()
         {

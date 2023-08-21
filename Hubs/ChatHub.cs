@@ -32,6 +32,7 @@ namespace judo_univ_rennes.Hubs
             var user = await _userManager.FindByIdAsync(uid.Value);
 
             await Groups.AddToGroupAsync(Context.ConnectionId, roomId.ToString());
+            await Groups.AddToGroupAsync(Context.ConnectionId, Context.ConnectionId);
 
             Console.WriteLine("room Id: "+roomId);
             Console.WriteLine("isAuthenticated: " + isAuthenticated);
@@ -45,10 +46,8 @@ namespace judo_univ_rennes.Hubs
             //    Console.WriteLine(item.Type + " " + item.Value);
             //}
 
-            await SendMessage(user.UserName, $"Bienvenu {user.UserName}");
-
-            await Clients.User(Context.ConnectionId).SendAsync("ReceiveId", Context.ConnectionId);
-
+            await SendMessage("Chatroom System", $"Bienvenu {user.UserName}");
+            await SendUserName();
 
             await Clients.All.SendAsync("ReceiveMessage", $"{Context.ConnectionId}");
             await base.OnConnectedAsync();
@@ -80,12 +79,15 @@ namespace judo_univ_rennes.Hubs
             //    message.SentAt,
             //    message.Text);
         }
-        public async Task SendId()
+        public async Task SendUserName()
         {
             var userId = Context.ConnectionId;
-            await Clients.All.SendAsync(
-                "ReceiveId",
-                userId);
+            var uid = Context.User.Claims.FirstOrDefault(s => s.Type == "uid");
+            var user = await _userManager.FindByIdAsync(uid.Value);
+            await Clients.Group(userId).SendAsync(
+                "refreshUsername",
+                user.UserName
+                );
 
         }
 

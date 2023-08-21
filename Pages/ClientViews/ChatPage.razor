@@ -12,47 +12,70 @@
 
 
         <div id="Realtime_Chat" class="ma-0" style="height:45vh;overflow: auto;">
-            <MudPaper Elevation="2" Height="3500px" Class="d-flex flex-column justify-start py-6">
+            <MudGrid Style=" height:3500px; width:100%"  Class="d-flex align-content-start">
 
                 @foreach (var message in messages)
-                    {
-                        if (message.SenderName==userInput)
+                {
+                    <MudItem xs="12" lg="12">
+
+                        @if (message.SenderName == userInput)
                         {
-                            <MudPaper Elevation="1" Class="d-flex flex-column justify-start">
-                                <MudPaper>
-                                    <MudText Typo="Typo.h6">
-                                        @message.SenderName
-                                    </MudText>
-                                    <MudText Typo="Typo.body1">
+
+                            <MudCard>
+                                <MudCardHeader>
+                                    <CardHeaderAvatar>
+                                        <MudAvatar Color="Color.Secondary" Square="true">@(message.SenderName.Substring(0, 1))</MudAvatar>
+                                    </CardHeaderAvatar>
+                                    <CardHeaderContent>
+                                        <MudText Typo="Typo.caption">
+                                            @message.SenderName + @message.SentAt.ToLocalTime()
+                                        </MudText>
+                                    </CardHeaderContent>
+
+                                </MudCardHeader>
+
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body1" Color="Color.Info">
                                         @message.Text
                                     </MudText>
-                                    <MudText Typo="Typo.caption">
-                                        @message.SentAt.ToLocalTime()
+                                </MudCardContent>
+
+                            </MudCard>
+
+
+
+                        }
+                        else
+                        {
+                            <MudCard>
+                                <MudCardHeader>
+                                    <CardHeaderAvatar>
+                                        <MudAvatar Color="Color.Secondary" Square="true">@(message.SenderName.Substring(0, 1))</MudAvatar>
+                                    </CardHeaderAvatar>
+                                    <CardHeaderContent>
+                                        <MudText Typo="Typo.caption" Align="Align.Right">
+                                            @message.SenderName + @message.SentAt.ToLocalTime()
+                                        </MudText>
+                                    </CardHeaderContent>
+
+                                </MudCardHeader>
+
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body1" Color="Color.Info">
+                                        @message.Text
                                     </MudText>
-                                </MudPaper>
-                            </MudPaper>
+                                </MudCardContent>
+
+                            </MudCard>
                         }
-                        else {
-            <MudPaper Elevation="1" Class="d-flex flex-column justify-end">
-                <MudPaper>
-                    <MudText Typo="Typo.h6">
-                        @message.SenderName
-                    </MudText>
-                    <MudText Typo="Typo.body1">
-                        @message.Text
-                    </MudText>
-                    <MudText Typo="Typo.caption">
-                        @message.SentAt.ToLocalTime()
-                    </MudText>
-                </MudPaper>
-            </MudPaper>
-                        }
+                    </MudItem>
+
                 }
 
-                <MudScrollToTop TopOffset="100" Selector="#Realtime_Chat"  Style="z-index:2001;">
+                <MudScrollToTop TopOffset="100" Selector="#Realtime_Chat" Style="z-index:2001;">
                     <div class="mud-theme-secondary px-3 py-6 mud-elevation-16 rounded-xl fixed" style="bottom:20px;right:20px;">Top</div>
                 </MudScrollToTop>
-            </MudPaper>
+            </MudGrid>
         </div>
     </MudItem>
     <MudItem xs="12" lg="12">
