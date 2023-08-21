@@ -1,9 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace judo_univ_rennes.Data
 {
-	public class Device
+    [Table("device")]
+
+    public class Device
 	{
-		public Guid Id { get; set; }
+        [Column("id")]
+        public Guid Id { get; set; }
         public virtual ApiUser ApiUser { get; set; }
     }
 }

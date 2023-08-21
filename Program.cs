@@ -166,6 +166,12 @@ namespace judo_univ_rennes
             builder.Services.AddScoped<SignInManager<ApiUser>>();
             builder.Services.AddScoped<IPdfRepo, PdfService>();
             builder.Services.AddScoped<IAuthRepo, AuthService>();
+            builder.Services.AddScoped<INewsRepo, NewsService>();
+            builder.Services.AddScoped<INewsRepo, NewsService>();
+            builder.Services.AddScoped<IIndexMarkdownRepo, IndexMarkdownService>();
+            builder.Services.AddScoped<IPostRepo, PostService>();
+            builder.Services.AddScoped<ICommandRepo, CommandService>();
+            builder.Services.AddScoped<ICommentRepo, CommentService>();
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<ITokenRepo, TokenService>();
             builder.Services.AddSingleton<IChatRoomService, InMemoryChatRoomService>();

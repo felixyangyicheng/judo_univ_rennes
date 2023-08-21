@@ -8,7 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace judo_univ_rennes.Services
 {
-    public class CommentService : ICommandRepo
+    public class CommentService : ICommentRepo
     {
         private readonly ILogger<CommentService> logger;
         private readonly IMapper mapper;
@@ -46,17 +46,17 @@ namespace judo_univ_rennes.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> Create(Command entity)
+        public Task<bool> Create(Comment entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(Command entity)
+        public Task<bool> Delete(Comment entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Command> FindById(int id)
+        public Task<Comment> FindById(int id)
         {
             throw new NotImplementedException();
         }
@@ -71,7 +71,7 @@ namespace judo_univ_rennes.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> Update(Command entity)
+        public Task<bool> Update(Comment entity)
         {
             throw new NotImplementedException();
         }

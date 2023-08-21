@@ -6,35 +6,35 @@
 <PageTitle>Real-time chat</PageTitle>
 
 
-<MudGrid Style="height: 90%;">
+<MudGrid Style="height: 90%; ">
 
     <MudItem xs="12" lg="12">
 
 
         <div id="Realtime_Chat" class="ma-0" style="height:45vh;overflow: auto;">
-            <MudGrid Style=" height:3500px; width:100%"  Class="d-flex align-content-start">
+            <MudGrid Style=" height:3500px; width:100%"  Class="d-flex align-content-start ">
 
                 @foreach (var message in messages)
                 {
-                    <MudItem xs="12" lg="12">
+                    <MudItem xs="12" lg="12"  >
 
                         @if (message.SenderName == userInput)
                         {
 
-                            <MudCard>
-                                <MudCardHeader>
+                            <MudCard Class="flex-row-reverse" >
+                                <MudCardHeader Style="display: -webkit-box;direction: rtl;">
+                                    <CardHeaderContent >
+                                        <MudText Typo="Typo.caption" >
+                                            @message.SenderName | @message.SentAt.ToLocalTime()
+                                        </MudText>
+                                    </CardHeaderContent>
                                     <CardHeaderAvatar>
                                         <MudAvatar Color="Color.Secondary" Square="true">@(message.SenderName.Substring(0, 1))</MudAvatar>
                                     </CardHeaderAvatar>
-                                    <CardHeaderContent>
-                                        <MudText Typo="Typo.caption">
-                                            @message.SenderName + @message.SentAt.ToLocalTime()
-                                        </MudText>
-                                    </CardHeaderContent>
 
                                 </MudCardHeader>
 
-                                <MudCardContent>
+                                <MudCardContent Class="rtl d-flex" >
                                     <MudText Typo="Typo.body1" Color="Color.Info">
                                         @message.Text
                                     </MudText>
@@ -47,20 +47,20 @@
                         }
                         else
                         {
-                            <MudCard>
-                                <MudCardHeader>
+                            <MudCard Class="flex-row" >
+                                <MudCardHeader Class="ltr" Style="display: -webkit-box">
                                     <CardHeaderAvatar>
                                         <MudAvatar Color="Color.Secondary" Square="true">@(message.SenderName.Substring(0, 1))</MudAvatar>
                                     </CardHeaderAvatar>
-                                    <CardHeaderContent>
-                                        <MudText Typo="Typo.caption" Align="Align.Right">
-                                            @message.SenderName + @message.SentAt.ToLocalTime()
+                                    <CardHeaderContent >
+                                        <MudText Typo="Typo.caption" Class="d-flex align-content-end" >
+                                            @message.SenderName | @message.SentAt.ToLocalTime()
                                         </MudText>
                                     </CardHeaderContent>
 
                                 </MudCardHeader>
 
-                                <MudCardContent>
+                                <MudCardContent >
                                     <MudText Typo="Typo.body1" Color="Color.Info">
                                         @message.Text
                                     </MudText>

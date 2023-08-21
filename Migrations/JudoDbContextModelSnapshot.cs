@@ -262,7 +262,8 @@ namespace judounivrennes.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -271,39 +272,45 @@ namespace judounivrennes.Migrations
                         .HasColumnType("text");
 
                     b.Property<bool>("Closed")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("closed");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("Content");
+                        .HasColumnName("content");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdOn");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("title");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("type");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedOn");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApiUserId");
 
-                    b.ToTable("Commands");
+                    b.ToTable("command");
                 });
 
             modelBuilder.Entity("judo_univ_rennes.Data.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -314,16 +321,18 @@ namespace judounivrennes.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("Content");
+                        .HasColumnName("content");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdOn");
 
                     b.Property<int>("PostId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedOn");
 
                     b.HasKey("Id");
 
@@ -331,14 +340,15 @@ namespace judounivrennes.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("comment");
                 });
 
             modelBuilder.Entity("judo_univ_rennes.Data.Device", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
@@ -348,14 +358,15 @@ namespace judounivrennes.Migrations
 
                     b.HasIndex("ApiUserId");
 
-                    b.ToTable("Devices");
+                    b.ToTable("device");
                 });
 
             modelBuilder.Entity("judo_univ_rennes.Data.IndexMarkdown", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -366,36 +377,75 @@ namespace judounivrennes.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("Content");
+                        .HasColumnName("content");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdOn");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("title");
 
                     b.Property<string>("Type")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("type");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedOn");
 
                     b.Property<string>("Version")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("version");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApiUserId");
 
-                    b.ToTable("IndexMarkdowns");
+                    b.ToTable("indexMarkdown");
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApiUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("content");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdOn");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedOn");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiUserId");
+
+                    b.ToTable("news");
                 });
 
             modelBuilder.Entity("judo_univ_rennes.Data.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -406,23 +456,26 @@ namespace judounivrennes.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("Content");
+                        .HasColumnName("content");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdOn");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("title");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updatedOn");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApiUserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("post");
                 });
 
             modelBuilder.Entity("judo_univ_rennes.Data.ApiUser", b =>
@@ -451,6 +504,9 @@ namespace judounivrennes.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<byte[]>("ImageData")
+                        .HasColumnType("bytea");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -471,15 +527,15 @@ namespace judounivrennes.Migrations
                         {
                             Id = "43c38655-9aa0-48b4-aab1-7cd175500f09",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7a6526c8-4caa-4a64-a096-13be0b82dbd6",
+                            ConcurrencyStamp = "d137c26e-7fab-4d2a-9526-10115c13c3aa",
                             Email = "y.yang@iia-formation.fr",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "Y.YANG@IIA-FORMATION.FR",
                             NormalizedUserName = "YANG.YICHENG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEB6W7pLzqLQQtOp8uaEL8mZDy1vYy13gMSdr7XRaa/7eZr5uVT/5rMtuh0Yck7XikA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIEGqSaW6csMvF2IATLmV6iIMxW7esS3aH4idbL0xFwCsU94Iam43o9EgtvSYKxJ8g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4e1d30b7-3a93-4ed5-a657-680c6f400459",
+                            SecurityStamp = "8110dcbf-71fd-4a0c-a6e6-169e4e31100e",
                             TwoFactorEnabled = false,
                             UserName = "YANG.YICHENG",
                             FirstName = "Yicheng",
@@ -580,6 +636,17 @@ namespace judounivrennes.Migrations
                 });
 
             modelBuilder.Entity("judo_univ_rennes.Data.IndexMarkdown", b =>
+                {
+                    b.HasOne("judo_univ_rennes.Data.ApiUser", "ApiUser")
+                        .WithMany()
+                        .HasForeignKey("ApiUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiUser");
+                });
+
+            modelBuilder.Entity("judo_univ_rennes.Data.News", b =>
                 {
                     b.HasOne("judo_univ_rennes.Data.ApiUser", "ApiUser")
                         .WithMany()

@@ -16,6 +16,8 @@ namespace judo_univ_rennes.Hubs
     {
         private readonly IChatRoomService _chatRoomService;
         private readonly UserManager<ApiUser> _userManager;
+
+
         public ChatHub(IChatRoomService chatRoomService, UserManager<ApiUser> userManager)
         {
             _chatRoomService = chatRoomService;
@@ -30,6 +32,7 @@ namespace judo_univ_rennes.Hubs
             var email = Context.User.Claims.FirstOrDefault(s=>s.Type== "email");
             var uid = Context.User.Claims.FirstOrDefault(s=>s.Type== "uid");
             var user = await _userManager.FindByIdAsync(uid.Value);
+            var MyImage = user.ImageData;
 
             await Groups.AddToGroupAsync(Context.ConnectionId, roomId.ToString());
             await Groups.AddToGroupAsync(Context.ConnectionId, Context.ConnectionId);
@@ -59,11 +62,16 @@ namespace judo_univ_rennes.Hubs
         {
             var roomId = await _chatRoomService.GetRoomForConnectionId(Context.ConnectionId);
             var userId = Context.ConnectionId;
+
+            var uid = Context.User.Claims.FirstOrDefault(s => s.Type == "uid");
+            var user = await _userManager.FindByIdAsync(uid.Value);
+            var MyImage = user.ImageData;
             var message = new ChatMessage
             {
                 SenderName = name,
                 Text = text,
-                SentAt = DateTimeOffset.UtcNow
+                SentAt = DateTimeOffset.UtcNow,
+                ImageData=  MyImage
             };
 
             // Broadcast to all clients

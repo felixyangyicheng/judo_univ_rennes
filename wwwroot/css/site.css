@@ -3,7 +3,16 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+div.override {
+    display:block;
+}
 
+.rtl{
+    direction:rtl;
+}
+.ltr {
+    direction: ltr;
+}
 h1:focus {
     outline: none;
 }

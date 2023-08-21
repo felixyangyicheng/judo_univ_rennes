@@ -10,6 +10,7 @@ namespace judo_univ_rennes.Data
     {
 
         public DbSet<Post> Posts { get; set; }
+        public DbSet<News> Newss { get; set; }
         public DbSet<Command> Commands { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Device> Devices { get; set; }

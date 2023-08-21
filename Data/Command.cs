@@ -1,11 +1,20 @@
-﻿using BlazorPro.Spinkit;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using BlazorPro.Spinkit;
 
 namespace judo_univ_rennes.Data
 {
+    [Table("command")]
+
     public class Command : BaseTextItem
     {
-        public string Title { get; set; } 
-        public string Type { get; set; } 
+        [Column("title")]
+
+        public string Title { get; set; }
+        [Column("type")]
+
+        public string Type { get; set; }
+        [Column("closed")]
+
         public bool Closed { get; set; }
     }
 }

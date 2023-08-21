@@ -10,7 +10,9 @@ namespace judo_univ_rennes.Data
         public string Text { get; set; }
 
         public DateTimeOffset SentAt { get; set; }
-    
-	}
+
+        public byte[]? ImageData { get; set; }
+
+    }
 }
 
