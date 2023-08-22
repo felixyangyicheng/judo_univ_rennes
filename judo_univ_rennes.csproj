@@ -74,6 +74,8 @@
     <Folder Include="Dtos\IndexMarkdowns\" />
     <Folder Include="Dtos\Newss\" />
     <Folder Include="SQL\" />
+    <Folder Include="RequestFeatures\" />
+    <Folder Include="Components\Posts\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -82,5 +84,11 @@
     <None Remove="Dtos\IndexMarkdowns\" />
     <None Remove="Dtos\Newss\" />
     <None Remove="SQL\" />
+    <None Remove="RequestFeatures\" />
+    <None Remove="Components\Posts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20230821192936_init.cs" />
+    <Compile Remove="Migrations\20230821192936_init.Designer.cs" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@ namespace judo_univ_rennes.Services
 {
 	public class IndexMarkdownService:IIndexMarkdownRepo
 	{
+        private readonly JudoDbContext _db;
         private readonly ILogger<IndexMarkdownService> logger;
         private readonly IMapper mapper;
         private readonly UserManager<ApiUser> userManager;
@@ -13,6 +14,7 @@ namespace judo_univ_rennes.Services
         private readonly ILocalStorageService _localStorage;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         public IndexMarkdownService(
+        JudoDbContext db,
             ILogger<IndexMarkdownService> logger,
             UserManager<ApiUser> userManager,
             IMapper mapper,
@@ -24,6 +26,7 @@ namespace judo_univ_rennes.Services
             AuthenticationStateProvider authenticationStateProvider
         )
         {
+            _db = db;
             this.logger = logger;
             this.mapper = mapper;
             this.userManager = userManager;
@@ -42,32 +45,37 @@ namespace judo_univ_rennes.Services
 
         public async Task<bool> Create(IndexMarkdown entity)
         {
-            throw new NotImplementedException();
+            await _db.IndexMarkdowns.AddAsync(entity);
+            return await Save();
         }
 
         public async Task<bool> Delete(IndexMarkdown entity)
         {
-            throw new NotImplementedException();
+            _db.IndexMarkdowns.Remove(entity);
+            return await Save();
         }
 
         public async Task<IndexMarkdown> FindById(int id)
         {
-            throw new NotImplementedException();
+            return await _db.IndexMarkdowns
+            .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> isExists(int id)
         {
-            throw new NotImplementedException();
+            return await _db.IndexMarkdowns.AnyAsync(c => c.Id == id);
         }
 
         public async Task<bool> Save()
         {
-            throw new NotImplementedException();
+            var changes = await _db.SaveChangesAsync();
+            return changes > 0;
         }
 
         public async Task<bool> Update(IndexMarkdown entity)
         {
-            throw new NotImplementedException();
+            _db.IndexMarkdowns.Update(entity);
+            return await Save();
         }
     }
 }

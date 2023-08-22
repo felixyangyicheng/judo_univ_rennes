@@ -12,7 +12,7 @@ using judo_univ_rennes.Data;
 namespace judounivrennes.Migrations
 {
     [DbContext(typeof(JudoDbContext))]
-    [Migration("20230821192936_init")]
+    [Migration("20230822123439_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -272,7 +272,8 @@ namespace judounivrennes.Migrations
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("userId");
 
                     b.Property<bool>("Closed")
                         .HasColumnType("boolean")
@@ -319,7 +320,8 @@ namespace judounivrennes.Migrations
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("userId");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -331,7 +333,8 @@ namespace judounivrennes.Migrations
                         .HasColumnName("createdOn");
 
                     b.Property<int>("PostId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("postId");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("timestamp with time zone")
@@ -355,7 +358,8 @@ namespace judounivrennes.Migrations
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("userId");
 
                     b.HasKey("Id");
 
@@ -375,7 +379,8 @@ namespace judounivrennes.Migrations
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("userId");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -421,7 +426,8 @@ namespace judounivrennes.Migrations
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("userId");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -454,7 +460,8 @@ namespace judounivrennes.Migrations
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("userId");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -530,15 +537,15 @@ namespace judounivrennes.Migrations
                         {
                             Id = "43c38655-9aa0-48b4-aab1-7cd175500f09",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d137c26e-7fab-4d2a-9526-10115c13c3aa",
+                            ConcurrencyStamp = "117e1ded-42ee-4459-9640-c478404b298b",
                             Email = "y.yang@iia-formation.fr",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "Y.YANG@IIA-FORMATION.FR",
                             NormalizedUserName = "YANG.YICHENG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIEGqSaW6csMvF2IATLmV6iIMxW7esS3aH4idbL0xFwCsU94Iam43o9EgtvSYKxJ8g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOYaFUAbk4ZtAtervimpPSbdetrZrGm1+ig2U2Nr59vvgueiB5ckBi4Jv9irMVe1lA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8110dcbf-71fd-4a0c-a6e6-169e4e31100e",
+                            SecurityStamp = "4660403b-5967-4336-b787-a2102ff2c054",
                             TwoFactorEnabled = false,
                             UserName = "YANG.YICHENG",
                             FirstName = "Yicheng",

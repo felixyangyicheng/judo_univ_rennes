@@ -13,6 +13,7 @@ global using judo_univ_rennes.Dtos.Newss;
 global using judo_univ_rennes.Dtos.Posts;
 global using judo_univ_rennes.Provider;
 global using judo_univ_rennes.Services;
+global using judo_univ_rennes.RequestFeatures;
 global using judo_univ_rennes.Hubs;
 global using judo_univ_rennes.MailHelper;
 global using judo_univ_rennes.Static;

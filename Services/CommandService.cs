@@ -26,7 +26,7 @@ namespace judo_univ_rennes.Services
             AuthenticationStateProvider authenticationStateProvider
         )
         {
-            this._db = db;
+            _db = db;
             this.logger = logger;
             this.mapper = mapper;
             this.userManager = userManager;

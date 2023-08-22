@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿
 using Microsoft.JSInterop;
 using judo_univ_rennes.Components.Dialogs;
-using judo_univ_rennes.Contracts;
-using judo_univ_rennes.Data;
+
 using MongoDB.Driver.GridFS;
-using MudBlazor;
-using System.IO;
-using judo_univ_rennes.Configurations;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Configuration;
+
 
 namespace judo_univ_rennes.Components.Libraries
 {

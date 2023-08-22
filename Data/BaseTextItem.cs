@@ -4,6 +4,7 @@ namespace judo_univ_rennes.Data
 {
     public class BaseTextItem
     {
+
         [Column("id")]
 
         public int Id { get; set; }
@@ -15,6 +16,10 @@ namespace judo_univ_rennes.Data
         [Column("updatedOn")]
 
         public DateTime UpdatedOn { get; set; }
+        [Column("userId")]
+        [ForeignKey("ApiUser")]
+
+        public string ApiUserId { get; set; }
         public virtual ApiUser ApiUser { get; set; }
 
     }

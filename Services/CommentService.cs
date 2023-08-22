@@ -3,6 +3,7 @@ namespace judo_univ_rennes.Services
 {
     public class CommentService : ICommentRepo
     {
+        private readonly JudoDbContext _db;
         private readonly ILogger<CommentService> logger;
         private readonly IMapper mapper;
         private readonly UserManager<ApiUser> userManager;
@@ -13,6 +14,7 @@ namespace judo_univ_rennes.Services
         private readonly ILocalStorageService _localStorage;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         public CommentService(
+                  JudoDbContext db,
             ILogger<CommentService> logger,
             UserManager<ApiUser> userManager,
             IMapper mapper,
@@ -24,6 +26,7 @@ namespace judo_univ_rennes.Services
             AuthenticationStateProvider authenticationStateProvider
         )
         {
+            _db = db;
             this.logger = logger;
             this.mapper = mapper;
             this.userManager = userManager;
@@ -41,32 +44,39 @@ namespace judo_univ_rennes.Services
 
         public async Task<bool> Create(Comment entity)
         {
-            throw new NotImplementedException();
+            await _db.Comments.AddAsync(entity);
+            return await Save();
         }
 
         public async Task<bool> Delete(Comment entity)
         {
-            throw new NotImplementedException();
+            _db.Comments.Remove(entity);
+            return await Save();
         }
 
         public async Task<Comment> FindById(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Comments
+                 .Include(u => u.ApiUser)
+                 .Include(u => u.Post)
+                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> isExists(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Comments.AnyAsync(c => c.Id == id);
         }
 
         public async Task<bool> Save()
         {
-            throw new NotImplementedException();
+            var changes = await _db.SaveChangesAsync();
+            return changes > 0;
         }
 
         public async Task<bool> Update(Comment entity)
         {
-            throw new NotImplementedException();
+            _db.Comments.Update(entity);
+            return await Save();
         }
     }
 }

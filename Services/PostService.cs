@@ -3,6 +3,7 @@ namespace judo_univ_rennes.Services
 {
     public class PostService:IPostRepo
     {
+        private readonly JudoDbContext _db;
         private readonly ILogger<PostService> logger;
         private readonly IMapper mapper;
         private readonly UserManager<ApiUser> userManager;
@@ -13,6 +14,7 @@ namespace judo_univ_rennes.Services
         private readonly ILocalStorageService _localStorage;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         public PostService(
+        JudoDbContext db,
             ILogger<PostService> logger,
             UserManager<ApiUser> userManager,
             IMapper mapper,
@@ -24,6 +26,7 @@ namespace judo_univ_rennes.Services
             AuthenticationStateProvider authenticationStateProvider
         )
         {
+            _db = db;
             this.logger = logger;
             this.mapper = mapper;
             this.userManager = userManager;
@@ -35,39 +38,56 @@ namespace judo_univ_rennes.Services
             _authenticationStateProvider = authenticationStateProvider;
         }
 
-        public async Task CallUpdate()
-        {
-            throw new NotImplementedException();
-        }
+   
 
         public async Task<bool> Create(Post entity)
         {
-            throw new NotImplementedException();
+            await _db.Posts.AddAsync(entity);
+            return await Save();
         }
 
         public async Task<bool> Delete(Post entity)
         {
-            throw new NotImplementedException();
+            _db.Posts.Remove(entity);
+            return await Save();
         }
 
         public async Task<Post> FindById(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Posts
+                .Include(u => u.ApiUser)
+                .Include(u => u.Comments)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<Post>> GetAll()
+        {
+            return await _db.Posts.ToListAsync();
+        }
+
+        public async Task<PagedList<PostDto>> GetAllPaged(BaseItemParameters param)
+        {
+            var result = await _db.Posts.ToListAsync();
+            var posts = mapper.Map<List<PostDto>>(result);
+            return PagedList<PostDto>.ToPagedList(posts, param.PageNumber, param.PageSize);
         }
 
         public async Task<bool> isExists(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Posts.AnyAsync(c => c.Id == id);
+
         }
 
         public async Task<bool> Save()
         {
-            throw new NotImplementedException();
+            var changes = await _db.SaveChangesAsync();
+            return changes > 0;
         }
 
         public async Task<bool> Update(Post entity)
         {
-            throw new NotImplementedException();
+            _db.Posts.Update(entity);
+            return await Save();
         }
     }
 }

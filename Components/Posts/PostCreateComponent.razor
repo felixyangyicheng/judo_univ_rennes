@@ -1,0 +1,50 @@
+﻿@page "/newpost"
+
+<MudTextField @bind-Value="PostToAdd.Title"
+              HelperText="Titre"></MudTextField>
+<MudSpacer></MudSpacer>
+
+<RichTextEdit @ref="richTextEditRef"
+              Theme="RichTextEditTheme.Snow"
+              ContentChanged="@OnContentChanged"
+              PlaceHolder="Saisissez vos contenus ici..."
+              SubmitOnEnter="false"
+              EnterPressed="@OnSave"
+              ToolbarPosition="Blazorise.Placement.Bottom">
+    <Editor></Editor>
+    <Toolbar>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+            <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                <RichTextEditToolbarSelectItem Value="small" />
+                <RichTextEditToolbarSelectItem Selected />
+                <RichTextEditToolbarSelectItem Value="large" />
+                <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+            </RichTextEditToolbarSelect>
+            <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+        </RichTextEditToolbarGroup>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="sub" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="super" />
+        </RichTextEditToolbarGroup>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action="RichTextEditAction.Indent" Value="+1" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Indent" Value="-1" />
+        </RichTextEditToolbarGroup>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Link" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Clean" />
+        </RichTextEditToolbarGroup>
+        <RichTextEditToolbarGroup Float="Float.End">
+
+            <Blazorise.Button Clicked="@OnSave" Disabled="@(string.IsNullOrEmpty(PostToAdd.Title)||string.IsNullOrEmpty(PostToAdd.Content))"><Blazorise.Icon Name="IconName.Check" /></Blazorise.Button>
+        </RichTextEditToolbarGroup>
+    </Toolbar>
+</RichTextEdit>
+
