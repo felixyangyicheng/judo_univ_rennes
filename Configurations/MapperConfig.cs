@@ -23,6 +23,8 @@ namespace judo_univ_rennes.Configurations
                 .ReverseMap();
             CreateMap<IndexMarkdown, IndexMarkdownDto>()
                 .ReverseMap();
+            CreateMap<News, NewsDto>()
+                .ReverseMap();
         }
     }
 }

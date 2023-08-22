@@ -31,6 +31,8 @@ global using Microsoft.AspNetCore.Identity;
 global using Microsoft.Extensions.Options;
 global using MongoDB.Driver;
 global using Blazored.LocalStorage;
+global using Blazored.Video;
+global using BlazorPro.Spinkit;
 global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.Extensions.Caching.Memory;
 global using Blazorise;

@@ -73,6 +73,7 @@
     <Folder Include="Data\TableInfos\" />
     <Folder Include="Dtos\IndexMarkdowns\" />
     <Folder Include="Dtos\Newss\" />
+    <Folder Include="SQL\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,5 +81,6 @@
     <None Remove="Data\TableInfos\" />
     <None Remove="Dtos\IndexMarkdowns\" />
     <None Remove="Dtos\Newss\" />
+    <None Remove="SQL\" />
   </ItemGroup>
 </Project>
