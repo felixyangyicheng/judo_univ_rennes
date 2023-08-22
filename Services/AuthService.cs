@@ -1,19 +1,4 @@
-﻿using AutoMapper;
-using Blazored.LocalStorage;
-
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json.Linq;
-using judo_univ_rennes.Contracts;
-using judo_univ_rennes.Data;
-using judo_univ_rennes.Dtos.User;
-using judo_univ_rennes.MailHelper;
-using judo_univ_rennes.Provider;
-
-using System;
-using System.Net.Http.Headers;
-using judo_univ_rennes.Statics;
+﻿
 
 namespace judo_univ_rennes.Services
 {
@@ -259,7 +244,7 @@ namespace judo_univ_rennes.Services
 
         public async Task<bool> GoogleAuth(CredentialWithPhoto usercredential)
         {
-            var canCreateAccount = await CheckMail(usercredential.Email);
+            //var canCreateAccount = await CheckMail(usercredential.Email);
             var userResult = await userManager.FindByEmailAsync(usercredential.Email);
             //if (canCreateAccount == true)
             if (userResult == null)

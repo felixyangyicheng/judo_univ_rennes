@@ -1,14 +1,7 @@
-﻿using System;
-using Google.Apis.Drive.v3.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
+﻿
 
 using Microsoft.AspNetCore.SignalR;
-using judo_univ_rennes.Data;
 
-using judo_univ_rennes.Contracts;
-using MongoDB.Driver.Core.Connections;
-using Microsoft.AspNetCore.Identity;
 
 namespace judo_univ_rennes.Hubs
 {

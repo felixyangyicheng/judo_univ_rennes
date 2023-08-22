@@ -21,6 +21,8 @@ namespace judo_univ_rennes.Configurations
                 .ForMember(a => a.ApiUserId, d => d.MapFrom(map => $"{map.ApiUser.Id}"))
                 .ForMember(a => a.Comments, d => d.MapFrom(x => x.Comments.ToList()))
                 .ReverseMap();
+            CreateMap<IndexMarkdown, IndexMarkdownDto>()
+                .ReverseMap();
         }
     }
 }

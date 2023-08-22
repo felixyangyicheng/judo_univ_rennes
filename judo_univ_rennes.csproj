@@ -71,10 +71,14 @@
     <Folder Include="Dtos\Pdfs\" />
     <Folder Include="Hubs\" />
     <Folder Include="Data\TableInfos\" />
+    <Folder Include="Dtos\IndexMarkdowns\" />
+    <Folder Include="Dtos\Newss\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Hubs\" />
     <None Remove="Data\TableInfos\" />
+    <None Remove="Dtos\IndexMarkdowns\" />
+    <None Remove="Dtos\Newss\" />
   </ItemGroup>
 </Project>

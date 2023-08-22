@@ -1,13 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.IdentityModel.Tokens;
-using judo_univ_rennes.Contracts;
-using judo_univ_rennes.Data;
-using judo_univ_rennes.Statics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿
+
 
 namespace judo_univ_rennes.Services
 {

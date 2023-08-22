@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using BlazorPro.Spinkit;
-
+﻿
 namespace judo_univ_rennes.Data
 {
     [Table("command")]

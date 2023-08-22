@@ -8,6 +8,8 @@ global using judo_univ_rennes.Dtos.Auth;
 global using judo_univ_rennes.Dtos.Commands;
 global using judo_univ_rennes.Dtos.Comments;
 global using judo_univ_rennes.Dtos.Notifications;
+global using judo_univ_rennes.Dtos.IndexMarkdowns;
+global using judo_univ_rennes.Dtos.Newss;
 global using judo_univ_rennes.Dtos.Posts;
 global using judo_univ_rennes.Provider;
 global using judo_univ_rennes.Services;
@@ -19,6 +21,7 @@ global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 //global using Microsoft.AspNetCore.Mvc;
 global using System.Configuration;
+global using System.Security.Claims;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Text;
 global using System.ComponentModel.DataAnnotations.Schema;
@@ -54,6 +57,11 @@ global using Microsoft.AspNetCore.ResponseCompression;
 global using Microsoft.AspNetCore.SignalR;
 global using Newtonsoft.Json;
 global using System.Data;
+
+global using MailKit.Net.Smtp;
+global using MimeKit;
+
+
 global using Color = MudBlazor.Color;
 global using Size = MudBlazor.Size;
 global using Margin = MudBlazor.Margin;

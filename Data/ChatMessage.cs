@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 namespace judo_univ_rennes.Data
 {
 	public class ChatMessage

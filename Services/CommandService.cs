@@ -1,13 +1,4 @@
-﻿using AutoMapper;
-using Blazored.LocalStorage;
-using Google;
-using judo_univ_rennes.Contracts;
-using judo_univ_rennes.Data;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-
+﻿
 namespace judo_univ_rennes.Services
 {
     public class CommandService : ICommandRepo
