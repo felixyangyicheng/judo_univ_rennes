@@ -70,9 +70,11 @@
   <ItemGroup>
     <Folder Include="Dtos\Pdfs\" />
     <Folder Include="Hubs\" />
+    <Folder Include="Data\TableInfos\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Hubs\" />
+    <None Remove="Data\TableInfos\" />
   </ItemGroup>
 </Project>

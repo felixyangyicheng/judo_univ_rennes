@@ -1,5 +1,5 @@
-﻿using judo_univ_rennes.Dtos.User;
-using judo_univ_rennes.Statics;
+﻿
+
 
 namespace judo_univ_rennes.Contracts
 {

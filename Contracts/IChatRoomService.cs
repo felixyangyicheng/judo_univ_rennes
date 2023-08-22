@@ -1,5 +1,4 @@
 ﻿
-using System;
 namespace judo_univ_rennes.Contracts
 {
 	public interface IChatRoomService

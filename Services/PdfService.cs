@@ -1,8 +1,5 @@
-﻿using Microsoft.Extensions.Options;
-using judo_univ_rennes.Contracts;
-using judo_univ_rennes.Data;
-using MongoDB.Driver;
-using judo_univ_rennes.Configurations;
+﻿
+
 
 namespace judo_univ_rennes.Services
 {

@@ -1,4 +1,4 @@
-﻿using judo_univ_rennes.MailHelper;
+﻿
 namespace judo_univ_rennes.Contracts
 {
     public interface IEmailSender

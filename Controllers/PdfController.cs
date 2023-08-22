@@ -1,6 +1,6 @@
-﻿using judo_univ_rennes.Contracts;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace judo_univ_rennes.Controllers
 {

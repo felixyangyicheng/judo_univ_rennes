@@ -1,34 +1,4 @@
-using Autofac.Core;
-using Blazored.LocalStorage;
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
-using judo_univ_rennes.Configurations;
-using judo_univ_rennes.Contracts;
-using judo_univ_rennes.Data;
-using judo_univ_rennes.Provider;
-using judo_univ_rennes.Services;
-using judo_univ_rennes.StartUps;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.StaticFiles;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using MudBlazor;
-using MudBlazor.Services;
-using Serilog;
-using System.Configuration;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Tewr.Blazor.FileReader;
-using Prometheus;
-using Blazorise.RichTextEdit;
-using Microsoft.AspNetCore.ResponseCompression;
-using judo_univ_rennes.Hubs;
+
 
 namespace judo_univ_rennes
 {
