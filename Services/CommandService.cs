@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
 using Blazored.LocalStorage;
+using Google;
 using judo_univ_rennes.Contracts;
 using judo_univ_rennes.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace judo_univ_rennes.Services
 {
     public class CommandService : ICommandRepo
     {
+        private readonly JudoDbContext _db;
         private readonly ILogger<CommandService> logger;
         private readonly IMapper mapper;
         private readonly UserManager<ApiUser> userManager;
@@ -20,7 +23,8 @@ namespace judo_univ_rennes.Services
         private readonly ILocalStorageService _localStorage;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
         public CommandService(
-            ILogger<CommandService> logger,
+        JudoDbContext db,
+        ILogger<CommandService> logger,
             UserManager<ApiUser> userManager,
             IMapper mapper,
             IConfiguration configuration,
@@ -31,6 +35,7 @@ namespace judo_univ_rennes.Services
             AuthenticationStateProvider authenticationStateProvider
         )
         {
+            this._db = db;
             this.logger = logger;
             this.mapper = mapper;
             this.userManager = userManager;
@@ -41,39 +46,45 @@ namespace judo_univ_rennes.Services
             _localStorage = localStorage;
             _authenticationStateProvider = authenticationStateProvider;
         }
-        public Task CallUpdate()
+        public async Task CallUpdate()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Create(Command entity)
+        public async Task<bool> Create(Command entity)
         {
-            throw new NotImplementedException();
+            await _db.Commands.AddAsync(entity);
+            return await Save();
         }
 
-        public Task<bool> Delete(Command entity)
+        public async Task<bool> Delete(Command entity)
         {
-            throw new NotImplementedException();
+             _db.Commands.Remove(entity);
+            return await Save();
         }
 
-        public Task<Command> FindById(int id)
+        public async Task<Command> FindById(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Commands
+                .Include(u=>u.ApiUser)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<bool> isExists(int id)
+        public async Task<bool> isExists(int id)
         {
-            throw new NotImplementedException();
+            return  await _db.Commands.AnyAsync(c => c.Id == id);
         }
 
-        public Task<bool> Save()
+        public async Task<bool> Save()
         {
-            throw new NotImplementedException();
+            var changes = await _db.SaveChangesAsync();
+            return changes > 0;
         }
 
-        public Task<bool> Update(Command entity)
+        public async Task<bool> Update(Command entity)
         {
-            throw new NotImplementedException();
+            _db.Commands.Update(entity);
+            return await Save();
         }
     }
 }

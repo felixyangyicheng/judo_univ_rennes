@@ -41,37 +41,37 @@ namespace judo_univ_rennes.Services
             _localStorage = localStorage;
             _authenticationStateProvider = authenticationStateProvider;
         }
-        public Task CallUpdate()
+        public async Task CallUpdate()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Create(Comment entity)
+        public async Task<bool> Create(Comment entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(Comment entity)
+        public async Task<bool> Delete(Comment entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Comment> FindById(int id)
+        public async Task<Comment> FindById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> isExists(int id)
+        public async Task<bool> isExists(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Save()
+        public async Task<bool> Save()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Update(Comment entity)
+        public async Task<bool> Update(Comment entity)
         {
             throw new NotImplementedException();
         }

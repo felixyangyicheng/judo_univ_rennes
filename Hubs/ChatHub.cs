@@ -37,20 +37,9 @@ namespace judo_univ_rennes.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, roomId.ToString());
             await Groups.AddToGroupAsync(Context.ConnectionId, Context.ConnectionId);
 
-            Console.WriteLine("room Id: "+roomId);
-            Console.WriteLine("isAuthenticated: " + isAuthenticated);
-            Console.WriteLine("username: " + user.UserName);
-            Console.WriteLine("email: " + email);
-            Console.WriteLine("uid: " + uid);
-            Console.WriteLine("User ID: "+ Context.ConnectionId);
 
-            //foreach (var item in Context.User.Claims)
-            //{
-            //    Console.WriteLine(item.Type + " " + item.Value);
-            //}
-
-            await SendMessage("Chatroom System", $"Bienvenu {user.UserName}");
-            await SendUserName();
+            await SendMessage("Chatroom System", $"Bienvenu {user.UserName}"); // Send to all members in chat
+            await SendUserName(); // Send Username to current connected user
 
             await Clients.All.SendAsync("ReceiveMessage", $"{Context.ConnectionId}");
             await base.OnConnectedAsync();
@@ -75,17 +64,18 @@ namespace judo_univ_rennes.Hubs
             };
 
             // Broadcast to all clients
-            await Clients.Group(roomId.ToString()).SendAsync(
+            //await Clients.Group(roomId.ToString()).SendAsync(
+            //    "ReceiveMessage",
+            //    userId,
+            //    roomId,
+            //    message
+            //    );
+            await Clients.All.SendAsync(
                 "ReceiveMessage",
                 userId,
                 roomId,
                 message
                 );
-
-            //await Clients.All.SendAsync("ReceiveMessage", message.SenderName,
-            //    roomId,
-            //    message.SentAt,
-            //    message.Text);
         }
         public async Task SendUserName()
         {

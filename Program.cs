@@ -254,6 +254,7 @@ namespace judo_univ_rennes
 
             app.MapBlazorHub();
             app.MapHub<ChatHub>("/chathub");
+            app.MapHub<NotifHub>("/notifhub");
             app.MapFallbackToPage("/_Host");
             app.Run();
         }

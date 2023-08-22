@@ -21,7 +21,7 @@
                         @if (message.SenderName == userInput)
                         {
 
-                            <MudCard Class="flex-row-reverse" >
+                            <MudCard Class="flex-row-reverse bubble right" >
                                 <MudCardHeader Style="display: -webkit-box;direction: rtl;">
                                     <CardHeaderContent >
                                         <MudText Typo="Typo.caption" >
@@ -35,7 +35,7 @@
                                 </MudCardHeader>
 
                                 <MudCardContent Class="rtl d-flex" >
-                                    <MudText Typo="Typo.body1" Color="Color.Info">
+                                    <MudText Typo="Typo.body1">
                                         @message.Text
                                     </MudText>
                                 </MudCardContent>
@@ -47,7 +47,7 @@
                         }
                         else
                         {
-                            <MudCard Class="flex-row" >
+                            <MudCard Class="flex-row bubble left" >
                                 <MudCardHeader Class="ltr" Style="display: -webkit-box">
                                     <CardHeaderAvatar>
                                         <MudAvatar Color="Color.Secondary" Square="true">@(message.SenderName.Substring(0, 1))</MudAvatar>
@@ -61,7 +61,7 @@
                                 </MudCardHeader>
 
                                 <MudCardContent >
-                                    <MudText Typo="Typo.body1" Color="Color.Info">
+                                    <MudText Typo="Typo.body1" >
                                         @message.Text
                                     </MudText>
                                 </MudCardContent>
@@ -83,8 +83,8 @@
 
 
                 <label>
-                    User:
-                    <MudTextField ReadOnly="true" FullWidth="true" @bind-Value="@userInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
+      
+                    <MudTextField ReadOnly="true" FullWidth="false" @bind-Value="@userInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
                 </label>
     
       

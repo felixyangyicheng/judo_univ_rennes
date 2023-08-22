@@ -43,37 +43,37 @@ namespace judo_univ_rennes.Services
             _authenticationStateProvider = authenticationStateProvider;
         }
 
-        public Task CallUpdate()
+        public async Task CallUpdate()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Create(IndexMarkdown entity)
+        public async Task<bool> Create(IndexMarkdown entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(IndexMarkdown entity)
+        public async Task<bool> Delete(IndexMarkdown entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IndexMarkdown> FindById(int id)
+        public async Task<IndexMarkdown> FindById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> isExists(int id)
+        public async Task<bool> isExists(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Save()
+        public async Task<bool> Save()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Update(IndexMarkdown entity)
+        public async Task<bool> Update(IndexMarkdown entity)
         {
             throw new NotImplementedException();
         }
