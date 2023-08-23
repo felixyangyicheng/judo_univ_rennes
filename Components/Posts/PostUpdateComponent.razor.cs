@@ -20,7 +20,7 @@ namespace judo_univ_rennes.Components.Posts
         protected string contentAsDeltaJson;
         protected string contentAsText;
         protected string savedContent;
-        public Post PostToAdd = new();
+        public Post PostToUpdate = new();
         #endregion
 
         #region Parameters
@@ -32,19 +32,20 @@ namespace judo_univ_rennes.Components.Posts
         #region Methods
 
 
-
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
             AuthenticationState state = await _authProvider.GetAuthenticationStateAsync();
             var user = state.User;
-            PostToAdd.ApiUserId = user.Claims.FirstOrDefault(s => s.Type == "uid").Value;
+            PostToUpdate.ApiUserId = user.Claims.FirstOrDefault(s => s.Type == "uid").Value;
 
-            await richTextEditRef.SetHtmlAsync(contentAsHtml);
+            PostToUpdate = await _postRepo.FindById(PostId);
+
+            await richTextEditRef.SetHtmlAsync(PostToUpdate.Content);
 
             DisplayContent = (MarkupString)contentAsHtml;
 
 
-            base.OnInitializedAsync();
+            base.OnParametersSetAsync();
         }
         public async Task OnContentChanged()
         {
@@ -60,12 +61,12 @@ namespace judo_univ_rennes.Components.Posts
         {
             savedContent = await richTextEditRef.GetHtmlAsync();
 
-            PostToAdd.Content = savedContent;
+            PostToUpdate.Content = savedContent;
     
-            PostToAdd.UpdatedOn = DateTime.UtcNow;
+            PostToUpdate.UpdatedOn = DateTime.UtcNow;
         
 
-            var ok = await _postRepo.Create(PostToAdd);
+            var ok = await _postRepo.Update(PostToUpdate);
 
 
             if (ok)

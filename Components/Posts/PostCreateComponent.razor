@@ -1,6 +1,8 @@
 ﻿@page "/newpost"
 
 <MudTextField @bind-Value="PostToAdd.Title"
+              Variant="Variant.Outlined"
+              Margin="Margin.Dense"
               HelperText="Titre"></MudTextField>
 <MudSpacer></MudSpacer>
 
@@ -35,6 +37,37 @@
             <RichTextEditToolbarButton Action="RichTextEditAction.Indent" Value="-1" />
         </RichTextEditToolbarGroup>
         <RichTextEditToolbarGroup>
+            <RichTextEditToolbarSelect Action="RichTextEditAction.Color">
+                <RichTextEditToolbarSelectItem Value="black" />
+                <RichTextEditToolbarSelectItem Value="yellow" />
+                <RichTextEditToolbarSelectItem Value="red">red</RichTextEditToolbarSelectItem>
+                <RichTextEditToolbarSelectItem Value="blue">blue</RichTextEditToolbarSelectItem>
+                <RichTextEditToolbarSelectItem Value="green">green</RichTextEditToolbarSelectItem>
+            </RichTextEditToolbarSelect>
+            <RichTextEditToolbarSelect Action="RichTextEditAction.Background">
+                <RichTextEditToolbarSelectItem Value="black" />
+                <RichTextEditToolbarSelectItem Value="yellow" />
+
+                <RichTextEditToolbarSelectItem Value="red">red</RichTextEditToolbarSelectItem>
+                <RichTextEditToolbarSelectItem Value="blue">blue</RichTextEditToolbarSelectItem>
+                <RichTextEditToolbarSelectItem Value="green">green</RichTextEditToolbarSelectItem>
+            </RichTextEditToolbarSelect>
+        </RichTextEditToolbarGroup>
+        <RichTextEditToolbarGroup>
+
+            <RichTextEditToolbarSelect Action="RichTextEditAction.Font">
+                <RichTextEditToolbarSelectItem Value="serif" />
+                <RichTextEditToolbarSelectItem Selected />
+    
+            </RichTextEditToolbarSelect>
+            <RichTextEditToolbarSelect Action="RichTextEditAction.Align">
+                <RichTextEditToolbarSelectItem Selected/>
+                <RichTextEditToolbarSelectItem Value="right" />
+                <RichTextEditToolbarSelectItem Value="justify" />
+                <RichTextEditToolbarSelectItem Value="center"></RichTextEditToolbarSelectItem>
+            </RichTextEditToolbarSelect>
+        </RichTextEditToolbarGroup>
+        <RichTextEditToolbarGroup>
             <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote" />
             <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
             <RichTextEditToolbarButton Action="RichTextEditAction.Link" />
@@ -43,7 +76,7 @@
         </RichTextEditToolbarGroup>
         <RichTextEditToolbarGroup Float="Float.End">
 
-            <Blazorise.Button Clicked="@OnSave" Disabled="@(string.IsNullOrEmpty(PostToAdd.Title)||string.IsNullOrEmpty(PostToAdd.Content))"><Blazorise.Icon Name="IconName.Check" /></Blazorise.Button>
+            <MudButton OnClick="@OnSave" Disabled="@(string.IsNullOrEmpty(PostToAdd.Title)||string.IsNullOrEmpty(savedContent))"><Blazorise.Icon Name="IconName.Check" /></MudButton>
         </RichTextEditToolbarGroup>
     </Toolbar>
 </RichTextEdit>

@@ -20,6 +20,8 @@ global using judo_univ_rennes.Static;
 global using judo_univ_rennes.Statics;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
+global using Microsoft.AspNetCore.SignalR.Client;
+
 //global using Microsoft.AspNetCore.Mvc;
 global using System.Configuration;
 global using System.Security.Claims;

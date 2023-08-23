@@ -10,12 +10,15 @@ namespace judo_univ_rennes.Components.Posts
         [Inject] IConfiguration _config { get; set; }
         [Inject] IPostRepo _postRepo { get; set; }
         [Inject] ILocalStorageService _localStorage { get; set; }
+        [Inject] ISnackbar snackbar { get; set; }
         [Inject] AuthenticationStateProvider _authProvider { get; set; }
         #endregion
         #region Properties
         protected RichTextEdit richTextEditRef;
+        protected ClaimsPrincipal user { get; set; }
+        protected string uid { get; set; }
         protected bool readOnly;
-        protected string contentAsHtml = "";
+        protected string contentAsHtml = " ";
         protected MarkupString DisplayContent;
         protected string contentAsDeltaJson;
         protected string contentAsText;
@@ -34,8 +37,8 @@ namespace judo_univ_rennes.Components.Posts
         protected override async Task OnInitializedAsync()
         {
             AuthenticationState state = await _authProvider.GetAuthenticationStateAsync();
-            var user = state.User;
-            PostToAdd.ApiUserId = user.Claims.FirstOrDefault(s => s.Type == "uid").Value;
+            user = state.User;
+            uid = user.Claims.FirstOrDefault(s => s.Type == "uid").Value;
 
             await richTextEditRef.SetHtmlAsync(contentAsHtml);
 
@@ -50,14 +53,14 @@ namespace judo_univ_rennes.Components.Posts
             DisplayContent = (MarkupString)contentAsHtml;
             contentAsDeltaJson = await richTextEditRef.GetDeltaAsync();
             contentAsText = await richTextEditRef.GetTextAsync();
-
+            savedContent = contentAsHtml;
             StateHasChanged();
         }
 
         public async Task OnSave()
         {
             savedContent = await richTextEditRef.GetHtmlAsync();
-
+            PostToAdd.ApiUserId = uid;
             PostToAdd.Content = savedContent;
             PostToAdd.CreatedOn = DateTime.UtcNow;
             PostToAdd.UpdatedOn = DateTime.UtcNow;
@@ -70,6 +73,11 @@ namespace judo_univ_rennes.Components.Posts
             {
 
                 await richTextEditRef.ClearAsync();
+                PostToAdd = new();
+            }
+            else
+            {
+                snackbar.Add("KO", Severity.Error);
             }
         }
         #endregion
