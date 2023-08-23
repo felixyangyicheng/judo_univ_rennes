@@ -4,19 +4,22 @@ using Google.Apis.Drive.v3.Data;
 using judo_univ_rennes.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.JSInterop;
 
 namespace judo_univ_rennes.Pages.ClientViews
 {
 	public partial class ChatPage
 	{
         [Inject] ILocalStorageService _localStorage { get; set; }
+        [Inject] IJSRuntime JsRuntime { get; set; }
         private HubConnection? hubConnection;
         private List<ChatMessage> messages = new List<ChatMessage>();
         private string? userInput;
         private string? messageInput;
-
+        private IJSObjectReference jsModule { get; set; }
         protected override async Task OnInitializedAsync()
         {
+            jsModule =await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Pages/ClientViews/ChatPage.razor.js");
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(Navigation.ToAbsoluteUri("/chathub")
                 , options =>
@@ -34,11 +37,15 @@ namespace judo_univ_rennes.Pages.ClientViews
                 userInput = un;
                 InvokeAsync(StateHasChanged);
             });
-            hubConnection.On<string, string, ChatMessage>("ReceiveMessage", (user, room,message) =>
+            hubConnection.On<string, string, ChatMessage>("ReceiveMessage", async (user, room,message) =>
             {
                 var encodedMsg = message;
                 messages.Add(encodedMsg);
                 InvokeAsync(StateHasChanged);
+
+                await JsRuntime.InvokeVoidAsync("console.log", "console from runtime js");
+                await jsModule.InvokeVoidAsync("testConsole", "console from module js");
+                await jsModule.InvokeVoidAsync("scrollToElement", "eleScroll");
             });
 
             await hubConnection.StartAsync();

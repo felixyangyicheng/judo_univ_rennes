@@ -8,23 +8,25 @@
 
 <MudGrid Style="height: 90%; ">
 
-    <MudItem xs="12" lg="12">
+    <MudItem xs="12" lg="12" >
 
 
         <div id="Realtime_Chat" class="ma-0" style="height:45vh;overflow: auto;">
-            <MudGrid Style=" height:3500px; width:100%"  Class="d-flex align-content-start ">
+            <MudGrid Style=" height:50vh; width:100%" Class="d-flex align-content-start " id="eleScroll">
 
                 @foreach (var message in messages)
                 {
-                    <MudItem xs="12" lg="12"  >
+
+
+                    <MudItem xs="12" lg="12" >
 
                         @if (message.SenderName == userInput)
                         {
 
-                            <MudCard Class="flex-row-reverse bubble right" >
+                            <MudCard Class="flex-row-reverse bubble right">
                                 <MudCardHeader Style="display: -webkit-box;direction: rtl;">
-                                    <CardHeaderContent >
-                                        <MudText Typo="Typo.caption" >
+                                    <CardHeaderContent>
+                                        <MudText Typo="Typo.caption">
                                             @message.SenderName | @message.SentAt.ToLocalTime()
                                         </MudText>
                                     </CardHeaderContent>
@@ -34,7 +36,7 @@
 
                                 </MudCardHeader>
 
-                                <MudCardContent Class="rtl d-flex" >
+                                <MudCardContent Class="rtl d-flex">
                                     <MudText Typo="Typo.body1">
                                         @message.Text
                                     </MudText>
@@ -47,21 +49,21 @@
                         }
                         else
                         {
-                            <MudCard Class="flex-row bubble left" >
+                            <MudCard Class="flex-row bubble left">
                                 <MudCardHeader Class="ltr" Style="display: -webkit-box">
                                     <CardHeaderAvatar>
                                         <MudAvatar Color="Color.Secondary" Square="true">@(message.SenderName.Substring(0, 1))</MudAvatar>
                                     </CardHeaderAvatar>
-                                    <CardHeaderContent >
-                                        <MudText Typo="Typo.caption" Class="d-flex align-content-end" >
+                                    <CardHeaderContent>
+                                        <MudText Typo="Typo.caption" Class="d-flex align-content-end">
                                             @message.SenderName | @message.SentAt.ToLocalTime()
                                         </MudText>
                                     </CardHeaderContent>
 
                                 </MudCardHeader>
 
-                                <MudCardContent >
-                                    <MudText Typo="Typo.body1" >
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body1">
                                         @message.Text
                                     </MudText>
                                 </MudCardContent>
@@ -69,30 +71,29 @@
                             </MudCard>
                         }
                     </MudItem>
-
                 }
 
-                <MudScrollToTop TopOffset="100" Selector="#Realtime_Chat" Style="z-index:2001;">
-                    <div class="mud-theme-secondary px-3 py-6 mud-elevation-16 rounded-xl fixed" style="bottom:20px;right:20px;">Top</div>
-                </MudScrollToTop>
             </MudGrid>
+            <MudScrollToTop TopOffset="100" Selector="#Realtime_Chat" Style="z-index:2001;">
+                <div class="mud-theme-secondary px-3 py-6 mud-elevation-16 rounded-xl fixed" style="bottom:20px;right:20px;">Top</div>
+            </MudScrollToTop>
         </div>
     </MudItem>
     <MudItem xs="12" lg="12">
         <MudPaper Elevation="0" Class="d-flex flex-column justify-center py-6" style="height:35vh;overflow: auto;">
 
 
-                <label>
-      
-                    <MudTextField ReadOnly="true" FullWidth="false" @bind-Value="@userInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
-                </label>
-    
-      
-                <label>
-                    Message:
-                    <MudTextField FullWidth="true" Lines="3" @bind-Value="@messageInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
-                </label>
-       
+            <label>
+
+                <MudTextField ReadOnly="true" FullWidth="false" @bind-Value="@userInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
+            </label>
+
+
+            <label>
+                Message:
+                <MudTextField FullWidth="true" Lines="3" @bind-Value="@messageInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
+            </label>
+
 
             <MudButton ButtonType="ButtonType.Button" Disabled="@(!IsConnected||String.IsNullOrWhiteSpace(messageInput))" @onclick=Send Variant="Variant.Filled" Color="Color.Info">Send</MudButton>
         </MudPaper>
@@ -101,6 +102,25 @@
 
 
 </MudGrid>
+
+
+@*ref using sample code*@
+
+@*@foreach (var id in identifiers)
+{
+        
+    <button id="@id" @ref="myComponents[id]" @onclick="onclick">@id</button>
+}
+
+@code {
+    private List<string> identifiers = new List<string> { "1", "2", "3" };
+    private Dictionary<string, ElementReference> myComponents = new Dictionary<string, ElementReference>();
+    private void onclick(MouseEventArgs args)
+    {
+        var d = myComponents;
+        var a = args;
+    }
+}*@
 
 
 

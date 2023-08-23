@@ -30,7 +30,7 @@ namespace judo_univ_rennes.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, roomId.ToString());
             await Groups.AddToGroupAsync(Context.ConnectionId, Context.ConnectionId);
 
-            Console.WriteLine("-----------Connected--------");
+        
             await SendMessage("Chatroom System", $"Bienvenu {user.UserName}"); // Send to all members in chat
             await SendUserName(); // Send Username to current connected user
 
