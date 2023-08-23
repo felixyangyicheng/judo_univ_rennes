@@ -1,0 +1,14 @@
+﻿@page "/posts"
+@implements IAsyncDisposable
+@if (Posts == null)
+{
+    <Bounce></Bounce>
+}
+else
+{
+    foreach (var p in Posts)
+    {
+        <h6>@p.Title</h6>
+        <p>@p.DisplayContent</p>
+    }
+}
