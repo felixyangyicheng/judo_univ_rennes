@@ -23,8 +23,9 @@ namespace judo_univ_rennes.Components.Posts
         #region Properties
         private HubConnection? hubConnection;
 
-        public List<PostViewModel> Posts ;
-        public PostViewModel RecentPost;
+        public List<PostDto> Posts ;
+        public PostDto RecentPost = new();
+        public PostDto ModifiedPost = new();
         #endregion
 
         #region Parameters
@@ -42,36 +43,57 @@ namespace judo_univ_rennes.Components.Posts
             var user = state.User;
 
             var posts = await _postRepo.GetAll();
-            Posts = _mapper.Map<List<PostViewModel>>(posts);
-            base.OnParametersSetAsync();
+            Posts = _mapper.Map<List<PostDto>>(posts);
+            base.OnInitializedAsync();
 
         }
-
-
-        protected override async Task OnParametersSetAsync()
+        private async Task StartHubConnection()
         {
             hubConnection = new HubConnectionBuilder()
-            .WithUrl(_nav.ToAbsoluteUri("/notifhub")
-            , options =>
-            {
-                options.AccessTokenProvider = async () =>
-                {
-                    return await _localStorage.GetItemAsync<string>("authToken");
-                };
-            }
-            )
-            .Build();
+                .WithUrl(_nav.ToAbsoluteUri("/notifhub"), options =>
+                    {
+                        options.AccessTokenProvider = async () =>
+                        {
+                            return await _localStorage.GetItemAsync<string>("authToken");
+                        };
+                    }
+                )
+                .Build();
 
-            hubConnection.On<FullPostNotification>("refreshPost", (notifcation) =>
+            hubConnection.On<FullPostNotification>("refreshPost", async (notifcation) =>
             {
-                if (notifcation.action== "INSERT")
+
+
+                if (notifcation.action == "INSERT")
                 {
 
-                    RecentPost = _mapper.Map<PostViewModel>(notifcation.data);
+                    RecentPost = notifcation.data;
+                    Posts.Add(RecentPost);
+                    Posts.OrderByDescending(p => p.CreatedOn);
+
+                }
+
+                else if (notifcation.action == "UPDATE")
+                {
+
+                        ModifiedPost = notifcation.data;
+                        Posts.Remove(Posts.FirstOrDefault(p => p.Id == ModifiedPost.Id));
+                        Posts.Add(ModifiedPost);
+                        Posts.OrderByDescending(p => p.CreatedOn);
+             
+                        InvokeAsync(StateHasChanged);
+                        ShouldRender();
+
                 }
                 InvokeAsync(StateHasChanged);
             });
+            await hubConnection.StartAsync();
+            Console.WriteLine(hubConnection.State);
+        }
 
+        protected override async Task OnParametersSetAsync()
+        {
+            await StartHubConnection();
             base.OnParametersSetAsync();
         }
         public bool IsConnected =>

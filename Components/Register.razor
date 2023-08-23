@@ -1,0 +1,93 @@
+﻿@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@page "/register"
+<MudGrid>
+    <MudItem xs="12" sm="12">
+        @if (busy)
+        {
+            <CircleFade></CircleFade>
+        }
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                <MudGrid>
+                    <MudItem xs="12" sm="6" md="6">
+
+                        <MudTextField @bind-Value="registerModel.FirstName" Label="Prénom"
+                                      Variant="Variant.Outlined"
+                                      Required="true"
+                                      RequiredError="le prénom est obligatoire!"/>
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="6">
+
+                        <MudTextField @bind-Value="registerModel.LastName" Label="Nom"
+                                      Variant="Variant.Outlined"
+                                      Required="true"
+                                      RequiredError="le nom famille est obligatoire!"/>
+                    </MudItem>
+                </MudGrid>
+                <MudGrid>
+
+                    <MudItem xs="12" sm="6" md="6">
+
+                        <MudTextField @bind-Value="registerModel.Email"
+                                      HelperText="Votre adresse email sera votre identifiant"
+                                      Label="Email" Required="true" RequiredError="Adresse email est obligatoire!"
+                                      Variant="Variant.Outlined"
+                                      Validation="@(new EmailAddressAttribute() {ErrorMessage = " L'adresse email est invalide"})"
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@CheckEmailIcon"
+                                      OnAdornmentClick="VerifyEmail"
+                                      AdornmentAriaLabel="Afficher confirmation" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="6">
+                        <MudDatePicker Label="Date de naissance"
+                                       HelperText="Votre date de naissance"
+                                       Variant="Variant.Outlined"
+                                       @bind-Date="registerModel.Birthday" />
+                    </MudItem>
+                </MudGrid>
+                <MudGrid>
+                    <MudItem xs="12" sm="6" md="6">
+                        <MudTextField @bind-Value="registerModel.Password" Label="Mot de passe"
+                                      Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
+                                      RequiredError="mdp est obligatoire!"
+                                      InputType="@PasswordInput"
+                                      Variant="Variant.Outlined"
+                                      HelperText=@PasswordSample
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@PasswordInputIcon"
+                                      OnAdornmentClick="ChangePwdVisibility"
+                                      AdornmentAriaLabel="Afficher mot de passe" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="6">
+                        <MudTextField @bind-Value="registerModel.PasswordConfirm"
+                                      Variant="Variant.Outlined"
+                                      Label="Confirmation du mot de passe" Required="true" HelperText="Veuillez répéter le mdp"
+                                      InputType=@ConfirmInput
+                                      Validation="@(new Func<string, string>(PasswordMatch))"
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@PasswordConfirmInputIcon"
+                                      OnAdornmentClick="ChangeConfirmVisibility"
+                                      AdornmentAriaLabel="Afficher mot de passe" />
+                    </MudItem>
+                </MudGrid>
+
+                    <MudGrid >
+                        <MudItem xs="12" sm="6" md="6">
+                            <MudCheckBox T="bool" Required="true" RequiredError="vous devez accepter les conditions générales avant de continuer." Label="j'accepte les conditions générales" />
+
+                        </MudItem>
+                        <MudItem xs="12" sm="6" md="6">
+                            <MudButton FullWidth="true" Variant="Variant.Filled" Color="Color.Dark" OnClick="@(()=>form.Reset())">Réinitialiser</MudButton>
+
+                        </MudItem>
+                        <MudItem xs="12" sm="6" md="6">
+                            <MudButton FullWidth="true"  Variant="Variant.Filled" Color="Color.Dark" Disabled="@(!success)" OnClick="()=>HandleRegister()">Créer un compte</MudButton>
+                        </MudItem>
+                    </MudGrid>
+
+            
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>

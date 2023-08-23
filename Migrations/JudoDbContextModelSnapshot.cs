@@ -236,6 +236,11 @@ namespace judounivrennes.Migrations
                         {
                             UserId = "43c38655-9aa0-48b4-aab1-7cd175500f09",
                             RoleId = "94c965f5-41f4-4c0f-ba55-61f9ac99d622"
+                        },
+                        new
+                        {
+                            UserId = "95fcf6da-acc8-4522-9734-e8273be339bb",
+                            RoleId = "d9e1208e-5301-4fc9-8db0-f2562714a991"
                         });
                 });
 
@@ -260,17 +265,16 @@ namespace judounivrennes.Migrations
 
             modelBuilder.Entity("judo_univ_rennes.Data.Command", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int8")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("userId");
+                        .HasColumnType("text");
 
                     b.Property<bool>("Closed")
                         .HasColumnType("boolean")
@@ -308,17 +312,16 @@ namespace judounivrennes.Migrations
 
             modelBuilder.Entity("judo_univ_rennes.Data.Comment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int8")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("userId");
+                        .HasColumnType("text");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -329,9 +332,8 @@ namespace judounivrennes.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("createdOn");
 
-                    b.Property<int>("PostId")
-                        .HasColumnType("integer")
-                        .HasColumnName("postId");
+                    b.Property<long>("PostId")
+                        .HasColumnType("int8");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("timestamp with time zone")
@@ -355,8 +357,7 @@ namespace judounivrennes.Migrations
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("userId");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -367,17 +368,16 @@ namespace judounivrennes.Migrations
 
             modelBuilder.Entity("judo_univ_rennes.Data.IndexMarkdown", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int8")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("userId");
+                        .HasColumnType("text");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -414,17 +414,16 @@ namespace judounivrennes.Migrations
 
             modelBuilder.Entity("judo_univ_rennes.Data.News", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int8")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("userId");
+                        .HasColumnType("text");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -448,17 +447,16 @@ namespace judounivrennes.Migrations
 
             modelBuilder.Entity("judo_univ_rennes.Data.Post", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int8")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("ApiUserId")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("userId");
+                        .HasColumnType("text");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -534,17 +532,35 @@ namespace judounivrennes.Migrations
                         {
                             Id = "43c38655-9aa0-48b4-aab1-7cd175500f09",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "117e1ded-42ee-4459-9640-c478404b298b",
+                            ConcurrencyStamp = "02ddd263-04e1-41fe-927b-fe6e969d69f8",
                             Email = "y.yang@iia-formation.fr",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "Y.YANG@IIA-FORMATION.FR",
                             NormalizedUserName = "YANG.YICHENG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOYaFUAbk4ZtAtervimpPSbdetrZrGm1+ig2U2Nr59vvgueiB5ckBi4Jv9irMVe1lA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGBw5qU+HLxCcDeCQNATUJAgUOLBADgpKP0mlIOpiHKnKIbm1NM5gQgJlk+5dG2pcA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4660403b-5967-4336-b787-a2102ff2c054",
+                            SecurityStamp = "ea6e7204-aa15-47da-aa4d-3843ac0a38e3",
                             TwoFactorEnabled = false,
                             UserName = "YANG.YICHENG",
+                            FirstName = "Yicheng",
+                            LastName = "YANG"
+                        },
+                        new
+                        {
+                            Id = "95fcf6da-acc8-4522-9734-e8273be339bb",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0d615997-a50f-4358-98bf-13fe9836a008",
+                            Email = "felix.yang.yicheng@outlook.fr",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "FELIX.YANG.YICHENG@OUTLOOK.FR",
+                            NormalizedUserName = "FELIX.YANG.YICHENG",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFBhbQ6ZNTaCakTIfQJ0Fp6S7NVTrA5Odw8YQiEoESV72eBYqEStA4PFdigPDLlcaQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1d336b95-9e45-4323-8b8c-ed54d89d706f",
+                            TwoFactorEnabled = false,
+                            UserName = "FELIX.YANG.YICHENG",
                             FirstName = "Yicheng",
                             LastName = "YANG"
                         });

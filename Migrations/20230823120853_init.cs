@@ -176,7 +176,7 @@ namespace judounivrennes.Migrations
                 name: "command",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<long>(type: "int8", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     title = table.Column<string>(type: "text", nullable: false),
                     type = table.Column<string>(type: "text", nullable: false),
@@ -184,14 +184,14 @@ namespace judounivrennes.Migrations
                     content = table.Column<string>(type: "text", nullable: false),
                     createdOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    userId = table.Column<string>(type: "text", nullable: false)
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_command", x => x.id);
                     table.ForeignKey(
-                        name: "FK_command_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_command_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -202,14 +202,14 @@ namespace judounivrennes.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    userId = table.Column<string>(type: "text", nullable: false)
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_device", x => x.id);
                     table.ForeignKey(
-                        name: "FK_device_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_device_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -219,7 +219,7 @@ namespace judounivrennes.Migrations
                 name: "indexMarkdown",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<long>(type: "int8", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     title = table.Column<string>(type: "text", nullable: false),
                     type = table.Column<string>(type: "text", nullable: true),
@@ -227,14 +227,14 @@ namespace judounivrennes.Migrations
                     content = table.Column<string>(type: "text", nullable: false),
                     createdOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    userId = table.Column<string>(type: "text", nullable: false)
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_indexMarkdown", x => x.id);
                     table.ForeignKey(
-                        name: "FK_indexMarkdown_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_indexMarkdown_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -244,19 +244,19 @@ namespace judounivrennes.Migrations
                 name: "news",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<long>(type: "int8", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     content = table.Column<string>(type: "text", nullable: false),
                     createdOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    userId = table.Column<string>(type: "text", nullable: false)
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_news", x => x.id);
                     table.ForeignKey(
-                        name: "FK_news_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_news_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -266,20 +266,20 @@ namespace judounivrennes.Migrations
                 name: "post",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<long>(type: "int8", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     title = table.Column<string>(type: "text", nullable: false),
                     content = table.Column<string>(type: "text", nullable: false),
                     createdOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    userId = table.Column<string>(type: "text", nullable: false)
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_post", x => x.id);
                     table.ForeignKey(
-                        name: "FK_post_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_post_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -289,26 +289,26 @@ namespace judounivrennes.Migrations
                 name: "comment",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<long>(type: "int8", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    postId = table.Column<int>(type: "integer", nullable: false),
+                    PostId = table.Column<long>(type: "int8", nullable: false),
                     content = table.Column<string>(type: "text", nullable: false),
                     createdOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    userId = table.Column<string>(type: "text", nullable: false)
+                    ApiUserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_comment", x => x.id);
                     table.ForeignKey(
-                        name: "FK_comment_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_comment_AspNetUsers_ApiUserId",
+                        column: x => x.ApiUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_comment_post_postId",
-                        column: x => x.postId,
+                        name: "FK_comment_post_PostId",
+                        column: x => x.PostId,
                         principalTable: "post",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -327,7 +327,11 @@ namespace judounivrennes.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "AddressNumber", "Birthday", "City", "Civilite", "ConcurrencyStamp", "Country", "Discriminator", "Email", "EmailConfirmed", "Extention", "FirstName", "ImageData", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostCode", "SecurityStamp", "StreetName", "StreetType", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "43c38655-9aa0-48b4-aab1-7cd175500f09", 0, null, null, null, null, "117e1ded-42ee-4459-9640-c478404b298b", null, "ApiUser", "y.yang@iia-formation.fr", false, null, "Yicheng", null, "YANG", false, null, "Y.YANG@IIA-FORMATION.FR", "YANG.YICHENG", "AQAAAAIAAYagAAAAEOYaFUAbk4ZtAtervimpPSbdetrZrGm1+ig2U2Nr59vvgueiB5ckBi4Jv9irMVe1lA==", null, false, null, "4660403b-5967-4336-b787-a2102ff2c054", null, null, false, "YANG.YICHENG" });
+                values: new object[,]
+                {
+                    { "43c38655-9aa0-48b4-aab1-7cd175500f09", 0, null, null, null, null, "02ddd263-04e1-41fe-927b-fe6e969d69f8", null, "ApiUser", "y.yang@iia-formation.fr", false, null, "Yicheng", null, "YANG", false, null, "Y.YANG@IIA-FORMATION.FR", "YANG.YICHENG", "AQAAAAIAAYagAAAAEGBw5qU+HLxCcDeCQNATUJAgUOLBADgpKP0mlIOpiHKnKIbm1NM5gQgJlk+5dG2pcA==", null, false, null, "ea6e7204-aa15-47da-aa4d-3843ac0a38e3", null, null, false, "YANG.YICHENG" },
+                    { "95fcf6da-acc8-4522-9734-e8273be339bb", 0, null, null, null, null, "0d615997-a50f-4358-98bf-13fe9836a008", null, "ApiUser", "felix.yang.yicheng@outlook.fr", false, null, "Yicheng", null, "YANG", false, null, "FELIX.YANG.YICHENG@OUTLOOK.FR", "FELIX.YANG.YICHENG", "AQAAAAIAAYagAAAAEFBhbQ6ZNTaCakTIfQJ0Fp6S7NVTrA5Odw8YQiEoESV72eBYqEStA4PFdigPDLlcaQ==", null, false, null, "1d336b95-9e45-4323-8b8c-ed54d89d706f", null, null, false, "FELIX.YANG.YICHENG" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -335,7 +339,8 @@ namespace judounivrennes.Migrations
                 values: new object[,]
                 {
                     { "94c965f5-41f4-4c0f-ba55-61f9ac99d622", "43c38655-9aa0-48b4-aab1-7cd175500f09" },
-                    { "d9e1208e-5301-4fc9-8db0-f2562714a991", "43c38655-9aa0-48b4-aab1-7cd175500f09" }
+                    { "d9e1208e-5301-4fc9-8db0-f2562714a991", "43c38655-9aa0-48b4-aab1-7cd175500f09" },
+                    { "d9e1208e-5301-4fc9-8db0-f2562714a991", "95fcf6da-acc8-4522-9734-e8273be339bb" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -376,39 +381,39 @@ namespace judounivrennes.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_command_userId",
+                name: "IX_command_ApiUserId",
                 table: "command",
-                column: "userId");
+                column: "ApiUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_comment_postId",
+                name: "IX_comment_ApiUserId",
                 table: "comment",
-                column: "postId");
+                column: "ApiUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_comment_userId",
+                name: "IX_comment_PostId",
                 table: "comment",
-                column: "userId");
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_device_userId",
+                name: "IX_device_ApiUserId",
                 table: "device",
-                column: "userId");
+                column: "ApiUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_indexMarkdown_userId",
+                name: "IX_indexMarkdown_ApiUserId",
                 table: "indexMarkdown",
-                column: "userId");
+                column: "ApiUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_news_userId",
+                name: "IX_news_ApiUserId",
                 table: "news",
-                column: "userId");
+                column: "ApiUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_post_userId",
+                name: "IX_post_ApiUserId",
                 table: "post",
-                column: "userId");
+                column: "ApiUserId");
         }
 
         /// <inheritdoc />

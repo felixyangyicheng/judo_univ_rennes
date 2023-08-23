@@ -62,12 +62,18 @@ namespace judo_univ_rennes.Services
 
         public async Task<List<Post>> GetAll()
         {
-            return await _db.Posts.ToListAsync();
+            return await _db.Posts
+                .Include(u => u.ApiUser)
+                .Include(u => u.Comments)
+                .ToListAsync();
         }
 
         public async Task<PagedList<PostDto>> GetAllPaged(BaseItemParameters param)
         {
-            var result = await _db.Posts.ToListAsync();
+            var result = await _db.Posts
+                .Include(u => u.ApiUser)
+                .Include(u => u.Comments)
+                .ToListAsync();
             var posts = mapper.Map<List<PostDto>>(result);
             return PagedList<PostDto>.ToPagedList(posts, param.PageNumber, param.PageSize);
         }

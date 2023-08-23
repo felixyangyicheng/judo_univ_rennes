@@ -3,9 +3,10 @@ namespace judo_univ_rennes.Dtos.Posts
 {
 	public class PostViewModel
 	{
-
+        public int Id { get; set; }
 
         public MarkupString DisplayContent { get; set; }
+        public string Content { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

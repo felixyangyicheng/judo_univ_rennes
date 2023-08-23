@@ -5,7 +5,7 @@ namespace judo_univ_rennes.Data
     public class BaseTextItem
     {
 
-        [Column("id")]
+        [Column("id",TypeName ="int8")]
 
         public int Id { get; set; }
         [Column("content", TypeName = "text")]
@@ -16,7 +16,7 @@ namespace judo_univ_rennes.Data
         [Column("updatedOn")]
 
         public DateTime UpdatedOn { get; set; }
-        [Column("userId")]
+
         [ForeignKey("ApiUser")]
 
         public string ApiUserId { get; set; }

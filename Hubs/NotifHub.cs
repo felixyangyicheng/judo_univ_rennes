@@ -2,6 +2,8 @@
 
 
 
+using AutoMapper;
+
 namespace judo_univ_rennes.Hubs
 {
 	public class NotifHub : Hub
@@ -20,16 +22,24 @@ namespace judo_univ_rennes.Hubs
             connectionString = configuration.GetConnectionString("Account");
 
         }
+
+        
         public override async Task OnConnectedAsync()
         {
+            Console.WriteLine("------NOTIF-----Connected--------");
 
-            await CommandCallUpdate();
-            await CommentCallUpdate();
             await PostCallUpdate();
-            await NewsCallUpdate();
-            await IndexMarkdownCallUpdate();
+
+            Console.WriteLine("-----------Connected--------");
+
 
             await base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception? exception)
+        {
+
+            return base.OnDisconnectedAsync(exception);
         }
 
         #region Command
@@ -109,7 +119,7 @@ namespace judo_univ_rennes.Hubs
             con.Notification += PostNotificationHelper;
             await using (var cmd = new NpgsqlCommand())
             {
-                cmd.CommandText = "LISTEN postchange;";
+                cmd.CommandText = "LISTEN lastpostchange;";
                 cmd.CommandType = CommandType.Text;
                 cmd.Connection = con;
                 cmd.ExecuteNonQuery();
@@ -121,14 +131,19 @@ namespace judo_univ_rennes.Hubs
         }
         private void PostNotificationHelper(object sender, NpgsqlNotificationEventArgs e)
         {
+          
             //Desérializser les données reçues de PostgreSQL
             var dataPayload = JsonConvert.DeserializeObject<TablePostInfo>(e.Payload);
-            Console.WriteLine("{0}", dataPayload.table + " :: " + dataPayload.action + " :: " + dataPayload.data.ApiUser.Id + " :: " + dataPayload.data.Content);
+   
+            Console.WriteLine("{0}", dataPayload.table + " :: " + dataPayload.action + " :: " + dataPayload.data.ApiUserId + " :: " + dataPayload.data.Content);
+            var username = _db.Users.FirstOrDefault(x => x.Id == dataPayload.data.ApiUserId).UserName;
+            var interData = _mapper.Map<PostDto>(dataPayload.data);
+            interData.ApiUserName = username;
             FullPostNotification notification = new FullPostNotification
             {
                 table = dataPayload.table,
                 action = dataPayload.action,
-                data = _mapper.Map<PostDto>(dataPayload.data)
+                data = interData
             };
             Clients.All.SendAsync("refreshPost", notification);
             //Envoyer la notification au Client avec SignalR

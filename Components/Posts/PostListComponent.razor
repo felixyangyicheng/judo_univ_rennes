@@ -8,7 +8,25 @@ else
 {
     foreach (var p in Posts)
     {
-        <h6>@p.Title</h6>
-        <p>@p.DisplayContent</p>
+        <MudCard Class="flex-row-reverse">
+            <MudCardHeader Style="display: -webkit-box;direction: ltr;">
+                <CardHeaderContent>
+                    <MudText Typo="Typo.caption">
+                    @p.Title
+                    </MudText>
+                </CardHeaderContent>
+                <CardHeaderAvatar>
+                    <MudAvatar Color="Color.Secondary" Square="true">@(p.ApiUserName.Substring(0, 1))</MudAvatar>
+                </CardHeaderAvatar>
+
+            </MudCardHeader>
+
+            <MudCardContent Class="rtl d-flex">
+             
+                    @((MarkupString)p.Content)
+              
+            </MudCardContent>
+
+        </MudCard>
     }
 }

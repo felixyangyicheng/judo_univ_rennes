@@ -66,7 +66,20 @@ namespace judo_univ_rennes.Data
                 }
 
             );
+            modelBuilder.Entity<ApiUser>().HasData(
+                new ApiUser
+                {
+                    Id = "95fcf6da-acc8-4522-9734-e8273be339bb",
+                    Email = "felix.yang.yicheng@outlook.fr",
+                    NormalizedEmail = "FELIX.YANG.YICHENG@OUTLOOK.FR",
+                    UserName = "FELIX.YANG.YICHENG",
+                    NormalizedUserName = "FELIX.YANG.YICHENG",
+                    FirstName = "Yicheng",
+                    LastName = "YANG",
+                    PasswordHash = hasher.HashPassword(null, "P@ssword1")
+                }
 
+            );
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>
                 {
@@ -77,8 +90,12 @@ namespace judo_univ_rennes.Data
                 {
                     RoleId = "94c965f5-41f4-4c0f-ba55-61f9ac99d622",//super admin
                     UserId = "43c38655-9aa0-48b4-aab1-7cd175500f09" //yicheng
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "d9e1208e-5301-4fc9-8db0-f2562714a991",//admin
+                    UserId = "95fcf6da-acc8-4522-9734-e8273be339bb" //felix yicheng
                 }
-
             );
         }
     }

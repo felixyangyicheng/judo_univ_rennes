@@ -24,13 +24,13 @@ namespace judo_univ_rennes.Hubs
             var username = Context.User.Claims.FirstOrDefault(s=>s.Type== "sub");
             var email = Context.User.Claims.FirstOrDefault(s=>s.Type== "email");
             var uid = Context.User.Claims.FirstOrDefault(s=>s.Type== "uid");
-            var user = await _userManager.FindByIdAsync(uid.Value);
-            var MyImage = user.ImageData;
+            var user =  await _userManager.FindByIdAsync(uid.Value);
+          
 
             await Groups.AddToGroupAsync(Context.ConnectionId, roomId.ToString());
             await Groups.AddToGroupAsync(Context.ConnectionId, Context.ConnectionId);
 
-
+            Console.WriteLine("-----------Connected--------");
             await SendMessage("Chatroom System", $"Bienvenu {user.UserName}"); // Send to all members in chat
             await SendUserName(); // Send Username to current connected user
 
@@ -38,7 +38,13 @@ namespace judo_univ_rennes.Hubs
             await base.OnConnectedAsync();
         }
 
-
+        private async Task<byte[]?> FindImage()
+        {
+            var uid = Context.User.Claims.FirstOrDefault(s => s.Type == "uid");
+            var user = await _userManager.FindByIdAsync(uid.Value);
+            var MyImage = user.ImageData;
+            return MyImage;
+        }
 
         public async Task SendMessage(string name, string text)
         {
@@ -47,7 +53,9 @@ namespace judo_univ_rennes.Hubs
 
             var uid = Context.User.Claims.FirstOrDefault(s => s.Type == "uid");
             var user = await _userManager.FindByIdAsync(uid.Value);
-            var MyImage = user.ImageData;
+
+            var MyImage =new byte[512000];
+    
             var message = new ChatMessage
             {
                 SenderName = name,
