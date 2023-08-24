@@ -1,5 +1,6 @@
 ﻿@page "/chatpage"
 @using Microsoft.AspNetCore.SignalR.Client
+
 @inject NavigationManager Navigation
 @implements IAsyncDisposable
 
@@ -52,7 +53,7 @@
                             <MudCard Class="flex-row bubble left">
                                 <MudCardHeader Class="ltr" Style="display: -webkit-box">
                                     <CardHeaderAvatar>
-                                        <MudAvatar Color="Color.Secondary" Square="true">@(message.SenderName.Substring(0, 1))</MudAvatar>
+                                        <MudAvatar Color="Color.Success" >@(message.SenderName.Substring(0, 1))</MudAvatar>
                                     </CardHeaderAvatar>
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.caption" Class="d-flex align-content-end">
@@ -80,22 +81,48 @@
         </div>
     </MudItem>
     <MudItem xs="12" lg="12">
-        <MudPaper Elevation="0" Class="d-flex flex-column justify-center py-6" style="height:35vh;overflow: auto;">
+        <MudPaper Elevation="0" Class="d-flex flex-row justify-center py-6" style="height:35vh;overflow: auto;">
+
+            <MudGrid>
+                <MudItem xs="12" xl="8" >
+                    <MudTextField HelperText="Message" FullWidth="true" Lines="3" @bind-Value="@messageInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
+
+                </MudItem>
+                <MudItem xs="12"md="4" lg="3">
+                    <MudTextField @bind-Value="@userInput" ReadOnly />
+                </MudItem>
+                <MudItem xl="1" xs="3">
+
+                    <MudBadge Content="@(onlineUsers.Count)" Color="Color.Primary" Overlap="true" Class="mx-6 my-4">
+                        <MudIconButton Icon="@Icons.Material.Filled.EmojiPeople" Color="Color.Default" OnClick="@(e => ToggleOverlay(true))" />
+                    </MudBadge>
+
+                </MudItem>
+                <MudItem xs="12" sm="2" md="2" xl="2">
+                    <MudButton ButtonType="ButtonType.Button" Disabled="@(!IsConnected||String.IsNullOrWhiteSpace(messageInput))" @onclick=Send Variant="Variant.Filled" Color="Color.Info">Send</MudButton>
+
+                </MudItem>
+            </MudGrid>
 
 
-            <label>
+            <MudOverlay Visible="isVisible" DarkBackground="true" Absolute="true">
+                <MudAvatarGroup Max="8" Spacing="3" MaxColor="Color.Warning">
+                    @foreach (var u in onlineUsers)
+                    {
 
-                <MudTextField ReadOnly="true" FullWidth="false" @bind-Value="@userInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
-            </label>
+                        <MudBadge Color="Color.Success" Overlap="true" Bordered="true">
+                            <MudAvatar> @u.UserName.Substring(0, 2)</MudAvatar>
+                        </MudBadge>
+                    }
+                    </MudAvatarGroup>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(e => ToggleOverlay(false))">Hide</MudButton>
+            </MudOverlay>
+
+    
+               
+          
 
 
-            <label>
-                Message:
-                <MudTextField FullWidth="true" Lines="3" @bind-Value="@messageInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
-            </label>
-
-
-            <MudButton ButtonType="ButtonType.Button" Disabled="@(!IsConnected||String.IsNullOrWhiteSpace(messageInput))" @onclick=Send Variant="Variant.Filled" Color="Color.Info">Send</MudButton>
         </MudPaper>
     </MudItem>
 

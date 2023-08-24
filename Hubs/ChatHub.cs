@@ -1,5 +1,6 @@
 ﻿
 
+using Google.Apis.Drive.v3.Data;
 using Microsoft.AspNetCore.SignalR;
 
 
@@ -27,17 +28,29 @@ namespace judo_univ_rennes.Hubs
             var user =  await _userManager.FindByIdAsync(uid.Value);
           
 
-            await Groups.AddToGroupAsync(Context.ConnectionId, roomId.ToString());
+            await Groups.AddToGroupAsync(Context.ConnectionId, "Online");
             await Groups.AddToGroupAsync(Context.ConnectionId, Context.ConnectionId);
 
         
             await SendMessage("Chatroom System", $"Bienvenu {user.UserName}"); // Send to all members in chat
             await SendUserName(); // Send Username to current connected user
-
+            await UpdateOnlineUserList();
             await Clients.All.SendAsync("ReceiveMessage", $"{Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
-
+        public  async Task OnDisconnectedAsync()
+        {
+            var userId = Context.ConnectionId;
+            var uid = Context.User.Claims.FirstOrDefault(s => s.Type == "uid");
+            var user = await _userManager.FindByIdAsync(uid.Value);
+         
+            ConnectedUsers.onlineUsers.Remove(user);
+            await Clients.All.SendAsync(
+                "refreshUserlist",
+                ConnectedUsers.onlineUsers
+                );
+            
+        }
         private async Task<byte[]?> FindImage()
         {
             var uid = Context.User.Claims.FirstOrDefault(s => s.Type == "uid");
@@ -77,6 +90,22 @@ namespace judo_univ_rennes.Hubs
                 roomId,
                 message
                 );
+        }
+        public async Task UpdateOnlineUserList()
+        {
+            var userId = Context.ConnectionId;
+            var uid = Context.User.Claims.FirstOrDefault(s => s.Type == "uid");
+            var user = await _userManager.FindByIdAsync(uid.Value);
+            ConnectedUsers.onlineUsers.Add(user);
+            foreach (var u in ConnectedUsers.onlineUsers)
+            {
+                Console.WriteLine(u.UserName);
+            }
+            await Clients.All.SendAsync(
+                "refreshUserlist",
+                ConnectedUsers.onlineUsers
+                );
+
         }
         public async Task SendUserName()
         {

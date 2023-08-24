@@ -40,17 +40,27 @@ else
                         </MudCardContent>
 
                         <MudExpansionPanels MultiExpansion="true" DisableBorders="true" Elevation="0" Dense="true">
-                            <MudExpansionPanel Text="Comments">
+                            <MudExpansionPanel Text="Comments" >
 
                                 @if (post.Comments != null)
                                 {
-                                    <MudExpansionPanels MultiExpansion="true" DisableBorders="true" Elevation="0" Dense="true">
+                                    <MudExpansionPanels MultiExpansion="true" DisableBorders="true" Elevation="0" Dense="true" >
 
                                         @foreach (var c in post.Comments)
                                         {
 
-                                            <MudExpansionPanel Text="@c.ApiUser.UserName">
-                                                @c.Content
+                                            <MudExpansionPanel  Text="@c.ApiUser.UserName">
+                                                <TitleContent>
+                                                    <div class="d-flex">
+                                                        <MudText Class="mt-1">Inbox</MudText>
+                                                        <MudBadge Content="3" Color="Color.Primary" Overlap="true" Class="d-flex ml-auto">
+                                                            <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Default" />
+                                                        </MudBadge>
+                                                    </div>
+                                                </TitleContent>
+                                                <ChildContent>
+                                                    @c.Content
+                                                </ChildContent>
                                             </MudExpansionPanel>
                                         }
                                     </MudExpansionPanels>

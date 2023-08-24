@@ -14,8 +14,11 @@ namespace judo_univ_rennes.Pages.ClientViews
         [Inject] IJSRuntime JsRuntime { get; set; }
         private HubConnection? hubConnection;
         private List<ChatMessage> messages = new List<ChatMessage>();
+        private List<ApiUser> onlineUsers = new List<ApiUser>();
         private string? userInput;
         private string? messageInput;
+        private bool isVisible;
+
         private IJSObjectReference jsModule { get; set; }
         protected override async Task OnInitializedAsync()
         {
@@ -36,6 +39,14 @@ namespace judo_univ_rennes.Pages.ClientViews
             {
                 userInput = un;
                 InvokeAsync(StateHasChanged);
+            });
+
+            hubConnection.On<List<ApiUser>>("refreshUserlist",  (list) =>
+            {
+
+                onlineUsers = list;
+                InvokeAsync(StateHasChanged);
+               
             });
             hubConnection.On<string, string, ChatMessage>("ReceiveMessage", async (user, room,message) =>
             {
@@ -68,6 +79,12 @@ namespace judo_univ_rennes.Pages.ClientViews
             {
                 await hubConnection.DisposeAsync();
             }
+        }
+
+
+        public void ToggleOverlay(bool value)
+        {
+            isVisible = value;
         }
     }
 }
