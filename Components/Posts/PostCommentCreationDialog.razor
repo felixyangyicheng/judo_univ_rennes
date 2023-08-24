@@ -1,0 +1,70 @@
+﻿<MudDialog>
+    <DialogContent>
+        @((MarkupString)post.Content)
+        <MudTextField @bind-Value="commentContent"
+                      HelperText="Ajouter un commentaire ici"
+                      Variant="Variant.Outlined"></MudTextField>
+    </DialogContent>
+        <DialogActions>
+            <MudButton Color="Color.Info"
+                       Variant="Variant.Filled"
+                       OnClick="AddComment">Ok</MudButton>
+        </DialogActions>
+</MudDialog>
+        @code {
+
+            [Inject] public ISnackbar snackbar { get; set; }
+            /// <summary>
+            /// injection dépendance navigationMananger
+            /// </summary>
+            [Inject]
+            public NavigationManager _navManager { get; set; }
+            /// <summary>
+            /// dependency injection MudBlazor dialogservice
+            /// </summary>
+            [Inject] IDialogService DialogService { get; set; }
+            [Inject] AuthenticationStateProvider _authProvider { get; set; }
+            [Inject] ICommentRepo _commentRepo { get; set; }
+
+            [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+            [Parameter] public Post post { get; set; }
+
+
+            protected ClaimsPrincipal user { get; set; }
+            protected Comment comment { get; set; } = new();
+            protected string uid { get; set; }
+            protected string commentContent { get; set; } = "";
+
+            void Submit() => MudDialog.Close(DialogResult.Ok(true));
+            void Cancel() => MudDialog.Cancel();
+
+
+            protected override async Task OnParametersSetAsync()
+            {
+
+                AuthenticationState state = await _authProvider.GetAuthenticationStateAsync();
+                user = state.User;
+                uid = user.Claims.FirstOrDefault(s => s.Type == "uid").Value;
+                comment.ApiUserId = uid;
+                comment.PostId = post.Id;
+
+                await base.OnParametersSetAsync();
+            }
+
+
+
+            protected async Task AddComment()
+            {
+                comment.UpdatedOn = DateTime.UtcNow;
+                comment.CreatedOn = DateTime.UtcNow;
+                comment.Content = commentContent;
+                var result = await _commentRepo.Create(comment);
+                if (result)
+                {
+                    snackbar.Add($"Commentaire créé", Severity.Success);
+                }
+                Submit();
+
+            }
+
+        }

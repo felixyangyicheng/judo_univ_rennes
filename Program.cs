@@ -1,5 +1,8 @@
 
 
+using Autofac.Core;
+using Google;
+
 namespace judo_univ_rennes
 {
     public class Program
@@ -31,19 +34,21 @@ namespace judo_univ_rennes
             });
 
             var connString = builder.Configuration.GetConnectionString("Account");
-            builder.Services.AddDbContext<JudoDbContext>(options =>
+            builder.Services.AddDbContextPool<JudoDbContext>(options =>
                 {
                     options.UseNpgsql(connString);
-                },
-                ServiceLifetime.Transient
+                }
+                //ServiceLifetime.Transient
             );
+
+
             builder.Services
-    .AddBlazorise(options =>
-    {
-        options.Immediate = true;
-    })
-    .AddBootstrapProviders()
-    .AddFontAwesomeIcons();
+                .AddBlazorise(options =>
+                {
+                    options.Immediate = true;
+                })
+                .AddBootstrapProviders()
+                .AddFontAwesomeIcons();
             builder.Services.AddControllers();
             builder.Services.Configure<CookiePolicyOptions>(options =>
             {

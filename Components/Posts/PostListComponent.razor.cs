@@ -1,5 +1,7 @@
 ﻿using System;
 using Blazored.LocalStorage;
+using Blazorise;
+using Google;
 using Google.Apis.Drive.v3.Data;
 using judo_univ_rennes.Data;
 using Microsoft.AspNetCore.Components;
@@ -22,8 +24,10 @@ namespace judo_univ_rennes.Components.Posts
         [Inject] AuthenticationStateProvider _authProvider { get; set; }
         [Inject] JudoDbContext _db { get; set; }
         [Inject] IJSRuntime JsRuntime { get; set; }
-
+        [Inject] IDialogService DialogService { get; set; }
         [Inject] NavigationManager _nav { get; set; }
+
+
         #endregion
         #region Properties
         private HubConnection? hubConnection;
@@ -44,11 +48,7 @@ namespace judo_univ_rennes.Components.Posts
 
         #region Methods
 
-        private async ValueTask<ItemsProviderResult<Post>> ReloadPosts(ItemsProviderRequest request)
-        {
-            
-            return new ItemsProviderResult<Post>(_db.Posts.Skip(request.StartIndex).Take(request.Count), _db.Posts.Count());
-        }
+
         private async ValueTask<ItemsProviderResult<Post>> LoadPosts(ItemsProviderRequest request)
         {
             var posts = await  _postRepo.GetAll();
@@ -68,6 +68,9 @@ namespace judo_univ_rennes.Components.Posts
             base.OnInitializedAsync();
 
         }
+
+        #region start connection
+
         private async Task StartHubConnection()
         {
             hubConnection = new HubConnectionBuilder()
@@ -120,6 +123,7 @@ namespace judo_univ_rennes.Components.Posts
             await hubConnection.StartAsync();
             Console.WriteLine(hubConnection.State);
         }
+        #endregion
 
         protected override async Task OnParametersSetAsync()
         {
@@ -127,14 +131,17 @@ namespace judo_univ_rennes.Components.Posts
             if (ShouldAutoScorll==true)
             await jsModule.InvokeVoidAsync("scrollToElement", "eleScroll");
 
-
-
-
             base.OnParametersSetAsync();
         }
 
 
-
+        private void OpenDialogCreateComment(Post p)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("Post", p);
+            var options = new DialogOptions { CloseOnEscapeKey = true, };
+            DialogService.Show<PostCommentCreationDialog>("Créer un commentaire", parameters, options);
+        }
         public bool IsConnected =>
         hubConnection?.State == HubConnectionState.Connected;
 

@@ -4,6 +4,7 @@ namespace judo_univ_rennes.Services
     public class PostService:IPostRepo
     {
         private readonly JudoDbContext _db;
+        private readonly IDbContextFactory<JudoDbContext> _contextFactory;
         private readonly ILogger<PostService> logger;
         private readonly IMapper mapper;
         private readonly UserManager<ApiUser> userManager;
@@ -62,11 +63,21 @@ namespace judo_univ_rennes.Services
 
         public async Task<List<Post>> GetAll()
         {
+
+
+            //using var context = _contextFactory.CreateDbContext();
+            //var posts = await context.Posts
+
+            //             .Include(u => u.ApiUser)
+            //            .Include(u => u.Comments)
+            //            .ThenInclude(c => c.ApiUser)
+            //            .ToListAsync();
+            //return posts;
             return await _db.Posts
+                .AsNoTracking()
                 .Include(u => u.ApiUser)
                 .Include(u => u.Comments)
                 .ThenInclude(c => c.ApiUser)
-
                 .ToListAsync();
         }
 
