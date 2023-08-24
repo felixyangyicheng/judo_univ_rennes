@@ -1,0 +1,25 @@
+﻿@page "/posts"
+
+<MudContainer>
+
+    <PostListComponent ShouldAutoScorll="@AutoScroll"></PostListComponent>
+      <br/>
+    <p>AutoScroll : @AutoScroll</p>
+    <PostCreateComponent OnPostAdded="PostAdded"></PostCreateComponent>
+</MudContainer>
+
+
+@code {
+    public bool AutoScroll { get; set; } = false;
+
+
+    async Task PostAdded(bool arg)
+    {
+        AutoScroll = arg;
+        StateHasChanged();
+        Task.Delay(2000);
+        AutoScroll = false;
+        StateHasChanged();
+    }
+
+}

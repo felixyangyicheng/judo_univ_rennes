@@ -43,8 +43,6 @@ namespace judo_univ_rennes.Pages.ClientViews
                 messages.Add(encodedMsg);
                 InvokeAsync(StateHasChanged);
 
-                await JsRuntime.InvokeVoidAsync("console.log", "console from runtime js");
-                await jsModule.InvokeVoidAsync("testConsole", "console from module js");
                 await jsModule.InvokeVoidAsync("scrollToElement", "eleScroll");
             });
 

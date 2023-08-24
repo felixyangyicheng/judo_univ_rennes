@@ -1,4 +1,6 @@
 ﻿using System;
+using MailKit.Search;
+
 namespace judo_univ_rennes.Components.Posts
 {
 	public partial class PostCreateComponent
@@ -27,7 +29,8 @@ namespace judo_univ_rennes.Components.Posts
         #endregion
 
         #region Parameters
-
+        [Parameter]
+        public EventCallback<bool> OnPostAdded { get; set; }
         #endregion
 
         #region Methods
@@ -74,6 +77,7 @@ namespace judo_univ_rennes.Components.Posts
 
                 await richTextEditRef.ClearAsync();
                 PostToAdd = new();
+                await OnPostAdded.InvokeAsync(ok);
             }
             else
             {

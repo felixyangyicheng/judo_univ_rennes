@@ -1,4 +1,4 @@
-﻿@page "/posts"
+﻿
 @implements IAsyncDisposable
 @if (Posts == null)
 {
@@ -6,27 +6,76 @@
 }
 else
 {
-    foreach (var p in Posts)
-    {
-        <MudCard Class="flex-row-reverse">
-            <MudCardHeader Style="display: -webkit-box;direction: ltr;">
-                <CardHeaderContent>
-                    <MudText Typo="Typo.caption">
-                    @p.Title
-                    </MudText>
-                </CardHeaderContent>
-                <CardHeaderAvatar>
-                    <MudAvatar Color="Color.Secondary" Square="true">@(p.ApiUserName.Substring(0, 1))</MudAvatar>
-                </CardHeaderAvatar>
 
-            </MudCardHeader>
+        <div  class="ma-0" style="height:60vh;overflow: auto;">
+            <MudGrid Style="  width:100%"  id="eleScroll">
 
-            <MudCardContent Class="rtl d-flex">
-             
-                    @((MarkupString)p.Content)
-              
-            </MudCardContent>
+                <Virtualize  ItemsProvider="@LoadPosts" Context="post" OverscanCount="16" >
+                    <ItemContent >
+                        <MudCard Class="flex-row" Elevation="1" Style="width:50%; padding:5px" Outlined="true">
+                            <MudCardHeader >
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h6">
+                                        @post.Title
+                                    </MudText>
+                                    <MudText Typo="Typo.caption">
+                                        @post.CreatedOn
 
-        </MudCard>
-    }
+                                    </MudText>
+                                    <MudText Typo="Typo.caption">
+                                        (Updated at @post.CreatedOn )
+                                    </MudText>
+                                </CardHeaderContent>
+                                <CardHeaderAvatar>
+                                    <MudAvatar Color="Color.Tertiary" Square="true">@(post.ApiUser.UserName.Substring(0, 1))</MudAvatar>
+                                </CardHeaderAvatar>
+
+                            </MudCardHeader>
+
+                            <MudCardContent Class="d-flex">
+
+                                @((MarkupString)post.Content)
+
+                            </MudCardContent>
+                       
+                                <MudExpansionPanels MultiExpansion="true" DisableBorders="true" Elevation="0" Dense="true">
+                                    <MudExpansionPanel Text="Comments">
+
+                                        @if (post.Comments != null)
+                                        {
+                                            <MudExpansionPanels MultiExpansion="true" DisableBorders="true" Elevation="0" Dense="true">
+
+                                                @foreach (var c in post.Comments)
+                                                {
+
+                                                    <MudExpansionPanel Text="@c.ApiUser.UserName">
+                                                        @c.Content
+                                                    </MudExpansionPanel>
+                                                }
+                                            </MudExpansionPanels>
+
+                                        }
+                                    </MudExpansionPanel>
+
+                               
+                                    
+                                </MudExpansionPanels>
+                        <MudCardActions>
+                                        <MudIconButton Icon="@Icons.Sharp.Add"  Variant="Variant.Filled" Color="Color.Success">+</MudIconButton>
+
+                        </MudCardActions>
+                        </MudCard>
+                    </ItemContent>
+                    <Placeholder>
+                        <MudCard Style="width=100%">
+
+                            <Bounce Color="#059b93"></Bounce>
+                        </MudCard>
+                    </Placeholder>
+                </Virtualize>
+            </MudGrid>
+        </div>
+     
+
+ 
 }

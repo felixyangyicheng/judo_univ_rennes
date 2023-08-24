@@ -1,83 +1,108 @@
 ﻿@page "/newpost"
+<MudCard Class="flex-row" Elevation="1" Style="width:100%; padding:5px" Outlined="true">
 
-<MudTextField @bind-Value="PostToAdd.Title"
-              Variant="Variant.Outlined"
-              Margin="Margin.Dense"
-              HelperText="Titre"></MudTextField>
-<MudSpacer></MudSpacer>
 
-<RichTextEdit @ref="richTextEditRef"
-              Theme="RichTextEditTheme.Snow"
-              ContentChanged="@OnContentChanged"
-              PlaceHolder="Saisissez vos contenus ici..."
-              SubmitOnEnter="false"
-              EnterPressed="@OnSave"
-              ToolbarPosition="Blazorise.Placement.Bottom">
-    <Editor></Editor>
-    <Toolbar>
-        <RichTextEditToolbarGroup>
-            <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
-            <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
-                <RichTextEditToolbarSelectItem Value="small" />
-                <RichTextEditToolbarSelectItem Selected />
-                <RichTextEditToolbarSelectItem Value="large" />
-                <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
-            </RichTextEditToolbarSelect>
-            <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
-        </RichTextEditToolbarGroup>
-        <RichTextEditToolbarGroup>
-            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="sub" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="super" />
-        </RichTextEditToolbarGroup>
-        <RichTextEditToolbarGroup>
-            <RichTextEditToolbarButton Action="RichTextEditAction.Indent" Value="+1" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.Indent" Value="-1" />
-        </RichTextEditToolbarGroup>
-        <RichTextEditToolbarGroup>
-            <RichTextEditToolbarSelect Action="RichTextEditAction.Color">
-                <RichTextEditToolbarSelectItem Value="black" />
-                <RichTextEditToolbarSelectItem Value="yellow" />
-                <RichTextEditToolbarSelectItem Value="red">red</RichTextEditToolbarSelectItem>
-                <RichTextEditToolbarSelectItem Value="blue">blue</RichTextEditToolbarSelectItem>
-                <RichTextEditToolbarSelectItem Value="green">green</RichTextEditToolbarSelectItem>
-            </RichTextEditToolbarSelect>
-            <RichTextEditToolbarSelect Action="RichTextEditAction.Background">
-                <RichTextEditToolbarSelectItem Value="black" />
-                <RichTextEditToolbarSelectItem Value="yellow" />
+    <MudTextField @bind-Value="PostToAdd.Title"
+                  Variant="Variant.Outlined"
+                  Margin="Margin.Dense"
+                  HelperText="Titre"></MudTextField>
+    <MudSpacer></MudSpacer>
 
-                <RichTextEditToolbarSelectItem Value="red">red</RichTextEditToolbarSelectItem>
-                <RichTextEditToolbarSelectItem Value="blue">blue</RichTextEditToolbarSelectItem>
-                <RichTextEditToolbarSelectItem Value="green">green</RichTextEditToolbarSelectItem>
-            </RichTextEditToolbarSelect>
-        </RichTextEditToolbarGroup>
-        <RichTextEditToolbarGroup>
+    <RichTextEdit @ref="richTextEditRef"
+                  Theme="RichTextEditTheme.Snow"
+                  ContentChanged="@OnContentChanged"
+                  PlaceHolder="Saisissez vos contenus ici..."
+                  SubmitOnEnter="false"
+                  EnterPressed="@OnSave"
+                  ToolbarPosition="Blazorise.Placement.Bottom">
+        <Editor></Editor>
+        <Toolbar>
+            <RichTextEditToolbarGroup>
+                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                    <RichTextEditToolbarSelectItem Value="small" />
+                    <RichTextEditToolbarSelectItem Selected />
+                    <RichTextEditToolbarSelectItem Value="large" />
+                    <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+                </RichTextEditToolbarSelect>
+                <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
+                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+            </RichTextEditToolbarGroup>
+            <RichTextEditToolbarGroup>
+                <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="sub" />
+                <RichTextEditToolbarButton Action="RichTextEditAction.Script" Value="super" />
+            </RichTextEditToolbarGroup>
+            <RichTextEditToolbarGroup>
+                <RichTextEditToolbarButton Action="RichTextEditAction.Indent" Value="+1" />
+                <RichTextEditToolbarButton Action="RichTextEditAction.Indent" Value="-1" />
+            </RichTextEditToolbarGroup>
+            <RichTextEditToolbarGroup>
+                <RichTextEditToolbarSelect Action="RichTextEditAction.Color">
+                    <RichTextEditToolbarSelectItem Value="black" />
+                    <RichTextEditToolbarSelectItem Value="yellow" />
+                    <RichTextEditToolbarSelectItem Value="red" />
+                    <RichTextEditToolbarSelectItem Value="wgite" />
+                    <RichTextEditToolbarSelectItem Value="blue" />
+                    <RichTextEditToolbarSelectItem Value="#481f7e" />
+                    <RichTextEditToolbarSelectItem Value="#5a269d" />
+                    <RichTextEditToolbarSelectItem Value="#6c2ebd" />
+                    <RichTextEditToolbarSelectItem Value="#8042d1" />
+                    <RichTextEditToolbarSelectItem Value="#9561d8" />
+                    <RichTextEditToolbarSelectItem Value="#aa81e0" />
+                    <RichTextEditToolbarSelectItem Value="#c0a0e8" />
+                    <RichTextEditToolbarSelectItem Value="#d5c0f0" />
+                </RichTextEditToolbarSelect>
+                <RichTextEditToolbarSelect Action="RichTextEditAction.Background">
+                    <RichTextEditToolbarSelectItem Value="#059b93" />
+                    <RichTextEditToolbarSelectItem Value="yellow" />
 
-            <RichTextEditToolbarSelect Action="RichTextEditAction.Font">
-                <RichTextEditToolbarSelectItem Value="serif" />
-                <RichTextEditToolbarSelectItem Selected />
-    
-            </RichTextEditToolbarSelect>
-            <RichTextEditToolbarSelect Action="RichTextEditAction.Align">
-                <RichTextEditToolbarSelectItem Selected/>
-                <RichTextEditToolbarSelectItem Value="right" />
-                <RichTextEditToolbarSelectItem Value="justify" />
-                <RichTextEditToolbarSelectItem Value="center"></RichTextEditToolbarSelectItem>
-            </RichTextEditToolbarSelect>
-        </RichTextEditToolbarGroup>
-        <RichTextEditToolbarGroup>
-            <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.Link" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.Clean" />
-        </RichTextEditToolbarGroup>
-        <RichTextEditToolbarGroup Float="Float.End">
+                    <RichTextEditToolbarSelectItem Value="#d2998e" />
+                    <RichTextEditToolbarSelectItem Value="#cb9f1d" />
+                    <RichTextEditToolbarSelectItem Value="#edb308" />
+                    <RichTextEditToolbarSelectItem Value="#f7bd10" />
+                    <RichTextEditToolbarSelectItem Value="#f8c223" />
+                    <RichTextEditToolbarSelectItem Value="#f9c735" />
+                    <RichTextEditToolbarSelectItem Value="#f9cc48" />
+                    <RichTextEditToolbarSelectItem Value="#fad15a" />
+                    <RichTextEditToolbarSelectItem Value="#fad66c" />
+                    <RichTextEditToolbarSelectItem Value="#fbdb7f" />
+                    <RichTextEditToolbarSelectItem Value="#fbe091" />
+                    <RichTextEditToolbarSelectItem Value="#fce5a3" />
+                    <RichTextEditToolbarSelectItem Value="#fdebb6" />
+                    <RichTextEditToolbarSelectItem Value="green" />
+                    <RichTextEditToolbarSelectItem Value="green" />
+                    <RichTextEditToolbarSelectItem Value="green" />
+                    <RichTextEditToolbarSelectItem Value="green" />
+                </RichTextEditToolbarSelect>
+            </RichTextEditToolbarGroup>
+            <RichTextEditToolbarGroup>
 
-            <MudButton OnClick="@OnSave" Disabled="@(string.IsNullOrEmpty(PostToAdd.Title)||string.IsNullOrEmpty(savedContent))"><Blazorise.Icon Name="IconName.Check" /></MudButton>
-        </RichTextEditToolbarGroup>
-    </Toolbar>
-</RichTextEdit>
+                <RichTextEditToolbarSelect Action="RichTextEditAction.Font">
+                    <RichTextEditToolbarSelectItem Value="serif" />
+                    <RichTextEditToolbarSelectItem Selected />
 
+                </RichTextEditToolbarSelect>
+                <RichTextEditToolbarSelect Action="RichTextEditAction.Align">
+                    <RichTextEditToolbarSelectItem Selected />
+                    <RichTextEditToolbarSelectItem Value="right" />
+                    <RichTextEditToolbarSelectItem Value="justify" />
+                    <RichTextEditToolbarSelectItem Value="center"></RichTextEditToolbarSelectItem>
+                </RichTextEditToolbarSelect>
+            </RichTextEditToolbarGroup>
+            <RichTextEditToolbarGroup>
+                <RichTextEditToolbarButton Action="RichTextEditAction.Blockquote" />
+                <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
+                <RichTextEditToolbarButton Action="RichTextEditAction.Link" />
+                <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
+                <RichTextEditToolbarButton Action="RichTextEditAction.Clean" />
+            </RichTextEditToolbarGroup>
+            <RichTextEditToolbarGroup Float="Float.End">
+
+                <MudButton OnClick="@OnSave" Disabled="@(string.IsNullOrEmpty(PostToAdd.Title)||string.IsNullOrEmpty(savedContent))"><Blazorise.Icon Name="IconName.Check" /></MudButton>
+            </RichTextEditToolbarGroup>
+        </Toolbar>
+    </RichTextEdit>
+
+    </MudCard>

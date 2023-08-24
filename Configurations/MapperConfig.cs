@@ -18,9 +18,11 @@ namespace judo_univ_rennes.Configurations
                 .ForMember(a => a.PostId, d => d.MapFrom(map => $"{map.Post.Id}"))
                 .ReverseMap();
             CreateMap<Post, PostDto>()
+            
                 .ForMember(a => a.ApiUserName, d => d.MapFrom(map => $"{map.ApiUser.UserName}"))
                 .ForMember(a => a.ApiUserId, d => d.MapFrom(map => $"{map.ApiUser.Id}"))
                 .ForMember(a => a.Comments, d => d.MapFrom(x => x.Comments.ToList()))
+              
                 .ReverseMap();
             CreateMap<PostDto, PostViewModel>()
                 .ForMember(a => a.ApiUserName, d => d.MapFrom(map => $"{map.ApiUserName}"))

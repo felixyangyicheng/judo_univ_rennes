@@ -65,6 +65,8 @@ namespace judo_univ_rennes.Services
             return await _db.Posts
                 .Include(u => u.ApiUser)
                 .Include(u => u.Comments)
+                .ThenInclude(c => c.ApiUser)
+
                 .ToListAsync();
         }
 
@@ -73,8 +75,12 @@ namespace judo_univ_rennes.Services
             var result = await _db.Posts
                 .Include(u => u.ApiUser)
                 .Include(u => u.Comments)
+                .ThenInclude(c=>c.ApiUser)
                 .ToListAsync();
-            var posts = mapper.Map<List<PostDto>>(result);
+
+          
+
+            List<PostDto> posts = mapper.Map<List<PostDto>>(result);
             return PagedList<PostDto>.ToPagedList(posts, param.PageNumber, param.PageSize);
         }
 

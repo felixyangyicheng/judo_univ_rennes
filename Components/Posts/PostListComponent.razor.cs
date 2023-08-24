@@ -3,7 +3,9 @@ using Blazored.LocalStorage;
 using Google.Apis.Drive.v3.Data;
 using judo_univ_rennes.Data;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.JSInterop;
 
 namespace judo_univ_rennes.Components.Posts
 {
@@ -18,6 +20,9 @@ namespace judo_univ_rennes.Components.Posts
         [Inject] ILocalStorageService _localStorage { get; set; }
         [Inject] IMapper _mapper { get; set; }
         [Inject] AuthenticationStateProvider _authProvider { get; set; }
+        [Inject] JudoDbContext _db { get; set; }
+        [Inject] IJSRuntime JsRuntime { get; set; }
+
         [Inject] NavigationManager _nav { get; set; }
         #endregion
         #region Properties
@@ -26,15 +31,29 @@ namespace judo_univ_rennes.Components.Posts
         public List<PostDto> Posts ;
         public PostDto RecentPost = new();
         public PostDto ModifiedPost = new();
+        public PostDto RemovePost = new();
+        private IJSObjectReference jsModule { get; set; }
+
         #endregion
 
         #region Parameters
-
+        [Parameter] public bool ShouldAutoScorll { get; set; }
         #endregion
 
 
 
         #region Methods
+
+        private async ValueTask<ItemsProviderResult<Post>> ReloadPosts(ItemsProviderRequest request)
+        {
+            
+            return new ItemsProviderResult<Post>(_db.Posts.Skip(request.StartIndex).Take(request.Count), _db.Posts.Count());
+        }
+        private async ValueTask<ItemsProviderResult<Post>> LoadPosts(ItemsProviderRequest request)
+        {
+            var posts = await  _postRepo.GetAll();
+            return new ItemsProviderResult<Post>(posts.Skip(request.StartIndex).Take(request.Count), posts.Count());
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -44,6 +63,8 @@ namespace judo_univ_rennes.Components.Posts
 
             var posts = await _postRepo.GetAll();
             Posts = _mapper.Map<List<PostDto>>(posts);
+            jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/Posts/PostListComponent.razor.js");
+
             base.OnInitializedAsync();
 
         }
@@ -60,29 +81,38 @@ namespace judo_univ_rennes.Components.Posts
                 )
                 .Build();
 
-            hubConnection.On<FullPostNotification>("refreshPost", async (notifcation) =>
+            hubConnection.On<FullPostNotification>("refreshPost", async (notif) =>
             {
 
 
-                if (notifcation.action == "INSERT")
+                if (notif.action == "INSERT")
                 {
 
-                    RecentPost = notifcation.data;
+                    RecentPost = notif.data;
                     Posts.Add(RecentPost);
-                    Posts.OrderByDescending(p => p.CreatedOn);
+                    Posts.OrderByDescending(p => p.Id);
+                    InvokeAsync(StateHasChanged);
+
 
                 }
+                else if (notif.action =="DELETE")
+                {
+                    RemovePost = notif.data;
+                    Posts.Remove(Posts.FirstOrDefault(p => p.Id == RemovePost.Id));
+                    Posts.OrderByDescending(p => p.Id);
+                    InvokeAsync(StateHasChanged);
 
-                else if (notifcation.action == "UPDATE")
+                }
+                else if (notif.action == "UPDATE")
                 {
 
-                        ModifiedPost = notifcation.data;
-                        Posts.Remove(Posts.FirstOrDefault(p => p.Id == ModifiedPost.Id));
-                        Posts.Add(ModifiedPost);
-                        Posts.OrderByDescending(p => p.CreatedOn);
+                    ModifiedPost = notif.data;
+                    Posts.Remove(Posts.FirstOrDefault(p => p.Id == ModifiedPost.Id));
+                    Posts.Add(ModifiedPost);
+                    Posts.OrderByDescending(p => p.Id);
              
-                        InvokeAsync(StateHasChanged);
-                        ShouldRender();
+                    InvokeAsync(StateHasChanged);
+                    ShouldRender();
 
                 }
                 InvokeAsync(StateHasChanged);
@@ -93,9 +123,18 @@ namespace judo_univ_rennes.Components.Posts
 
         protected override async Task OnParametersSetAsync()
         {
-            await StartHubConnection();
+            // await StartHubConnection();
+            if (ShouldAutoScorll==true)
+            await jsModule.InvokeVoidAsync("scrollToElement", "eleScroll");
+
+
+
+
             base.OnParametersSetAsync();
         }
+
+
+
         public bool IsConnected =>
         hubConnection?.State == HubConnectionState.Connected;
 
