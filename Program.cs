@@ -232,7 +232,7 @@ namespace judo_univ_rennes
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 //options.RoutePrefix = string.Empty;
             });
-            app.UseResponseCompression();
+          //  app.UseResponseCompression();
 
             app.UseMetricServer();
 
