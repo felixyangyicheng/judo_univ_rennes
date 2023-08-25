@@ -18,11 +18,17 @@ namespace judo_univ_rennes.Pages.ClientViews
         private string? userInput;
         private string? messageInput;
         private bool isVisible;
+        private bool _started = false;
+
 
         private IJSObjectReference jsModule { get; set; }
         protected override async Task OnInitializedAsync()
         {
             jsModule =await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Pages/ClientViews/ChatPage.razor.js");
+
+        }
+        private async Task Connect()
+        {
             hubConnection = new HubConnectionBuilder()
                 .WithUrl(Navigation.ToAbsoluteUri("/chathub"), options =>
                 {
@@ -33,7 +39,8 @@ namespace judo_univ_rennes.Pages.ClientViews
                 }
                 )
                 .Build();
-            if (hubConnection.State == HubConnectionState.Connected) {
+            if (hubConnection.State == HubConnectionState.Connected)
+            {
                 Console.WriteLine("connection started");
                 await JsRuntime.InvokeVoidAsync("console.log", "connected");
 
@@ -44,14 +51,14 @@ namespace judo_univ_rennes.Pages.ClientViews
                 InvokeAsync(StateHasChanged);
             });
 
-            hubConnection.On<List<ApiUser>>("refreshUserlist",  (list) =>
+            hubConnection.On<List<ApiUser>>("refreshUserlist", (list) =>
             {
 
                 onlineUsers = list;
                 InvokeAsync(StateHasChanged);
-               
+
             });
-            hubConnection.On<string, string, ChatMessage>("ReceiveMessage", async (user, room,message) =>
+            hubConnection.On<string, string, ChatMessage>("ReceiveMessage", async (user, room, message) =>
             {
                 var encodedMsg = message;
                 messages.Add(encodedMsg);
@@ -59,11 +66,16 @@ namespace judo_univ_rennes.Pages.ClientViews
 
                 await jsModule.InvokeVoidAsync("scrollToElement", "eleScroll");
             });
-
+            _started = true;
             await hubConnection.StartAsync();
         }
-
- 
+        private async Task Disconnect()
+        {
+            await hubConnection.StopAsync();
+            _started = false;
+            await hubConnection.DisposeAsync();
+            hubConnection = null;
+        }
 
         private async Task Send()
         {

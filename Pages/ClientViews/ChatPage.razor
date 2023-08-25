@@ -84,11 +84,11 @@
         <MudPaper Elevation="0" Class="d-flex flex-row justify-center py-6" style="height:35vh;overflow: auto;">
 
             <MudGrid>
-                <MudItem xs="12" xl="8" >
+                <MudItem xs="12" xl="8">
                     <MudTextField HelperText="Message" FullWidth="true" Lines="3" @bind-Value="@messageInput" Variant="Variant.Outlined" Margin="Margin.Dense" />
 
                 </MudItem>
-                <MudItem xs="12"md="4" lg="3">
+                <MudItem xs="12" md="4" lg="3">
                     <MudTextField @bind-Value="@userInput" ReadOnly />
                 </MudItem>
                 <MudItem xl="1" xs="3">
@@ -98,6 +98,28 @@
                     </MudBadge>
 
                 </MudItem>
+
+                @if (_started==false)
+                {
+
+                    <MudItem xl="1" xs="3">
+
+                        <MudBadge  Color="Color.Primary" Overlap="true" Class="mx-6 my-4">
+                            <MudIconButton Icon="@Icons.Material.Filled.CastConnected" Color="Color.Success" OnClick="@(e =>Connect() )" />
+                        </MudBadge>
+
+                    </MudItem>
+                }
+                else
+                {
+                    <MudItem xl="1" xs="3">
+
+                        <MudBadge  Color="Color.Primary" Overlap="true" Class="mx-6 my-4">
+                            <MudIconButton Icon="@Icons.Material.Filled.Discount" Color="Color.Error" OnClick="@(e => Disconnect())" />
+                        </MudBadge>
+
+                    </MudItem>
+                }
                 <MudItem xs="12" sm="2" md="2" xl="2">
                     <MudButton ButtonType="ButtonType.Button" Disabled="@(!IsConnected||String.IsNullOrWhiteSpace(messageInput))" @onclick=Send Variant="Variant.Filled" Color="Color.Info">Send</MudButton>
 
