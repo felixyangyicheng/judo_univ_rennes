@@ -114,7 +114,7 @@ namespace judo_univ_rennes
                     //.SetIsOriginAllowed(origin => true)
                        .AllowAnyHeader()
                        .AllowAnyMethod()
-                       .AllowCredentials()
+                      // .AllowCredentials()
 
                     //.WithMethods("GET", "POST")
                     //.SetIsOriginAllowed((host)  => true)
