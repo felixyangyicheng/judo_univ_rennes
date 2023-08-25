@@ -24,8 +24,7 @@ namespace judo_univ_rennes.Pages.ClientViews
         {
             jsModule =await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Pages/ClientViews/ChatPage.razor.js");
             hubConnection = new HubConnectionBuilder()
-                .WithUrl(Navigation.ToAbsoluteUri("/chathub")
-                , options =>
+                .WithUrl(Navigation.ToAbsoluteUri("/chathub"), options =>
                 {
                     options.AccessTokenProvider = async () =>
                     {
@@ -34,7 +33,11 @@ namespace judo_univ_rennes.Pages.ClientViews
                 }
                 )
                 .Build();
+            if (hubConnection.State == HubConnectionState.Connected) {
+                Console.WriteLine("connection started");
+                await JsRuntime.InvokeVoidAsync("console.log", "connected");
 
+            }
             hubConnection.On<string>("refreshUsername", (un) =>
             {
                 userInput = un;

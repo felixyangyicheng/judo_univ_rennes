@@ -15,9 +15,6 @@ export function scrollToElement(id) {
     //console.log("step 3")
 
     element.lastChild.previousSibling.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
-    console.log("step 4")
-
-   // element.scroll(0,0);
 
 
 }
