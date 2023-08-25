@@ -65,7 +65,7 @@ namespace judo_univ_rennes.Components.Posts
             var posts = await _postRepo.GetAll();
             Posts = _mapper.Map<List<PostDto>>(posts);
             jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/Posts/PostListComponent.razor.js");
-            await StartHubConnection();
+         
             base.OnInitializedAsync();
 
         }
@@ -128,7 +128,7 @@ namespace judo_univ_rennes.Components.Posts
 
         protected override async Task OnParametersSetAsync()
         {
-            // await StartHubConnection();
+             await StartHubConnection();
             if (ShouldAutoScorll==true)
             await jsModule.InvokeVoidAsync("scrollToElement", "eleScroll");
 
