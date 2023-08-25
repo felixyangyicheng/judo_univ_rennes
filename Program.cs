@@ -149,7 +149,23 @@ namespace judo_univ_rennes
                 lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
             // Add services to the container.
             builder.Services.AddRazorPages();
-            builder.Services.AddServerSideBlazor();
+            builder.Services
+                .AddServerSideBlazor(opt => {
+                    opt.DetailedErrors = true;
+                    opt.DisconnectedCircuitMaxRetained = 100;
+                    opt.DisconnectedCircuitRetentionPeriod= TimeSpan.FromSeconds(180);
+                    opt.JSInteropDefaultCallTimeout = TimeSpan.FromMinutes(1);
+                    opt.MaxBufferedUnacknowledgedRenderBatches = 10;
+                })
+                .AddHubOptions(opt => {
+                    opt.EnableDetailedErrors = true;
+                    opt.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+                    opt.HandshakeTimeout= TimeSpan.FromSeconds(15);
+                    opt.KeepAliveInterval= TimeSpan.FromSeconds(15);
+                    opt.MaximumParallelInvocationsPerClient = 1;
+                    opt.MaximumReceiveMessageSize = 32 * 1024;
+                    opt.StreamBufferCapacity = 10;
+                });
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<ApiAuthenticationStateProvider>();
             builder.Services.AddScoped<AuthenticationStateProvider>(p => p.GetRequiredService<ApiAuthenticationStateProvider>());

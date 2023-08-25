@@ -29,7 +29,10 @@ namespace judo_univ_rennes.Pages.ClientViews
         }
         private async Task Connect()
         {
-            hubConnection = new HubConnectionBuilder()
+
+            try
+            {
+                hubConnection = new HubConnectionBuilder()
                 .WithUrl(Navigation.ToAbsoluteUri("/chathub"), options =>
                 {
                     options.AccessTokenProvider = async () =>
@@ -38,36 +41,43 @@ namespace judo_univ_rennes.Pages.ClientViews
                     };
                 }
                 )
+                .WithAutomaticReconnect()
                 .Build();
-            if (hubConnection.State == HubConnectionState.Connected)
-            {
-                Console.WriteLine("connection started");
-                await JsRuntime.InvokeVoidAsync("console.log", "connected");
+                if (hubConnection.State == HubConnectionState.Connected)
+                {
+                    Console.WriteLine("connection started");
+                    await JsRuntime.InvokeVoidAsync("console.log", "connected");
 
+                }
+                hubConnection.On<string>("refreshUsername", (un) =>
+                {
+                    userInput = un;
+                    InvokeAsync(StateHasChanged);
+                });
+
+                hubConnection.On<List<ApiUser>>("refreshUserlist", (list) =>
+                {
+
+                    onlineUsers = list;
+                    InvokeAsync(StateHasChanged);
+
+                });
+                hubConnection.On<string, string, ChatMessage>("ReceiveMessage", async (user, room, message) =>
+                {
+                    var encodedMsg = message;
+                    messages.Add(encodedMsg);
+                    InvokeAsync(StateHasChanged);
+
+                    await jsModule.InvokeVoidAsync("scrollToElement", "eleScroll");
+                });
+                _started = true;
+                await hubConnection.StartAsync();
             }
-            hubConnection.On<string>("refreshUsername", (un) =>
+            catch (Exception ex)
             {
-                userInput = un;
-                InvokeAsync(StateHasChanged);
-            });
+                Console.WriteLine(ex.Message);
+            }
 
-            hubConnection.On<List<ApiUser>>("refreshUserlist", (list) =>
-            {
-
-                onlineUsers = list;
-                InvokeAsync(StateHasChanged);
-
-            });
-            hubConnection.On<string, string, ChatMessage>("ReceiveMessage", async (user, room, message) =>
-            {
-                var encodedMsg = message;
-                messages.Add(encodedMsg);
-                InvokeAsync(StateHasChanged);
-
-                await jsModule.InvokeVoidAsync("scrollToElement", "eleScroll");
-            });
-            _started = true;
-            await hubConnection.StartAsync();
         }
         private async Task Disconnect()
         {
