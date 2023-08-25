@@ -1,0 +1,288 @@
+@font-face {
+  font-family: 'Sofia Pro';
+  src: url('//cdn.quilljs.com/fonts/sofia-pro.eot');
+  src: url('//cdn.quilljs.com/fonts/sofia-pro.eot?#iefix')
+      format('embedded-opentype'),
+    url('//cdn.quilljs.com/fonts/sofia-pro.woff2') format('woff2'),
+    url('//cdn.quilljs.com/fonts/sofia-pro.woff') format('woff'),
+    url('//cdn.quilljs.com/fonts/sofia-pro.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Sofia Pro';
+  font-weight: bold;
+  src: url('//cdn.quilljs.com/fonts/sofia-pro-bold.eot');
+  src: url('//cdn.quilljs.com/fonts/sofia-pro-bold.eot?#iefix')
+      format('embedded-opentype'),
+    url('//cdn.quilljs.com/fonts/sofia-pro-bold.woff2') format('woff2'),
+    url('//cdn.quilljs.com/fonts/sofia-pro-bold.woff') format('woff'),
+    url('//cdn.quilljs.com/fonts/sofia-pro-bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Sailec Light';
+  src: url('//cdn.quilljs.com/fonts/sailec-light.eot');
+  src: url('//cdn.quilljs.com/fonts/sailec-light.eot?#iefix')
+      format('embedded-opentype'),
+    url('//cdn.quilljs.com/fonts/sailec-light.woff2') format('woff2'),
+    url('//cdn.quilljs.com/fonts/sailec-light.woff') format('woff'),
+    url('//cdn.quilljs.com/fonts/sailec-light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Sailec Light';
+  font-weight: bold;
+  src: url('//cdn.quilljs.com/fonts/sailec-bold.eot');
+  src: url('//cdn.quilljs.com/fonts/sailec-bold.eot?#iefix')
+      format('embedded-opentype'),
+    url('//cdn.quilljs.com/fonts/sailec-bold.woff2') format('woff2'),
+    url('//cdn.quilljs.com/fonts/sailec-bold.woff') format('woff'),
+    url('//cdn.quilljs.com/fonts/sailec-bold.ttf') format('truetype');
+}
+
+/*** Native ***/
+
+html {
+  font-size: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Sailec Light', sans-serif;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Sofia Pro', sans-serif;
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 4.2rem;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+h3 {
+  font-size: 2.5rem;
+}
+
+h4 {
+  font-size: 2rem;
+}
+
+hr {
+  border-top: 1px solid #d9dce1;
+}
+
+li {
+  list-style: none;
+}
+
+table {
+  text-align: left;
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 11px;
+  outline: none;
+  text-align: center;
+}
+
+a {
+  color: #1d1e30;
+  outline: none;
+  text-decoration: none;
+}
+a:hover {
+  color: #1d1e30;
+}
+
+p {
+  font-size: 1.5rem;
+}
+
+strong {
+  font-weight: bold;
+}
+
+pre,
+code {
+  font-family: 'Inconsolata', monospace;
+}
+
+pre {
+  margin-bottom: 2.5rem;
+}
+
+code {
+  font-size: 1.2rem;
+}
+
+pre > code {
+  background-color: #002b36;
+  display: block;
+  border: none;
+  box-shadow: 0 0 6px 2px rgba(28, 31, 47, 0.1);
+  padding: 2em;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+*:not(pre) > code {
+  border: none;
+  border-radius: 0px;
+  padding: 0.2rem 0.5rem;
+}
+
+h2 + hr {
+  margin-top: 0;
+}
+
+/*** Global ***/
+
+svg .logo {
+  fill: #1d1e30;
+}
+
+svg .feat-1 {
+  fill: #f2d123;
+}
+svg .feat-2 {
+  fill: #e3a931;
+}
+svg .feat-3 {
+  fill: #4f5363;
+}
+
+.action {
+  background-color: #f2d123;
+  border: 2px solid transparent;
+  display: inline-block;
+  font-family: 'Sofia Pro', sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  transition: background-color 100ms, border-color 100ms, color 100ms;
+}
+
+.logo {
+  display: inline-block;
+  height: 6.3em;
+  vertical-align: middle;
+  width: 10.5em;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+.center {
+  text-align: center;
+}
+
+.prev,
+.next,
+.arrow {
+  display: inline-block;
+  height: 1em;
+  line-height: 1em;
+}
+.prev,
+.prev .label,
+.prev .arrow {
+  float: left;
+}
+.next,
+.next .label,
+.next .arrow {
+  float: right;
+}
+.prev .label,
+.next .label {
+  font-size: 1.25rem;
+  display: inline-block;
+  height: 2em;
+  line-height: 2em;
+}
+.arrow {
+  padding: 0.33em 0.67em;
+}
+.prev:hover .arrow {
+  padding-left: 0.77em;
+  padding-right: 0.57em;
+}
+.next:hover .arrow {
+  padding-left: 0.57em;
+  padding-right: 0.77em;
+}
+.arrow .shaft {
+  background-color: #000;
+  border-bottom: 3px solid #fff;
+  border-top: 3px solid #fff;
+  display: inline-block;
+  float: left;
+  height: 0.33em;
+  width: 0.66em;
+}
+.arrow .tip {
+  display: inline-block;
+  border-bottom: 0.17em solid transparent;
+  border-top: 0.17em solid transparent;
+}
+.prev .tip {
+  float: left;
+  border-right: 0.33em solid #000;
+}
+.next .tip {
+  float: right;
+  border-left: 0.33em solid #000;
+}
+.row > hr {
+  width: 90%;
+}
+
+.about a {
+  color: #25408f;
+  text-decoration: underline;
+}
+
+
+
+.announcement {
+  background-color: #337ab7;
+  color: #fff;
+  display: block;
+  font-size: 18px;
+  padding: 10px;
+  text-align: center;
+}
+.announcement:active,
+.announcement:hover,
+.announcement:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+.new-blog::after {
+  background-color: #f2d123;
+  border-radius: 6px;
+  color: #1d1e30;
+  content: 'new';
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-left: 5px;
+  padding: 1px 6px 1px 7px;
+  text-transform: uppercase;
+}
+

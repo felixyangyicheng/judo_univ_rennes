@@ -37,7 +37,7 @@ namespace judo_univ_rennes.Components.Posts
         public PostDto ModifiedPost = new();
         public PostDto RemovePost = new();
         private IJSObjectReference jsModule { get; set; }
-
+        public bool isVisible { get; set; }
         #endregion
 
         #region Parameters
@@ -59,6 +59,7 @@ namespace judo_univ_rennes.Components.Posts
         {
 
             AuthenticationState state = await _authProvider.GetAuthenticationStateAsync();
+
             var user = state.User;
 
             var posts = await _postRepo.GetAll();
@@ -151,6 +152,11 @@ namespace judo_univ_rennes.Components.Posts
             {
                 await hubConnection.DisposeAsync();
             }
+        }
+
+        public void ToggleOverlay(bool value)
+        {
+            isVisible = value;
         }
         #endregion
     }
