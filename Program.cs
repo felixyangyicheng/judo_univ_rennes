@@ -107,11 +107,11 @@ namespace judo_univ_rennes
             {
                 policy.AddPolicy("CorsPolicy", opt => opt
                     //.WithOrigins("http://localhost:*/", "http://127.0.0.1:*/", "http://realtime_d3_client:80/","http://+:80/","http://heisreadonly.ddns.net", "https://heisreadonly.ddns.net", "http://log_generator:*/")
-                    //.AllowAnyOrigin()
+                   .AllowAnyOrigin()
                     //.AllowAnyHeader()
                     //.AllowAnyMethod()
                     //.AllowAnyMethod()
-                    .SetIsOriginAllowed(origin => true)
+                    //.SetIsOriginAllowed(origin => true)
                        .AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials()
