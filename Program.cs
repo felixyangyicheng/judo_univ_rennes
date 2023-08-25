@@ -92,16 +92,36 @@ namespace judo_univ_rennes
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
                 };
             });
-            builder.Services.AddCors(options =>
+            //builder.Services.AddCors(
+            //    options =>
+            //    {
+            //        options.AddPolicy("AllowSpecificOrigins",
+            //            policy =>
+            //            {
+            //                policy.WithOrigins("*")
+            //                .AllowAnyHeader()
+            //                .AllowAnyMethod();
+            //            });
+            //    });
+            builder.Services.AddCors(policy =>
             {
-                options.AddPolicy("AllowSpecificOrigins",
-                                      policy =>
-                                      {
-                                          policy.WithOrigins("*")
-                                            .AllowAnyHeader()
-                                            .AllowAnyMethod();
-                                      });
+                policy.AddPolicy("CorsPolicy", opt => opt
+                    //.WithOrigins("http://localhost:*/", "http://127.0.0.1:*/", "http://realtime_d3_client:80/","http://+:80/","http://heisreadonly.ddns.net", "https://heisreadonly.ddns.net", "http://log_generator:*/")
+                    //.AllowAnyOrigin()
+                    //.AllowAnyHeader()
+                    //.AllowAnyMethod()
+                    //.AllowAnyMethod()
+                    .SetIsOriginAllowed(origin => true)
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowCredentials()
+
+                    //.WithMethods("GET", "POST")
+                    //.SetIsOriginAllowed((host)  => true)
+                    // .AllowCredentials()
+                    );
             });
+
             builder.Services.AddFileReaderService();
             builder.Services.AddMudServices(config =>
             {
@@ -202,6 +222,7 @@ namespace judo_univ_rennes
 
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
