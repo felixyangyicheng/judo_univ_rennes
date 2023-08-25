@@ -65,7 +65,7 @@ namespace judo_univ_rennes.Components.Posts
             var posts = await _postRepo.GetAll();
             Posts = _mapper.Map<List<PostDto>>(posts);
             jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/Posts/PostListComponent.razor.js");
-
+            await StartHubConnection();
             base.OnInitializedAsync();
 
         }
@@ -75,7 +75,7 @@ namespace judo_univ_rennes.Components.Posts
         private async Task StartHubConnection()
         {
             hubConnection = new HubConnectionBuilder()
-                .WithUrl(_nav.ToAbsoluteUri("/notifhub"), options =>
+                .WithUrl("https://ecologif.duckdns.org/notifhub", options =>
                     {
                         options.AccessTokenProvider = async () =>
                         {
@@ -88,7 +88,7 @@ namespace judo_univ_rennes.Components.Posts
             hubConnection.On<FullPostNotification>("refreshPost", async (notif) =>
             {
 
-
+                await JsRuntime.InvokeVoidAsync("console.log", notif.table);
                 if (notif.action == "INSERT")
                 {
 
