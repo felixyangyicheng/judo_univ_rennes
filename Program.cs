@@ -165,6 +165,8 @@ namespace judo_univ_rennes
                     opt.MaximumParallelInvocationsPerClient = 1;
                     opt.MaximumReceiveMessageSize = 32 * 1024;
                     opt.StreamBufferCapacity = 10;
+
+                  
                 });
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<ApiAuthenticationStateProvider>();
@@ -222,8 +224,9 @@ namespace judo_univ_rennes
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
+
             //app.UseHttpsRedirection();
             app.UseCookiePolicy();
             app.UseSwagger();
@@ -241,12 +244,7 @@ namespace judo_univ_rennes
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-      
 
-            });
          
 
             app.Use((context, next) =>
@@ -263,11 +261,16 @@ namespace judo_univ_rennes
                 counter.WithLabels(context.Request.Method, context.Request.Path).Inc();
                 return next();
             });
+            app.UseEndpoints(e =>
+            {
 
-            app.MapBlazorHub();
-            app.MapHub<ChatHub>("/chathub");
-            app.MapHub<NotifHub>("/notifhub");
-            app.MapFallbackToPage("/_Host");
+                e.MapBlazorHub();
+                e.MapHub<ChatHub>("/chathub");
+                e.MapControllers();
+                e.MapHub<NotifHub>("/notifhub");
+                e.MapFallbackToPage("/_Host");
+
+            });
             app.Run();
         }
     }

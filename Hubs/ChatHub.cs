@@ -38,7 +38,7 @@ namespace judo_univ_rennes.Hubs
             await Clients.All.SendAsync("ReceiveMessage", $"{Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
-        public  async Task OnDisconnectedAsync()
+        public override  async Task OnDisconnectedAsync(Exception ex)
         {
             var userId = Context.ConnectionId;
             var uid = Context.User.Claims.FirstOrDefault(s => s.Type == "uid");
@@ -49,6 +49,7 @@ namespace judo_univ_rennes.Hubs
                 "refreshUserlist",
                 ConnectedUsers.onlineUsers
                 );
+            base.OnDisconnectedAsync(ex);
             
         }
         private async Task<byte[]?> FindImage()

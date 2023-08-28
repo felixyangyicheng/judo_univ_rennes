@@ -37,7 +37,9 @@ namespace judo_univ_rennes.Pages.ClientViews
                 {
                     options.AccessTokenProvider = async () =>
                     {
-                        return await _localStorage.GetItemAsync<string>("authToken");
+                        var token = await _localStorage.GetItemAsync<string>("authToken");
+                        Console.WriteLine(token);
+                        return token;
                     };
                 }
                 )
@@ -71,6 +73,8 @@ namespace judo_univ_rennes.Pages.ClientViews
                     await jsModule.InvokeVoidAsync("scrollToElement", "eleScroll");
                 });
                 _started = true;
+                Console.WriteLine("connection started");
+                await JsRuntime.InvokeVoidAsync("console.log", "connected");
                 await hubConnection.StartAsync();
             }
             catch (Exception ex)
@@ -98,6 +102,11 @@ namespace judo_univ_rennes.Pages.ClientViews
         public bool IsConnected =>
             hubConnection?.State == HubConnectionState.Connected;
 
+        public void dispose()
+        {
+
+            hubConnection.DisposeAsync();
+        }
         public async ValueTask DisposeAsync()
         {
             if (hubConnection is not null)

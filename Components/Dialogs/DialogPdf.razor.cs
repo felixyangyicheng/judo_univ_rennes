@@ -44,8 +44,8 @@ namespace judo_univ_rennes.Components.Dialogs
             {
 
 
-                pdfUrl = $"https://ecologif.duckdns.org/api/pdf/{fileName}";
-                //pdfUrl = $"http://localhost:8080/api/pdf/{fileName}";
+               // pdfUrl = $"https://ecologif.duckdns.org/api/pdf/{fileName}";
+                pdfUrl = $"http://localhost:8080/api/pdf/{fileName}";
 
                 //pdfUrl = $"data:application/pdf;base64,{Convert.ToBase64String(pdf.Content)}";
             }

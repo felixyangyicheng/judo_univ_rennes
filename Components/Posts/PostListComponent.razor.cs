@@ -75,11 +75,13 @@ namespace judo_univ_rennes.Components.Posts
         private async Task StartHubConnection()
         {
             hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://ecologif.duckdns.org/notifhub", options =>
+                .WithUrl(_nav.ToAbsoluteUri("/notifhub"), options =>
                     {
                         options.AccessTokenProvider = async () =>
                         {
-                            return await _localStorage.GetItemAsync<string>("authToken");
+                            var token= await _localStorage.GetItemAsync<string>("authToken");
+                            Console.WriteLine(token);
+                            return token;
                         };
                     }
                 )
