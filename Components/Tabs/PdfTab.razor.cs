@@ -14,6 +14,7 @@ namespace judo_univ_rennes.Components.Tabs
 
         [Inject] IConfiguration _config { get; set; }
         [Inject] IPdfRepo _pdfRepo { get; set; }
+        [Inject] NavigationManager _nav { get; set; }
         [Inject] ILocalStorageService _localStorage { get; set; }
         private bool loading { get; set; } = false;
 
@@ -43,7 +44,10 @@ namespace judo_univ_rennes.Components.Tabs
             loading = false;
         }
 
-
+        private void Back()
+        {
+            _nav.NavigateTo("/");
+        }
         #endregion
     }
 }
