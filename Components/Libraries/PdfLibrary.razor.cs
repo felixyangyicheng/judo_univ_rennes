@@ -166,6 +166,10 @@ namespace judo_univ_rennes.Components.Libraries
         {
             nav.NavigateTo($"/pdfview/{fileName}");
         }
+        private async Task Download(string fileName)
+        {
+            nav.NavigateTo($"/api/pdf/{fileName}");
+        }
         #endregion
     }
 }
