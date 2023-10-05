@@ -168,7 +168,7 @@ namespace judo_univ_rennes.Components.Libraries
         }
         private async Task Download(string fileName)
         {
-            nav.NavigateTo($"/api/pdf/{fileName}");
+            nav.ToAbsoluteUri($"https://judo-univ-rennes.duckdns.org/api/pdf/{fileName}");
         }
         #endregion
     }
